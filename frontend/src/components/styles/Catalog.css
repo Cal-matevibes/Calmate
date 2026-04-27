@@ -1,0 +1,1050 @@
+/* ========== BOTONES DE CATEGORÍA MÓVIL ========== */
+.mobile-category-filters {
+  display: none; /* oculto en desktop */
+}
+
+@media (max-width: 767px) {
+  .mobile-category-filters {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.5rem 1rem 0.75rem;
+    margin-bottom: 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .mobile-category-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-category-btn {
+    flex-shrink: 0;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1.5px solid #b7c774;
+    background: transparent;
+    color: #52691a;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+
+  .mobile-category-btn.active,
+  .mobile-category-btn:active {
+    background: #52691a;
+    color: #fff;
+    border-color: #52691a;
+  }
+}
+
+/* Grid de productos estilo Adidas */
+.catalogo-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 0;
+  margin: 2rem 0;
+}
+
+/* Card de producto estilo Adidas */
+.catalogo-item {
+  background: #ffffff;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: grid;
+  height: 100%;
+}
+
+.catalogo-item:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-color: #e5e5e5;
+}
+
+/* Badge de estado del producto */
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.product-badge.nuevo {
+  background: #ff6b35;
+  color: white;
+}
+
+.product-badge.se-venden-rapido {
+  background: #2e7d2e;
+  color: white;
+}
+
+/* Container de imagen */
+.catalogo-item-image-container {
+  position: relative;
+  width: 100%;
+  background: white;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.catalogo-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Contenido del producto */
+.catalogo-item-content {
+  padding: 16px 12px 20px;
+  background: white;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Precio prominente */
+.catalogo-item-price {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+/* Estilos de ofertas */
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.price-original {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.price-oferta {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #d32f2f;
+}
+
+.discount-badge {
+  background: #d32f2f;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.product-badge.oferta {
+  background: linear-gradient(135deg, #F5EE29 0%, #F5EE29 100%);
+  color: white;
+  -webkit-text-fill-color: #000;
+  font-weight: 700;
+}
+
+@keyframes pulse-price {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* Contador de tiempo de oferta */
+.offer-countdown {
+  font-size: 0.85rem;
+  color: #ff6b35;
+  font-weight: 600;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  animation: pulse-countdown 2s ease-in-out infinite;
+}
+
+@keyframes pulse-countdown {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Información del producto */
+.catalogo-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título del producto */
+.catalogo-item-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  min-height: 2.6rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.catalogo-item-title:hover {
+  color: #52691a;
+}
+
+/* Categoría del producto */
+.catalogo-item-category {
+  font-size: 0.875rem;
+  color: #767677;
+  margin: 0 0 4px 0;
+  text-transform: capitalize;
+}
+
+/* Información de colores */
+.catalogo-item-colors {
+  font-size: 0.875rem;
+  color: #767677;
+  margin: 0 0 8px 0;
+}
+
+/* Estado de venta */
+.catalogo-item-status {
+  font-size: 0.875rem;
+  color: #767677;
+  margin: 0 0 16px 0;
+}
+
+/* Título principal del catálogo */
+/* Acciones del producto */
+.catalogo-item-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: space-between;
+}
+
+/* Controles de cantidad */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: 4px;
+  border: 1px solid #e5e5e5;
+  background: white;
+  width: fit-content;
+  flex-shrink: 0;
+}
+
+.quantity-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 30px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-btn:hover {
+  background: #f5f5f5;
+}
+
+.quantity-btn:first-child {
+  border-right: 1px solid #e5e5e5;
+}
+
+.quantity-btn:last-child {
+  border-left: 1px solid #e5e5e5;
+}
+
+.quantity-display {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #000;
+  background: transparent;
+  min-width: 32px;
+  text-align: center;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón agregar al carrito */
+.add-to-cart-btn {
+  background: #52691a;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  flex: 1;
+  height: 32px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.add-to-cart-btn:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.add-to-cart-btn:active {
+  transform: translateY(0);
+}
+
+/* Título principal del catálogo */
+.catalogo-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #000;
+  /* Color oscuro para buena legibilidad */
+  margin-bottom: 0.5rem;
+  /* Espaciado inferior */
+}
+
+.catalogo-description {
+  font-size: 1.4rem;
+  /* Tamaño ligeramente más pequeño que el título */
+  font-weight: normal;
+  color: #666;
+  /* Color gris para menor énfasis */
+  margin-bottom: 2rem;
+  /* Espaciado inferior para separar del contenido */
+}
+
+.catalogo-item-title {
+  text-transform: capitalize;
+}
+
+.catalogo-item-info-button {
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  background-color: #52691a;
+  color: #52691a;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.catalogo-item-info-button:hover {
+  background-color: #128c7e;
+}
+
+.catalogo-item-description {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #666;
+  border-top: 1px solid #eee;
+  /* Línea divisoria para la descripción */
+}
+
+.catalogo-item-price {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #52691a;
+  font-weight: bold;
+  text-align: right;
+  /* Alinea el precio a la derecha */
+}
+
+.catalogo-controls {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+  .catalogo-controls .filtros {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .catalogo-controls .controls-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* Estilos base para desktop */
+  @media (min-width: 576px) {
+    .desktop-controls {
+      display: flex !important;
+      flex-direction: row;
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
+      border-radius: 0;
+    }
+    
+    .mobile-filters-trigger {
+      display: none !important;
+    }
+    
+    .catalogo-controls .controls-row {
+      gap: 1rem;
+    }
+  }
+
+  .catalogo-controls .category-selector {
+    flex: 0 0 auto;
+  }
+
+  .catalogo-controls .ordenador {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }/* Contenedor del botón y el input */
+.catalogo-add-to-cart-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Espaciado entre el input y el botón */
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Input para la cantidad */
+.catalogo-quantity-input {
+  width: 60px;
+  padding: 0.3rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Botón de agregar al carrito */
+.catalogo-add-to-cart {
+  padding: 0.5rem 1rem;
+  background-color: #52691a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.catalogo-add-to-cart:hover {
+  background-color: #3e5315;
+}
+
+.catalogo-add-to-cart:active {
+  transform: scale(0.98); /* Efecto de clic */
+}
+
+
+.filtros {
+  flex: 1;
+  /* Permite que el buscador ocupe el espacio disponible */
+}
+
+.filtros-input {
+  width: 100%;
+  max-width: 270px;
+  /* Ancho máximo del buscador */
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+  transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.filtros-input:focus {
+  border-color: #52691a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.ordenador {
+  flex: 1;
+  /* Permite que el ordenador ocupe el espacio disponible */
+  text-align: right;
+  /* Alinea el menú desplegable a la derecha */
+}
+
+.ordenador-select {
+  width: 100%;
+  max-width: 200px;
+  /* Ancho máximo del menú desplegable */
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+  transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  appearance: none;
+  /* Elimina el estilo predeterminado del navegador */
+  background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 viewBox%3D%220 0 4 5%22%3E%3Cpath fill%3D%22%23333%22 d%3D%22M2 0L0 2h4z%22/%3E%3C/svg%3E') no-repeat right 1rem center;
+  background-size: 0.6rem;
+  background-color: white;
+}
+
+.ordenador-select:focus {
+  border-color: #52691a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries - Responsive Design estilo Adidas */
+
+/* Desktop grande */
+@media (min-width: 1200px) {
+  .catalogo-items {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .catalogo-items {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 991px) and (min-width: 768px) {
+  .catalogo-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .catalogo-item-content {
+    padding: 14px 10px 18px;
+  }
+  
+  .add-to-cart-btn {
+    padding: 10px 20px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Móvil grande */
+@media (max-width: 767px) and (min-width: 576px) {
+  .catalogo-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+  
+  .catalogo-item-content {
+    padding: 12px 8px 16px;
+  }
+  
+  .catalogo-item-price {
+    font-size: 1rem;
+  }
+  
+  .catalogo-item-title {
+    font-size: 0.9rem;
+  }
+  
+  .catalogo-item-category,
+  .catalogo-item-colors,
+  .catalogo-item-status {
+    font-size: 0.8rem;
+  }
+  
+  .catalogo-item-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  
+  .quantity-controls {
+    flex-shrink: 0;
+  }
+  
+  .add-to-cart-btn {
+    flex: 1;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    min-width: 0;
+    height: 30px;
+  }
+  
+  .quantity-btn {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .quantity-display {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Móvil - Diseño estilo Adidas */
+@media (max-width: 480px) {
+  .catalogo-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0 1rem;
+    margin: 0 0 1rem 0;
+  }
+  
+  .catalogo-item {
+    background: #ffffff;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    max-width: none;
+    margin: 0;
+    position: relative;
+  }
+  
+  .catalogo-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Imagen del producto optimizada para móvil */
+  .catalogo-item-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    border-radius: 0;
+  }
+  
+  /* Contenido del producto compacto */
+  .catalogo-item-content {
+    padding: 8px 4px 12px;
+    text-align: left;
+  }
+  
+  /* Precio prominente arriba */
+  .catalogo-item-price {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 4px 0;
+    order: 1;
+  }
+  
+  /* Título más pequeño debajo del precio */
+  .catalogo-item-title {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #767677;
+    line-height: 1.2;
+    margin: 0 0 2px 0;
+    order: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Descripción muy compacta */
+  .catalogo-item-description {
+    font-size: 0.7rem;
+    color: #767677;
+    line-height: 1.1;
+    margin: 0;
+    order: 3;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Badge de estado más pequeño */
+  .product-badge {
+    top: 6px;
+    left: 6px;
+    padding: 2px 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+  
+  /* Adaptar acciones para móvil pequeño */
+  .catalogo-item-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px;
+    margin-top: 4px;
+  }
+  
+  /* Controles de cantidad más compactos */
+  .quantity-controls {
+    transform: scale(0.9);
+    flex-shrink: 0;
+  }
+  
+  /* Botón de carrito más compacto */
+  .add-to-cart-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 0;
+  }
+  
+  /* Ocultar controles desktop en móviles */
+  .desktop-controls {
+    display: none;
+  }
+  
+  /* Mostrar trigger móvil */
+  .mobile-filters-trigger {
+    display: block;
+    max-width: 140px;
+    font-size: 0.85rem;
+    padding: 8px 8px;
+  }
+  
+  /* Espaciado consistente */
+  .catalogo-item-content > * {
+    margin-bottom: 2px;
+  }
+  
+  .catalogo-item-content > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Móvil muy pequeño - Ultra compacto */
+@media (max-width: 360px) {
+  .catalogo-items {
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+  }
+  
+  .catalogo-item-content {
+    padding: 6px 2px 10px;
+  }
+  
+  .catalogo-item-price {
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+  }
+  
+  .catalogo-item-title {
+    font-size: 0.7rem;
+    line-height: 1.1;
+    margin-bottom: 1px;
+  }
+  
+  .catalogo-item-description {
+    font-size: 0.65rem;
+  }
+  
+  .product-badge {
+    top: 4px;
+    left: 4px;
+    padding: 1px 4px;
+    font-size: 0.6rem;
+  }
+  
+  /* Botones ultra compactos para pantallas muy pequeñas */
+  .catalogo-item-actions {
+    gap: 2px;
+    padding: 2px;
+    margin-top: 2px;
+  }
+  
+  .quantity-controls {
+    transform: scale(0.75);
+  }
+  
+  .add-to-cart-btn {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+  
+  .catalogo-controls {
+    padding: 0 0.75rem;
+    gap: 0.4rem;
+  }
+  
+  .filtros-input,
+  .ordenador-select {
+    font-size: 0.8rem;
+    padding: 6px 8px;
+  }
+}
+
+/* Optimizaciones adicionales para el diseño móvil Adidas */
+@media (max-width: 480px) {
+  /* Asegurar que el contenido se reorganice correctamente */
+  .catalogo-item-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Hover effect más sutil en móvil */
+  .catalogo-item:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Mejorar la legibilidad en pantallas pequeñas */
+  .catalogo-item-title,
+  .catalogo-item-description {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  /* Espaciado optimizado */
+  .catalogo {
+    padding-top: 0.5rem;
+  }
+}
+
+/* Rango intermedio - Mostrar botones pero con diseño compacto */
+@media (min-width: 481px) and (max-width: 575px) {
+  .catalogo-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .catalogo-item {
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Mantener acciones visibles en este rango */
+  .catalogo-item-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px;
+  }
+  
+  /* Ajustar tamaño de controles */
+  .quantity-controls {
+    flex-shrink: 0;
+    transform: scale(0.9);
+  }
+  
+  .add-to-cart-btn {
+    flex: 1;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    min-width: 0;
+  }
+}
+
+/* ===========================
+   ESTILOS PARA CATÁLOGO VACÍO
+   ========================== */
+
+.empty-catalog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  grid-column: 1 / -1; /* Ocupa todo el ancho del grid */
+  padding: 2rem;
+}
+
+.empty-catalog-content {
+  text-align: center;
+  max-width: 500px;
+  padding: 2rem;
+  background: linear-gradient(135deg, 
+    rgba(183, 199, 116, 0.05) 0%, 
+    rgba(82, 105, 26, 0.05) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(183, 199, 116, 0.2);
+}
+
+.empty-catalog-icon {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-catalog-logo {
+  width: 250px;
+  height: auto;
+  max-width: 100%;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  margin-bottom: -55px;
+}
+
+.empty-catalog-logo:hover {
+  opacity: 1;
+}
+
+.empty-catalog-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.empty-catalog-message {
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.empty-catalog-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.empty-catalog-btn {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  min-width: 160px;
+}
+
+.empty-catalog-btn.primary {
+  background: linear-gradient(135deg, #b7c774 0%, #52691a 100%);
+  color: white;
+}
+
+.empty-catalog-btn.primary:hover {
+  background: linear-gradient(135deg, #52691a 0%, #3a4d12 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(82, 105, 26, 0.3);
+}
+
+.empty-catalog-btn.secondary {
+  background: transparent;
+  color: #52691a;
+  border: 2px solid #b7c774;
+}
+
+.empty-catalog-btn.secondary:hover {
+  background: #b7c774;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .empty-catalog-container {
+    min-height: 300px;
+    padding: 1rem;
+  }
+  
+  .empty-catalog-content {
+    padding: 1.5rem;
+  }
+  
+  .empty-catalog-icon {
+    margin-bottom: 1rem;
+  }
+  
+  .empty-catalog-logo {
+    width: 100px;
+  }
+  
+  .empty-catalog-title {
+    font-size: 1.3rem;
+  }
+  
+  .empty-catalog-message {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .empty-catalog-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .empty-catalog-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: auto;
+    width: 100%;
+  }
+}
+

@@ -1,0 +1,493 @@
+/* ========== VENTAS FILTERS ========== */
+.ventas-filters {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== FILTERS SUMMARY ========== */
+.filters-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.results-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.results-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #52691a;
+}
+
+.results-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.active-filters {
+  color: #52691a;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.filters-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-reset-filters {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #495057;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-reset-filters:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* ========== FILTERS TOGGLE ========== */
+.filters-toggle-container {
+  display: none;
+  margin-bottom: 1rem;
+}
+
+.filters-toggle-btn {
+  width: 100%;
+  background: rgba(82, 105, 26, 0.1);
+  border: 2px solid #52691a;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #52691a;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.filters-toggle-btn:hover {
+  background: rgba(82, 105, 26, 0.2);
+}
+
+.toggle-icon {
+  font-size: 0.875rem;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.expanded {
+  transform: rotate(180deg);
+}
+
+/* ========== FILTERS CONTROLS ========== */
+.filters-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.filters-controls.collapsed {
+  display: grid;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #52691a;
+  box-shadow: 0 0 0 2px rgba(82, 105, 26, 0.2);
+}
+
+.search-input {
+  background: #f8f9fa;
+}
+
+/* ========== CUSTOM DATE PICKER ========== */
+.custom-date-picker {
+  grid-column: 1 / -1;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.date-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.date-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.date-input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.date-input-group input {
+  padding: 0.6rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.date-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.btn-apply-dates,
+.btn-cancel-dates {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-apply-dates {
+  background: #52691a;
+  color: white;
+}
+
+.btn-apply-dates:hover:not(:disabled) {
+  background: #6a8620;
+}
+
+.btn-apply-dates:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+}
+
+.btn-cancel-dates {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-cancel-dates:hover {
+  background: #5a6268;
+}
+
+/* ========== QUICK FILTERS ========== */
+.quick-filters {
+  grid-column: 1 / -1;
+}
+
+.quick-filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quick-filter-btn {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.quick-filter-btn:hover {
+  background: #e9ecef;
+}
+
+.quick-filter-btn.active {
+  background: #52691a;
+  color: white;
+  border-color: #52691a;
+}
+
+/* ========== ACTIVE FILTERS DISPLAY ========== */
+.active-filters-display {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f3f4;
+}
+
+.active-filters-label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.active-filters-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-tag {
+  background: #52691a;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-tag button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  margin-left: 0.25rem;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.filter-tag button:hover {
+  opacity: 1;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .ventas-filters {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filters-toggle-container {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .filters-controls.collapsed {
+    display: none;
+  }
+  
+  .filters-summary {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .results-info {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .results-count {
+    font-size: 1.5rem;
+  }
+  
+  .filters-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .filters-controls {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .filter-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  
+  .filter-group input,
+  .filter-group select {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    min-height: 48px; /* Touch-friendly */
+  }
+  
+  .date-inputs {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .quick-filter-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .quick-filter-btn {
+    min-height: 44px; /* Touch-friendly */
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .ventas-filters {
+    padding: 0.75rem;
+    border-radius: 8px;
+  }
+  
+  .filters-summary {
+    gap: 0.75rem;
+  }
+  
+  .results-count {
+    font-size: 1.25rem;
+  }
+  
+  .results-label {
+    font-size: 0.8rem;
+  }
+  
+  .active-filters {
+    font-size: 0.7rem;
+  }
+  
+  .filters-controls {
+    gap: 0.75rem;
+  }
+  
+  .filter-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .filter-group label {
+    font-size: 0.8rem;
+    margin-bottom: 0.375rem;
+  }
+  
+  .filter-group input,
+  .filter-group select {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+  
+  .quick-filter-buttons {
+    gap: 0.375rem;
+  }
+  
+  .quick-filter-btn {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    min-height: 42px;
+    border-radius: 6px;
+  }
+  
+  .active-filters-tags {
+    justify-content: center;
+    gap: 0.375rem;
+  }
+  
+  .filter-tag {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .date-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .btn-apply-dates,
+  .btn-cancel-dates {
+    width: 100%;
+    padding: 0.75rem;
+    min-height: 48px;
+  }
+  
+  .btn-reset-filters,
+  .btn-toggle-filters {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    min-height: 42px;
+  }
+}
+
+/* Móviles extra pequeños */
+@media (max-width: 360px) {
+  .ventas-filters {
+    padding: 0.5rem;
+  }
+  
+  .results-count {
+    font-size: 1.1rem;
+  }
+  
+  .results-label {
+    font-size: 0.75rem;
+  }
+  
+  .filter-group input,
+  .filter-group select {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .quick-filter-btn {
+    font-size: 0.7rem;
+    padding: 0.375rem 0.5rem;
+    min-height: 40px;
+  }
+  
+  .filter-tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
+  }
+}

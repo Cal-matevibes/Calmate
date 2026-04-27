@@ -1,0 +1,440 @@
+/* ========== SHIPPING MODAL STYLES ========== */
+.shipping-modal {
+  width: 800px;
+  max-height: 85vh;
+}
+
+/* Pedido Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.info-item i {
+  color: #52691a;
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.info-item span {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Shipping Form */
+.shipping-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-section h4 {
+  margin: 0 0 1.5rem 0;
+  color: #495057;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Servicios Grid */
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.servicio-option {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.servicio-option:hover {
+  border-color: #52691a;
+  box-shadow: 0 2px 8px rgba(82, 105, 26, 0.1);
+}
+
+.servicio-option.selected {
+  border-color: #52691a;
+  background: #e8f4e8;
+  box-shadow: 0 2px 8px rgba(82, 105, 26, 0.2);
+}
+
+.servicio-option.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #52691a;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.servicio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.servicio-header strong {
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.servicio-costo {
+  color: #52691a;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.servicio-tiempo {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+/* Tipos de Envío */
+.tipos-envio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.tipo-option {
+  display: flex;
+  cursor: pointer;
+}
+
+.tipo-option input[type="radio"] {
+  display: none;
+}
+
+.tipo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.tipo-option input[type="radio"]:checked + .tipo-content {
+  border-color: #52691a;
+  background: #e8f4e8;
+  color: #52691a;
+}
+
+.tipo-content:hover {
+  border-color: #52691a;
+  box-shadow: 0 2px 8px rgba(82, 105, 26, 0.1);
+}
+
+.tipo-content i {
+  font-size: 1.5rem;
+  color: #6c757d;
+}
+
+.tipo-option input[type="radio"]:checked + .tipo-content i {
+  color: #52691a;
+}
+
+.tipo-content span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.tipo-option input[type="radio"]:checked + .tipo-content span {
+  color: #52691a;
+  font-weight: 600;
+}
+
+/* Form Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Input with Currency */
+.input-with-currency {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency {
+  position: absolute;
+  left: 0.75rem;
+  color: #6c757d;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.input-with-currency .form-input {
+  padding-left: 2rem;
+}
+
+/* Checkbox Label */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s ease;
+}
+
+.checkbox-label:hover {
+  background: #e9ecef;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin: 0;
+}
+
+.checkbox-label span {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Form Textarea */
+.form-textarea {
+  padding: 0.75rem;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #52691a;
+  box-shadow: 0 0 0 2px rgba(82, 105, 26, 0.1);
+}
+
+/* Shipping Confirmation */
+.shipping-confirmation {
+  padding: 1rem 0;
+}
+
+.shipping-confirmation h4 {
+  margin: 0 0 1.5rem 0;
+  color: #495057;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.confirmation-details {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  margin-bottom: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item strong {
+  color: #495057;
+  font-weight: 600;
+}
+
+.seguro-note {
+  color: #17a2b8;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Tracking Preview in Confirmation */
+.tracking-preview {
+  background: #e8f4e8;
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #52691a;
+}
+
+.tracking-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #495057;
+}
+
+.tracking-info i {
+  color: #17a2b8;
+}
+
+/* Modal Footer Buttons */
+.btn-success {
+  background: #28a745;
+  color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .shipping-modal {
+    width: 100%;
+    max-width: 95vw;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .servicios-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tipos-envio {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .servicio-option {
+    padding: 0.75rem;
+  }
+  
+  .tipo-content {
+    padding: 0.75rem;
+  }
+  
+  .tipo-content i {
+    font-size: 1.2rem;
+  }
+  
+  .confirmation-details {
+    padding: 1rem;
+  }
+  
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .shipping-modal {
+    margin: 0.5rem;
+    max-width: calc(100vw - 1rem);
+  }
+  
+  .modal-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .info-item {
+    padding: 0.5rem;
+  }
+  
+  .servicio-option {
+    padding: 0.5rem;
+  }
+  
+  .servicio-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .tipo-content {
+    padding: 0.5rem;
+  }
+  
+  .checkbox-label {
+    padding: 0.5rem;
+  }
+  
+  .form-textarea {
+    min-height: 60px;
+  }
+  
+  .confirmation-details {
+    padding: 0.75rem;
+  }
+  
+  .tracking-preview {
+    padding: 0.75rem;
+  }
+  
+  .modal-footer {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Animation for step transition */
+.shipping-form, .shipping-confirmation {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

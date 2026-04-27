@@ -1,0 +1,320 @@
+/* Página principal */
+@font-face {
+  font-family: 'segoesc';
+  src: url('../../../public/fonts/segoesc.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'tw-cen-mt-std';
+  src: url('../../../public/fonts/tw-cen-mt-std/TwCenMTStdLightItalic.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Página principal responsive */
+.home-page {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header que sigue el scroll en la página Home - específico */
+.home-page .header-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.home-page .header-main .header-container {
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+/* Efecto cuando el header está visible después del scroll */
+.home-page .header-main.scrolled .header-container {
+  box-shadow: 0 4px 12px rgba(82, 105, 26, 0.2);
+}
+
+/* Espaciado para compensar el header fijo */
+.home-page .home-container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Contenedor principal responsive */
+.home-container {
+  width: 100%;
+  max-width: 100vw;
+  padding: 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: rl-limo, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Contenedor interno responsive */
+.home-inner-container {
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Sistema de animación personalizado responsive mejorado */
+.fade-section {
+  margin-bottom: 3rem;
+  clear: both;
+  opacity: 0;
+  transform: translateY(50px) scale(0.95);
+  transition: 
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  position: relative;
+  will-change: opacity, transform;
+}
+
+.fade-section.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Respeto por preferencias de motion reducido */
+.fade-section.no-motion {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Hero section con parallax */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+}
+
+/* Lazy loading de imágenes */
+.lazy-image-container {
+  position: relative;
+  min-height: 200px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.lazy-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Sección de divisores */
+.home-divider {
+  margin: 2rem 0;
+}
+
+/* Responsividad mejorada */
+/* Desktop grande */
+@media (min-width: 1400px) {  
+  .fade-section {
+    margin-bottom: 4rem;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1200px) {  
+  .fade-section {
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Tablet grande */
+@media (max-width: 900px) {  
+  .fade-section {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .fade-section {
+    margin-bottom: 1.75rem;
+    transform: translateY(30px);
+  }
+  
+  .home-divider {
+    margin: 1.5rem 0;
+  }
+}
+
+/* Móvil grande */
+@media (max-width: 600px) {  
+  .fade-section {
+    margin-bottom: 1.5rem;
+    transform: translateY(25px);
+  }
+  
+  .home-divider {
+    margin: 1.25rem 0;
+  }
+}
+
+/* Móvil */
+@media (max-width: 480px) {  
+  .fade-section {
+    margin-bottom: 1.25rem;
+    transform: translateY(20px);
+  }
+  
+  .home-divider {
+    margin: 1rem 0;
+  }
+}
+
+/* Móvil pequeño */
+@media (max-width: 360px) {  
+  .fade-section {
+    margin-bottom: 1rem;
+    transform: translateY(15px);
+  }
+}
+
+/* Móvil muy pequeño */
+@media (max-width: 320px) {  
+  .fade-section {
+    margin-bottom: 0.875rem;
+  }
+}
+
+/* Mejoras de rendimiento y micro-interacciones */
+.fade-section:not(.no-motion):hover {
+  transform: translateY(-2px) scale(1);
+  transition-duration: 0.3s;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Respeto por preferencias de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .fade-section {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .hero-section {
+    transform: none !important;
+  }
+}
+
+/* Loading states mejorados */
+.section-loading {
+  opacity: 0.7;
+  pointer-events: none;
+  filter: blur(1px);
+  transition: all 0.3s ease;
+}
+
+/* Mejora de focus para accesibilidad */
+.fade-section:focus-within {
+  outline: 2px solid #52691a;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* Optimización de animaciones con keyframes */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* Suavizado de fuentes y optimización de rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Asegurar que el sidebar funcione correctamente sobre la página Home */
+.home-page .sidebar-drawer {
+  z-index: 9999 !important;
+}
+
+.home-page .sidebar-backdrop {
+  z-index: 9998 !important;
+}
+
+.home-page .sidebar-toggle {
+  z-index: 10000 !important;
+}
+
+/* Prevenir cualquier interferencia de z-index en Home */
+.home-page * {
+  z-index: auto;
+}
+
+.home-page .sidebar-drawer,
+.home-page .sidebar-backdrop,
+.home-page .sidebar-toggle {
+  z-index: revert !important;
+}
+
+.home-page {
+  contain: layout style paint;
+}

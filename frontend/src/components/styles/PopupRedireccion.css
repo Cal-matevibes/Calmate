@@ -1,0 +1,115 @@
+/* Contenedor principal del popup */
+.popup-redireccion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out; /* Animación de entrada */
+}
+
+/* Contenido del popup */
+.popup-content {
+  background: linear-gradient(135deg, #ffffff, #f3f3f3); /* Fondo degradado */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  max-width: 400px;
+  width: 90%;
+  animation: slideIn 0.4s ease-in-out; /* Animación de entrada */
+  position: relative; /* Necesario para posicionar el botón de cierre */
+}
+
+/* Texto del popup */
+.popup-content p {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.popup-content p.redireccion {
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.popup-content p:first-child {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #52691a; /* Color destacado */
+}
+
+.popup-content p:last-child {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Botón de cierre */
+.popup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.popup-close:hover {
+  color: #333;
+}
+
+/* Contenedor del botón de cancelar */
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end; /* Mueve el botón de cancelar a la derecha */
+  margin-top: 1rem;
+}
+
+/* Botón de cancelar */
+.popup-cancelar {
+  padding: 0.5rem 1rem;
+  background-color: #ff4d4d; /* Color rojo para cancelar */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.popup-cancelar:hover {
+  background-color: #cc0000; /* Color más oscuro al pasar el mouse */
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

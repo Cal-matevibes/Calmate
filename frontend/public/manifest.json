@@ -1,0 +1,26 @@
+{
+  "short_name": "Cal-Mate",
+  "name": "Cal-Mate - Mates y Accesorios",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo-png.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#52691a",
+  "background_color": "#f8f9fa",
+  "orientation": "portrait"
+}

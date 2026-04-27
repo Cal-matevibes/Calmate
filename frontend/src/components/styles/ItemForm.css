@@ -1,0 +1,166 @@
+/* Estilo general del formulario */
+.item-form {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Título del formulario */
+.item-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+/* Contenedor de los campos dinámicos */
+.item-form .dynamic-fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* Dos columnas */
+  gap: 1rem;
+  /* Espaciado entre los campos */
+  margin-top: 1rem;
+}
+
+/* Etiquetas */
+.item-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Inputs y selects */
+.item-form input,
+.item-form select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Inputs de solo lectura (como el stock calculado) */
+.item-form input[readonly] {
+  background-color: #e9e9e9;
+  cursor: not-allowed;
+}
+
+/* Botón de envío */
+.item-form button {
+  padding: 0.7rem 1.5rem;
+  background-color: #52691a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+  display: block;
+}
+
+.item-form button:hover {
+  background-color: #3e5315;
+}
+
+/* Mensajes de stock */
+.item-form p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.item-form p strong {
+  color: #52691a;
+}
+
+/* Contenedor de la vista previa de imágenes */
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Contenedor individual de cada imagen */
+.image-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+/* Imagen de vista previa */
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Botón para quitar la imagen */
+.remove-image-button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4d4d; /* Fondo rojo */
+  color: white; /* Color del ícono */
+  border: none;
+  border-radius: 50%; /* Botón circular */
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.remove-image-button:hover {
+  background-color: #cc0000; /* Fondo más oscuro al pasar el mouse */
+  transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+}
+
+/* Ícono de cerrar */
+.close-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Estilo responsivo */
+@media (max-width: 768px) {
+  .item-form .dynamic-fields {
+    grid-template-columns: 1fr;
+    /* Cambia a una columna en pantallas pequeñas */
+  }
+
+  .item-form {
+    padding: 1.5rem;
+  }
+
+  .item-form h2 {
+    font-size: 1.5rem;
+  }
+
+  .item-form label {
+    font-size: 0.9rem;
+  }
+
+  .item-form input,
+  .item-form select {
+    font-size: 0.9rem;
+  }
+
+  .item-form button {
+    font-size: 0.9rem;
+  }
+}

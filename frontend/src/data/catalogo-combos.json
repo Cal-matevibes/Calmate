@@ -1,0 +1,47 @@
+{
+  "nombre": "combos",
+  "id": "Combos",
+  "descripcion": "Aprovecha nuestros combos exclusivos para disfrutar de tu mate al máximo.",
+  "items": [
+    {
+      "id": "0",
+      "nombre": "Combo Mate de Madera + Bombilla",
+      "descripcion": "Combo ideal para empezar a disfrutar del mate.",
+      "imagen": "/javi-mate.jpeg",
+      "imagenHover": "/mate-fondo-playa.jpeg",
+      "stock": 10,
+      "precioVenta": 2500,
+      "precioCosto": 2000
+    },
+    {
+      "id": "1",
+      "nombre": "Combo Mate de Cerámica + Bombilla",
+      "descripcion": "Combo ideal para empezar a disfrutar del mate.",
+      "imagen": "/javi-mate.jpeg",
+      "imagenHover": "/mate-fondo-playa.jpeg",
+      "stock": 10,
+      "precioVenta": 3500,
+      "precioCosto": 2000
+    },
+    {
+      "id": "2",
+      "nombre": "Combo Premium (Mate de Madera + Bombilla + Yerbera)",
+      "descripcion": "Combo ideal para empezar a disfrutar del mate.",
+      "imagen": "/javi-mate.jpeg",
+      "imagenHover": "/mate-fondo-playa.jpeg",
+      "stock": 10,
+      "precioVenta": 4500,
+      "precioCosto": 2000
+    },
+    {
+      "id": "3",
+      "nombre": "Combo Familiar (2 Mates + 2 Bombillas)",
+      "descripcion": "Combo ideal para empezar a disfrutar del mate.",
+      "imagen": "/javi-mate.jpeg",
+      "imagenHover": "/mate-fondo-playa.jpeg",
+      "stock": 10,
+      "precioVenta": 5500,
+      "precioCosto": 2000
+    }
+  ]
+}

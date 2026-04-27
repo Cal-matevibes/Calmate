@@ -1,0 +1,51 @@
+{
+  "nombre": "mates",
+  "id": "Mates",
+  "descripcion": "Descubre nuestra colección de mates únicos.",
+  "items": [
+    {
+      "id": "0",
+      "nombre": "Mate de madera",
+      "descripcion": "Mate artesanal hecho de madera de alta calidad.",
+      "active": true,
+      "tipo": "camionero",
+      "material": "madera",
+      "materialInterno": "calabaza",
+      "tamaño": "mediano",
+      "tamañoInterno": "pequeño",
+      "virola": "acero",
+      "terminacion": "brillante",
+      "grabado": true,
+      "descripcionDelGrabado": "Grabado de boca",
+      "base": "ancha",
+      "color": "natural",
+      "imagen": "/mate-fondo-playa.jpeg",
+      "imagenHover": "/javi-mate.jpeg",
+      "stock": 10,
+      "precioVenta": 1200,
+      "precioCosto": 1000
+    },
+    {
+      "id": "1",
+      "nombre": "Mate de cerámica",
+      "descripcion": "Mate artesanal hecho de madera de alta calidad.",
+      "active": true,
+      "tipo": "camionero",
+      "material": "madera",
+      "materialInterno": "calabaza",
+      "tamaño": "mediano",
+      "tamañoInterno": "mediano",
+      "virola": "acero",
+      "terminacion": "brillante",
+      "grabado": true,
+      "descripcionDelGrabado": "Grabado de boca",
+      "base": "ancha",
+      "color": "natural",
+      "imagen": "/mate-fondo-playa.jpeg",
+      "imagenHover": "/javi-mate.jpeg",
+      "stock": 10,
+      "precioVenta": 1500,
+      "precioCosto": 1000
+    }
+  ]
+}

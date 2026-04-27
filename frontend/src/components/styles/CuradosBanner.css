@@ -1,0 +1,174 @@
+@font-face {
+  font-family: 'segoesc';
+  src: url('../../../public/fonts/segoesc.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'tw-cen-mt-std-bold';
+  src: url('../../../public/fonts/tw-cen-mt-std/TwCenMTStdSemiBold.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.special-m {
+  font-family: 'segoesc', sans-serif;
+}
+
+.special-rest {
+  font-family: 'tw-cen-mt-std-bold', sans-serif;
+}
+
+/* Componente principal */
+.curados-banner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 500px;
+  padding: 3rem 2rem;
+  position: relative;
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: auto 80%;
+  overflow: hidden;
+  margin-top: -3.5%;
+}
+
+/* Contenido principal */
+.curados-content {
+  max-width: 600px;
+  text-align: left;
+  z-index: 2;
+  position: relative;
+}
+
+/* Título */
+.curados-title {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #52691a;
+  margin-bottom: 2rem;
+  line-height: 1.1;
+}
+
+/* Texto descriptivo */
+.curados-text {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 2.5rem;
+  line-height: 1.4;
+}
+
+/* Botón */
+.curados-button {
+  padding: 1rem 2rem;
+  background-color: #52691a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(82, 105, 26, 0.3);
+}
+
+.curados-button:hover {
+  background-color: #3e4f14;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(82, 105, 26, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .curados-banner {
+    background-size: auto 70%;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .curados-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .curados-banner {
+    justify-content: flex-start;
+    min-height: 400px;
+    padding: 2rem 1rem;
+    background-position: right center;
+    background-size: auto 50%;
+  }
+  
+  .curados-content {
+    max-width: 70%;
+    text-align: left;
+  }
+  
+  .curados-title {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .curados-text {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .curados-banner {
+    padding: 1.5rem 1rem;
+    min-height: 350px;
+    background-position: right center;
+    background-size: auto 45%;
+  }
+  
+  .curados-content {
+    max-width: 65%;
+    text-align: left;
+  }
+  
+  .curados-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .curados-text {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .curados-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .curados-banner {
+    padding: 1rem;
+    min-height: 300px;
+    background-position: right center;
+    background-size: auto 40%;
+  }
+  
+  .curados-content {
+    max-width: 60%;
+    text-align: left;
+  }
+  
+  .curados-title {
+    font-size: 2rem;
+  }
+  
+  .curados-text {
+    font-size: 1rem;
+  }
+  
+  .curados-button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,77 @@
+.content-main-hero-inner {
+    width: 100%;
+    height: 100%;
+    font-family: rl-limo, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    /* Centra verticalmente */
+    padding: 0 4vw;
+    /* Espaciado lateral opcional */
+}
+
+.content-main-hero-content .display-5 {
+    font-family: 'rl-limo', sans-serif;
+    font-size: 4rem;
+    /* O el tamaño que prefieras */
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+
+.content-main-hero-content {
+    flex: auto;
+    /* Ocupa el 60% del ancho disponible */
+    text-align: left;
+    /* Alinea el texto a la izquierda */
+}
+
+.content-image {
+    max-width: 40%;
+    width: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 900px) {
+    .content-main-hero-inner {
+        flex-direction: column;
+        padding: 0 2vw;
+        height: auto;
+        gap: 1.5rem;
+    }
+
+    .content-main-hero-content,
+    .content-image {
+        max-width: 100%;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .content-main-hero-content .display-5 {
+        font-size: 2.2rem;
+    }
+
+    .content-image {
+        max-width: 220px;
+    }
+}
+
+@media (max-width: 600px) {
+    .content-main-hero-inner {
+        padding: 0 1vw;
+        gap: 1rem;
+    }
+
+    .content-main-hero-content .display-5 {
+        font-size: 1.3rem;
+    }
+
+    .content-main-hero-content {
+        font-size: 1rem;
+    }
+
+    .content-image {
+        max-width: 120px;
+    }
+}

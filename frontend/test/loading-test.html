@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading Component — Test</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f0e8;
+      color: #3a3a3a;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #52691a;
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 0.82rem;
+      color: #9a9a8a;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9a9a8a;
+      margin-bottom: 0.6rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #e4ddd0;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-dark {
+      background: #2c3518;
+      border-color: #3d4a22;
+    }
+
+    /* ── Controls ── */
+    .controls {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      align-items: center;
+    }
+
+    .controls label {
+      font-size: 0.82rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .controls input[type="text"] {
+      padding: 0.4rem 0.75rem;
+      border: 1px solid #d0c9bb;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      background: #fff;
+      transition: border-color 0.15s;
+    }
+
+    .controls input[type="text"]:focus {
+      border-color: #52691a;
+    }
+
+    /* ════════════════════════════════════
+       LOADING COMPONENT CSS (exact copy)
+    ════════════════════════════════════ */
+
+    .loading-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      min-height: 30vh;
+    }
+
+    .loading-fullpage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      padding: 3rem 2rem;
+    }
+
+    .loading-scene {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      animation: loading-scene-in 0.35s ease both;
+    }
+
+    @keyframes loading-scene-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0);   }
+    }
+
+    .loading-logo-wrap {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-logo {
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+      animation: loading-float 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 6px 16px rgba(82, 105, 26, 0.25));
+    }
+
+    @keyframes loading-float {
+      0%, 100% { transform: translateY(0px);  }
+      50%       { transform: translateY(-9px); }
+    }
+
+    .loading-ring {
+      position: absolute;
+      border-radius: 50%;
+      width: 88px;
+      height: 88px;
+      border: 2px solid rgba(82, 105, 26, 0.55);
+      animation: loading-ripple 2.6s ease-out infinite;
+    }
+
+    .loading-ring-1 { animation-delay: 0s;    }
+    .loading-ring-2 { animation-delay: 0.85s; }
+    .loading-ring-3 { animation-delay: 1.7s;  }
+
+    @keyframes loading-ripple {
+      0%   { transform: scale(1);   opacity: 0.7; }
+      100% { transform: scale(2.6); opacity: 0;   }
+    }
+
+    .loading-steam {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 9px;
+      z-index: 3;
+    }
+
+    .steam {
+      width: 5px;
+      height: 26px;
+      background: linear-gradient(to top, rgba(82, 105, 26, 0.5), transparent);
+      border-radius: 10px;
+      transform-origin: bottom center;
+      animation: steam-rise 2.1s ease-in infinite;
+    }
+
+    .steam-1 { animation-delay: 0s;   }
+    .steam-2 { animation-delay: 0.6s; }
+    .steam-3 { animation-delay: 1.2s; }
+
+    @keyframes steam-rise {
+      0%   { transform: translateY(6px)   scaleY(0.3);                  opacity: 0;   }
+      20%  { opacity: 0.8; }
+      100% { transform: translateY(-24px) scaleY(1.5) rotate(6deg);     opacity: 0;   }
+    }
+
+    .loading-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .loading-dots span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #52691a;
+      animation: loading-bounce 1.3s ease-in-out infinite;
+    }
+
+    .loading-dots span:nth-child(1) { animation-delay: 0s;   }
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes loading-bounce {
+      0%, 65%, 100% { transform: translateY(0);     opacity: 0.35; }
+      32%            { transform: translateY(-11px); opacity: 1;    }
+    }
+
+    .loading-text {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: #7a8a5c;
+      margin: 0;
+      letter-spacing: 0.04em;
+      animation: loading-text-pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes loading-text-pulse {
+      0%, 100% { opacity: 0.55; }
+      50%       { opacity: 1;    }
+    }
+
+    /* Dark variant overrides */
+    .card-dark .loading-ring {
+      border-color: rgba(210, 230, 140, 0.45);
+    }
+    .card-dark .steam {
+      background: linear-gradient(to top, rgba(210, 230, 140, 0.5), transparent);
+    }
+    .card-dark .loading-dots span {
+      background: #c8dc6e;
+    }
+    .card-dark .loading-text {
+      color: #b8cc88;
+    }
+    .card-dark .loading-logo {
+      filter: drop-shadow(0 6px 16px rgba(200, 220, 110, 0.3));
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Loading — Component Preview</h1>
+    <p class="subtitle">Cal-mate · frontend/src/components/shared/Loading.js</p>
+
+    <!-- Text control -->
+    <div class="controls">
+      <label for="txt">Texto:</label>
+      <input type="text" id="txt" value="Cargando..." oninput="updateText(this.value)" />
+    </div>
+
+    <!-- Variante 1: inline (loading-container) -->
+    <p class="section-label">Variante inline (loading-container)</p>
+    <div class="card">
+      <div class="loading-container">
+        <div class="loading-scene">
+          <div class="loading-logo-wrap">
+            <div class="loading-ring loading-ring-1"></div>
+            <div class="loading-ring loading-ring-2"></div>
+            <div class="loading-ring loading-ring-3"></div>
+            <div class="loading-steam">
+              <span class="steam steam-1"></span>
+              <span class="steam steam-2"></span>
+              <span class="steam steam-3"></span>
+            </div>
+            <img src="../public/logo-png.png" alt="Cal-mate" class="loading-logo" />
+          </div>
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <p class="loading-text label-target">Cargando...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variante 2: full page (loading-fullpage) -->
+    <p class="section-label">Variante fullPage (loading-fullpage)</p>
+    <div class="card">
+      <div class="loading-fullpage">
+        <div class="loading-scene">
+          <div class="loading-logo-wrap">
+            <div class="loading-ring loading-ring-1"></div>
+            <div class="loading-ring loading-ring-2"></div>
+            <div class="loading-ring loading-ring-3"></div>
+            <div class="loading-steam">
+              <span class="steam steam-1"></span>
+              <span class="steam steam-2"></span>
+              <span class="steam steam-3"></span>
+            </div>
+            <img src="../public/logo-png.png" alt="Cal-mate" class="loading-logo" />
+          </div>
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <p class="loading-text label-target">Cargando...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variante 3: fondo oscuro -->
+    <p class="section-label">Variante sobre fondo oscuro</p>
+    <div class="card card-dark">
+      <div class="loading-fullpage">
+        <div class="loading-scene">
+          <div class="loading-logo-wrap">
+            <div class="loading-ring loading-ring-1"></div>
+            <div class="loading-ring loading-ring-2"></div>
+            <div class="loading-ring loading-ring-3"></div>
+            <div class="loading-steam">
+              <span class="steam steam-1"></span>
+              <span class="steam steam-2"></span>
+              <span class="steam steam-3"></span>
+            </div>
+            <img src="../public/logo-png.png" alt="Cal-mate" class="loading-logo" />
+          </div>
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <p class="loading-text label-target">Cargando...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variante 4: sin texto (text=false) -->
+    <p class="section-label">Sin texto (text=&#123;false&#125;)</p>
+    <div class="card">
+      <div class="loading-container">
+        <div class="loading-scene">
+          <div class="loading-logo-wrap">
+            <div class="loading-ring loading-ring-1"></div>
+            <div class="loading-ring loading-ring-2"></div>
+            <div class="loading-ring loading-ring-3"></div>
+            <div class="loading-steam">
+              <span class="steam steam-1"></span>
+              <span class="steam steam-2"></span>
+              <span class="steam steam-3"></span>
+            </div>
+            <img src="../public/logo-png.png" alt="Cal-mate" class="loading-logo" />
+          </div>
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updateText(val) {
+      document.querySelectorAll('.label-target').forEach(el => el.textContent = val || '');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Handle client-side routing for React Router
+/*    /index.html   200
+
+# API redirects (if you later want to redirect API calls to your backend)
+/api/*  https://your-backend-url.com/api/:splat  200
+
+# Handle specific extensions
+*.js   /static/js/:splat   200
+*.css  /static/css/:splat  200

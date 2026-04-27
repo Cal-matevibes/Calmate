@@ -1,0 +1,118 @@
+/* Contenedor principal del breadcrumb */
+.breadcrumb {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0;
+}
+
+/* Lista de elementos del breadcrumb */
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+/* Elementos individuales del breadcrumb */
+.breadcrumb-item {
+  font-size: 0.85rem;
+  color: #52691a;
+  white-space: nowrap;
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  color: #52691a;
+  transition: color 0.2s ease-in-out;
+  font-weight: 500;
+}
+
+.breadcrumb-item a:hover {
+  color: #3e5315;
+  text-decoration: underline;
+}
+
+/* Elemento activo (último en la lista) */
+.breadcrumb-item.active span {
+  color: #333;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Separador entre los elementos */
+.breadcrumb-separator {
+  color: #666;
+  font-size: 0.8rem;
+  margin: 0 0.2rem;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .breadcrumb {
+    padding: 0.6rem 1rem;
+  }
+  
+  .breadcrumb-item {
+    font-size: 0.8rem;
+  }
+  
+  .breadcrumb-separator {
+    font-size: 0.75rem;
+  }
+}
+
+/* Móviles */
+@media (max-width: 575px) {
+  .breadcrumb {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .breadcrumb-list {
+    gap: 0.3rem;
+  }
+  
+  .breadcrumb-item {
+    font-size: 0.75rem;
+  }
+  
+  .breadcrumb-item a,
+  .breadcrumb-item.active span {
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(82, 105, 26, 0.1);
+    color: #52691a;
+  }
+  
+  .breadcrumb-item.active span {
+    background: #52691a;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .breadcrumb-separator {
+    font-size: 0.7rem;
+    color: #999;
+    margin: 0 0.1rem;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 400px) {
+  .breadcrumb {
+    padding: 0.4rem 0.75rem;
+  }
+  
+  .breadcrumb-item {
+    font-size: 0.7rem;
+  }
+  
+  .breadcrumb-item a,
+  .breadcrumb-item.active span {
+    padding: 0.15rem 0.3rem;
+  }
+}

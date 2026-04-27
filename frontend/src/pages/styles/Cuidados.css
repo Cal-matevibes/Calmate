@@ -1,0 +1,405 @@
+/* ========== CUIDADOS PAGE - SAME STYLE AS CONTACT ========== */
+
+/* Contenedor principal para mantener el footer abajo */
+.cuidados-page {
+  /* Normal block flow — the page scrolls when content is tall */
+  padding-top: 1rem;
+  width: 100%;
+  position: relative;
+  margin-top: 25px;
+}
+
+/* ========== HERO SECTION - MISMO ESTILO QUE CUIDADOS ========== */
+.cuidados-hero-section {
+  text-align: center;
+  padding: 1rem;
+  background-color: #52691a;
+  color: white;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.cuidados-hero-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: white;
+}
+
+.cuidados-hero-subtitle {
+  font-size: 1.3rem;
+  opacity: 0.95;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.5;
+  color: white;
+}
+
+/* Contenido adicional de la página */
+.cuidados-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cuidados-hero-section {
+    padding: 2rem 1rem;
+  }
+  
+  .cuidados-hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .cuidados-hero-subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cuidados-hero-title {
+    font-size: 2rem;
+  }
+  
+  .cuidados-hero-subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===================== LAYOUT: SIDEBAR + PANEL ===================== */
+.cuidados-layout {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 60vh; /* keep page looking full on short content */
+  padding: 0 1rem 3rem;
+  box-sizing: border-box;
+}
+
+/* ===================== LEFT SIDEBAR ===================== */
+.cuidados-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  /* Sticky: stays visible while scrolling a long document.
+     top must clear the 80px fixed header. */
+  position: sticky;
+  top: 90px;
+  align-self: flex-start;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  border-right: 1px solid #e5e7eb;
+  padding: 1.5rem 0;
+}
+
+/* Category section header */
+.sidebar-cat-section {
+  margin-bottom: 0.1rem;
+}
+
+.sidebar-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1.1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  transition: background 0.15s;
+}
+
+.sidebar-cat-header:hover {
+  background: #f5f8ee;
+}
+
+.sidebar-cat-header.open {
+  color: #52691a;
+}
+
+.sidebar-cat-arrow {
+  font-size: 0.6rem;
+  color: #52691a;
+  flex-shrink: 0;
+}
+
+.sidebar-cat-nombre {
+  flex: 1;
+}
+
+.sidebar-cat-children {
+  padding: 0.2rem 0 0.5rem;
+}
+
+/* Subcategory node */
+.sidebar-subcat-item {
+  /* container only */
+}
+
+.sidebar-subcat-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 1rem 0.55rem 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+  transition: background 0.15s;
+}
+
+.sidebar-subcat-toggle:hover,
+.sidebar-subcat-toggle.open {
+  background: #f5f8ee;
+  color: #52691a;
+}
+
+.sidebar-toggle-arrow {
+  font-size: 0.6rem;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.sidebar-subcat-titulo {
+  flex: 1;
+  word-break: break-word;
+}
+
+.sidebar-children {
+  padding-left: 1rem;
+}
+
+/* Document link in sidebar */
+.sidebar-doc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 1rem 0.5rem 2rem;
+  border: none;
+  border-left: 3px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #4b5563;
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+
+.sidebar-doc-item:hover {
+  background: #f5f8ee;
+  color: #374151;
+}
+
+.sidebar-doc-item.selected {
+  background: #edf3df;
+  color: #52691a;
+  font-weight: 600;
+  border-left-color: #52691a;
+}
+
+.sidebar-doc-icon {
+  font-size: 0.72rem;
+  opacity: 0.6;
+  flex-shrink: 0;
+  padding-top: 0.1rem;
+}
+
+.sidebar-doc-titulo {
+  word-break: break-word;
+}
+
+.sidebar-empty {
+  padding: 0.4rem 1.5rem;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.sidebar-loading {
+  padding: 0.5rem 1rem;
+}
+
+/* ===================== RIGHT DOC PANEL ===================== */
+.cuidados-doc-panel {
+  flex: 1;
+  padding: 2rem 2.5rem;
+  min-width: 0;
+}
+
+.doc-panel-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid #edf3df;
+  line-height: 1.3;
+}
+
+.doc-panel-content {
+  background: #f8f5ee;
+  border: 1px solid #e8e0d0;
+  border-radius: 8px;
+  padding: 1.5rem 1.75rem;
+}
+
+.doc-panel-text {
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: #374151;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  line-height: 1.85;
+}
+
+.doc-panel-empty-text {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+/* HTML rendered content panel */
+.doc-panel-html {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.85;
+}
+
+.doc-panel-html h1,
+.doc-panel-html h2,
+.doc-panel-html h3 {
+  color: #1f2937;
+  margin: 1rem 0 0.5rem;
+  font-weight: 700;
+}
+
+.doc-panel-html h1 { font-size: 1.5rem; }
+.doc-panel-html h2 { font-size: 1.25rem; }
+.doc-panel-html h3 { font-size: 1.05rem; }
+
+.doc-panel-html p {
+  margin: 0.5rem 0;
+}
+
+.doc-panel-html ul,
+.doc-panel-html ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.doc-panel-html li {
+  margin-bottom: 0.25rem;
+}
+
+.doc-panel-html strong { font-weight: 700; }
+.doc-panel-html em { font-style: italic; }
+
+.doc-panel-html a {
+  color: #52691a;
+  text-decoration: underline;
+}
+
+.doc-panel-html blockquote {
+  border-left: 3px solid #d4ddb8;
+  margin: 0.75rem 0;
+  padding: 0.25rem 1rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.doc-panel-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  text-align: center;
+  color: #9ca3af;
+  gap: 1rem;
+}
+
+.doc-panel-placeholder-icon {
+  font-size: 3rem;
+  opacity: 0.35;
+}
+
+.doc-panel-placeholder p {
+  font-size: 0.95rem;
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+/* Loading full-width */
+.cuidados-loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+  width: 100%;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  .cuidados-layout {
+    flex-direction: column;
+    padding: 0 0 2rem;
+  }
+
+  .cuidados-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid #e5e7eb;
+    padding: 0.75rem 0;
+    /* Remove sticky so it scrolls away naturally when reading a doc */
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .cuidados-doc-panel {
+    padding: 1.25rem 1rem;
+  }
+}
+
+/* Back button — visible only on mobile */
+.doc-panel-back-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .doc-panel-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    color: #52691a;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.4rem 0;
+    margin-bottom: 1rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .doc-panel-back-btn:active {
+    opacity: 0.7;
+  }
+}

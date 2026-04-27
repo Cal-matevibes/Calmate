@@ -1,0 +1,236 @@
+/* Sidebar toggle button */
+.sidebar-toggle {
+  top: 1rem;
+  right: 1rem;
+  /* Cambiado a la derecha */
+  z-index: 10000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sidebar-toggle-bar {
+  width: 30px;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.sidebar-toggle:hover .sidebar-toggle-bar {
+  background-color: #b8c76f;
+  /* Color verde de la marca */
+}
+
+/* Sidebar drawer */
+.sidebar-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  /* Oculto por defecto, ahora a la derecha */
+  width: 250px;
+  height: 100%;
+  background-color: #546911 !important;
+  /* Fondo verde de la marca */
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+  /* Sombra más prominente hacia la izquierda */
+  z-index: 9999;
+  transition: right 0.1s ease-in-out;
+  /* Transición para abrir/cerrar */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  font-family: rl-limo, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.sidebar-drawer.open {
+  right: 0;
+  /* Muestra el sidebar */
+}
+
+.sidebar-close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #f2ebda;
+  /* Color beige de la marca */
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.sidebar-close:hover {
+  color: #b8c76f;
+  /* Color verde claro de la marca al pasar el mouse */
+}
+
+/* Sidebar menu */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0;
+}
+
+.sidebar-menu-item {
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu-item a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #f2ebda !important;
+  /* Texto beige de la marca */
+  transition: color 0.2s ease-in-out;
+}
+
+.sidebar-menu-item a:hover {
+  color: #b8c76f !important;
+  /* Verde claro de la marca al pasar el mouse */
+}
+
+/* Sidebar backdrop */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9998;
+}
+
+/* Estilo para el título de la sección */
+.sidebar-section-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #f2ebda !important;
+  margin-top: 2rem;
+  /* Más separación desde el menú principal */
+  margin-bottom: 0.5rem;
+  display: block;
+  padding-left: 1rem;
+  border-top: 1px solid #b8c76f !important;
+  /* Línea divisoria en verde claro */
+  padding-top: 1rem;
+  /* Espaciado interno después de la línea */
+}
+
+/* Submenú */
+.sidebar-submenu {
+  list-style: none;
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.sidebar-submenu-item {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-submenu-item a {
+  color: rgba(242, 235, 218, 0.8) !important;
+  /* Beige semi-transparente para submenú */
+  text-decoration: none;
+  font-size: 1rem;
+  /* Mantiene el tamaño del texto igual al resto del menú */
+  transition: color 0.2s ease-in-out;
+}
+
+.sidebar-submenu-item a:hover {
+  color: #f2ebda !important;
+  /* Beige completo al hacer hover */
+}
+
+/* Ajustes generales para mantener consistencia */
+.sidebar-menu-item {
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu-item a {
+  text-decoration: none;
+  font-size: 1rem;
+  /* Mantiene el tamaño del texto igual al resto del menú */
+  color: #f2ebda !important;
+  transition: color 0.2s ease-in-out;
+}
+
+.sidebar-menu-item a:hover {
+  color: #b8c76f !important;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .sidebar-drawer {
+    width: 200px;
+    /* Reduce el ancho en pantallas pequeñas */
+  }
+
+  .sidebar-menu-item a {
+    font-size: 1rem;
+    /* Reduce el tamaño del texto */
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-toggle {
+    top: 0.5rem;
+    right: 0.5rem;
+    /* Ajusta el botón en pantallas pequeñas */
+  }
+
+  .sidebar-drawer {
+    width: 180px;
+    /* Sidebar más estrecho */
+  }
+
+  .sidebar-menu-item a {
+    font-size: 0.9rem;
+    /* Texto más pequeño */
+  }
+}
+
+/* Reglas de fuerza para asegurar colores correctos */
+.sidebar-drawer {
+  background: #546911 !important;
+}
+
+.sidebar-drawer * {
+  color: #f2ebda !important;
+}
+
+.sidebar-drawer a {
+  color: #f2ebda !important;
+}
+
+.sidebar-drawer a:hover {
+  color: #b8c76f !important;
+}
+
+.sidebar-section-title {
+  color: #f2ebda !important;
+  border-top-color: #b8c76f !important;
+}
+
+.sidebar-submenu-item a {
+  color: rgba(242, 235, 218, 0.8) !important;
+}
+
+.sidebar-submenu-item a:hover {
+  color: #f2ebda !important;
+}
+
+/* Asegurar que el sidebar esté siempre por encima */
+.sidebar-drawer.open {
+  z-index: 9999 !important;
+  transform: translateZ(0);
+}
+
+.sidebar-backdrop {
+  z-index: 9998 !important;
+  transform: translateZ(0);
+}

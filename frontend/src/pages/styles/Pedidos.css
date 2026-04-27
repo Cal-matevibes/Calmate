@@ -1,0 +1,166 @@
+/* ========== PEDIDOS PAGE STYLES ========== */
+.pedidos-page {
+  min-height: 100vh;
+}
+
+.pedidos-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+  padding-top: 5rem;
+}
+
+.pedidos-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pedidos-header h1 {
+  color: #52691a;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.pedidos-header p {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.pedidos-stats-row {
+  margin-bottom: 2rem;
+}
+
+.pedidos-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  min-height: 600px;
+}
+
+.pedidos-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pedidos-right {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile back button — hidden on desktop */
+.pedidos-mobile-back {
+  display: none;
+}
+
+/* No selection state */
+.no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #6c757d;
+  text-align: center;
+}
+
+.no-selection h3 {
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.no-selection p {
+  max-width: 300px;
+  line-height: 1.5;
+}
+
+/* Loading and error states */
+.loading, .error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.error {
+  color: #dc3545;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .pedidos-content {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .pedidos-container {
+    padding: 0.75rem;
+    padding-top: 4.5rem;
+  }
+
+  .pedidos-header {
+    margin-bottom: 1rem;
+  }
+  
+  .pedidos-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .pedidos-header p {
+    font-size: 0.95rem;
+  }
+  
+  .pedidos-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .pedidos-left {
+    order: 1;
+  }
+  
+  .pedidos-right {
+    order: 2;
+  }
+
+  /* Back button shown only on mobile */
+  .pedidos-mobile-back {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    color: #52691a;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 0 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pedidos-container {
+    padding: 0.5rem;
+    padding-top: 4.5rem;
+  }
+  
+  .pedidos-header {
+    margin-bottom: 1rem;
+  }
+  
+  .pedidos-header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .pedidos-header p {
+    font-size: 0.9rem;
+  }
+}

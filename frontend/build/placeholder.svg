@@ -1,0 +1,16 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#f8f9fa"/>
+  <rect x="1" y="1" width="298" height="298" stroke="#dee2e6" stroke-width="2"/>
+  
+  <!-- Icono de imagen -->
+  <g transform="translate(120, 120)">
+    <rect width="60" height="60" rx="8" fill="#6c757d" opacity="0.3"/>
+    <path d="M15 45L25 35L35 40L50 25V50H10V45H15Z" fill="#adb5bd"/>
+    <circle cx="22" cy="22" r="4" fill="#adb5bd"/>
+  </g>
+  
+  <!-- Texto -->
+  <text x="150" y="200" text-anchor="middle" fill="#6c757d" font-family="Arial, sans-serif" font-size="14">
+    Sin imagen
+  </text>
+</svg>

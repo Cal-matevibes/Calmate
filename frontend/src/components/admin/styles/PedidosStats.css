@@ -1,0 +1,304 @@
+.pedidos-stats {
+  margin-bottom: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 1.25rem;
+  row-gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 4px solid;
+  position: relative;
+  overflow: hidden;
+  min-height: 100px;
+  align-items: center;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 0%, rgba(0, 0, 0, 0.02) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card.clickable {
+  cursor: pointer;
+}
+
+.stat-card.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card.clickable:hover::before {
+  opacity: 1;
+}
+
+.stat-card.clickable:active {
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  align-self: center;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.stat-number {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 0;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Colores específicos para cada estado */
+.stat-card.pendientes {
+  border-left-color: #ffc107;
+}
+
+.stat-card.pendientes .stat-icon {
+  color: #ffc107;
+}
+
+.stat-card.pendientes .stat-number {
+  color: #ffc107;
+}
+
+.stat-card.confirmados {
+  border-left-color: #17a2b8;
+}
+
+.stat-card.confirmados .stat-icon {
+  color: #17a2b8;
+}
+
+.stat-card.confirmados .stat-number {
+  color: #17a2b8;
+}
+
+.stat-card.preparando {
+  border-left-color: #fd7e14;
+}
+
+.stat-card.preparando .stat-icon {
+  color: #fd7e14;
+}
+
+.stat-card.preparando .stat-number {
+  color: #fd7e14;
+}
+
+.stat-card.listos {
+  border-left-color: #20c997;
+}
+
+.stat-card.listos .stat-icon {
+  color: #20c997;
+}
+
+.stat-card.listos .stat-number {
+  color: #20c997;
+}
+
+.stat-card.enviados {
+  border-left-color: #007bff;
+}
+
+.stat-card.enviados .stat-icon {
+  color: #007bff;
+}
+
+.stat-card.enviados .stat-number {
+  color: #007bff;
+}
+
+.stat-card.entregados {
+  border-left-color: #28a745;
+}
+
+.stat-card.entregados .stat-icon {
+  color: #28a745;
+}
+
+.stat-card.entregados .stat-number {
+  color: #28a745;
+}
+
+.stat-card.cancelados {
+  border-left-color: #dc3545;
+}
+
+.stat-card.cancelados .stat-icon {
+  color: #dc3545;
+}
+
+.stat-card.cancelados .stat-number {
+  color: #dc3545;
+}
+
+.stat-card.total {
+  border-left-color: #6c757d;
+}
+
+.stat-card.total .stat-icon {
+  color: #6c757d;
+}
+
+.stat-card.total .stat-number {
+  color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+  }
+
+  .stat-card {
+    column-gap: 0.75rem;
+    row-gap: 0.2rem;
+    padding: 0.875rem 1rem;
+    min-height: unset;
+    border-radius: 10px;
+  }
+
+  .stat-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .stat-number {
+    font-size: 1.55rem;
+  }
+
+  .stat-label {
+    font-size: 0.77rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+  }
+
+  .stat-card {
+    column-gap: 0.5rem;
+    row-gap: 0.15rem;
+    padding: 0.75rem 0.75rem;
+    border-radius: 8px;
+  }
+
+  .stat-icon {
+    font-size: 1.3rem;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+  }
+
+  .stat-number {
+    font-size: 1.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .stat-card {
+    column-gap: 0.4rem;
+    row-gap: 0.1rem;
+    padding: 0.625rem 0.625rem;
+    border-radius: 8px;
+  }
+
+  .stat-icon {
+    font-size: 1.1rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+
+  .stat-number {
+    font-size: 1.1rem;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

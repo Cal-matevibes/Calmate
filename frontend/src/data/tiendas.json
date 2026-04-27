@@ -1,0 +1,21 @@
+{
+  "nombre": "",
+  "descripcion": "",
+  "catalogos": [
+    {
+      "nombre": "Mates",
+      "imagen": "/mate-fondo-playa.jpeg",
+      "url": "/catalog/mates"
+    },
+    {
+      "nombre": "Bombillas",
+      "imagen": "/bombilla.jpeg",
+      "url": "/catalog/bombillas"
+    },
+    {
+      "nombre": "Combos",
+      "imagen": "/mate-fondo-playa.jpeg",
+      "url": "/catalog/combos"
+    }
+  ]
+}

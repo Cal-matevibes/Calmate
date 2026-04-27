@@ -1,0 +1,198 @@
+/* ========== CHART.JS MOBILE OPTIMIZATIONS ========== */
+
+/* Canvas optimizations for mobile */
+.chart-wrapper canvas {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Improve touch interactions */
+.chart-wrapper {
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better chart container for mobile */
+@media (max-width: 768px) {
+  .chart-container {
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .chart-wrapper {
+    position: relative;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Improve chart readability on mobile */
+  .chart-wrapper canvas {
+    border-radius: 4px;
+  }
+}
+
+/* iPhone 12 Pro Max optimizations */
+@media (max-width: 428px) {
+  .chart-wrapper {
+    height: 200px !important;
+    min-height: 200px;
+  }
+  
+  .main-chart .chart-wrapper {
+    height: 220px !important;
+    min-height: 220px;
+  }
+  
+  .secondary-chart .chart-wrapper {
+    height: 180px !important;
+    min-height: 180px;
+  }
+}
+
+/* iPhone 12/12 Pro optimizations */
+@media (max-width: 390px) {
+  .chart-wrapper {
+    height: 180px !important;
+    min-height: 180px;
+  }
+  
+  .main-chart .chart-wrapper {
+    height: 200px !important;
+    min-height: 200px;
+  }
+  
+  .secondary-chart .chart-wrapper {
+    height: 160px !important;
+    min-height: 160px;
+  }
+  
+  /* Reduce padding around charts */
+  .chart-container {
+    padding: 0.25rem;
+  }
+  
+  .chart-header {
+    padding: 0.5rem 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* iPhone 12 mini optimizations */
+@media (max-width: 375px) {
+  .chart-wrapper {
+    height: 160px !important;
+    min-height: 160px;
+  }
+  
+  .main-chart .chart-wrapper {
+    height: 180px !important;
+    min-height: 180px;
+  }
+  
+  .secondary-chart .chart-wrapper {
+    height: 140px !important;
+    min-height: 140px;
+  }
+}
+
+/* iPhone SE optimizations */
+@media (max-width: 360px) {
+  .chart-wrapper {
+    height: 140px !important;
+    min-height: 140px;
+  }
+  
+  .main-chart .chart-wrapper {
+    height: 160px !important;
+    min-height: 160px;
+  }
+  
+  .secondary-chart .chart-wrapper {
+    height: 120px !important;
+    min-height: 120px;
+  }
+  
+  .chart-container {
+    padding: 0.2rem;
+  }
+  
+  .chart-header {
+    padding: 0.3rem 0.2rem;
+    margin-bottom: 0.3rem;
+  }
+}
+
+/* Chart controls mobile optimization */
+@media (max-width: 480px) {
+  .chart-controls {
+    gap: 0.25rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .chart-type-btn {
+    flex: 1;
+    min-width: 70px;
+    max-width: 120px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 390px) {
+  .chart-type-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    min-width: 60px;
+    max-width: 100px;
+  }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+  .chart-wrapper {
+    will-change: transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  /* Smooth scrolling for chart containers */
+  .charts-grid {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .chart-wrapper canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Dark mode chart optimizations */
+@media (prefers-color-scheme: dark) {
+  .chart-container {
+    background: #2d2d2d;
+    border: 1px solid #404040;
+  }
+  
+  .chart-wrapper {
+    background: transparent;
+  }
+}
+
+/* Reduce motion for charts */
+@media (prefers-reduced-motion: reduce) {
+  .chart-wrapper * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,240 @@
+/* ========== MOBILE UTILITIES ========== */
+
+/* Mejoras de accesibilidad táctil */
+.touch-friendly {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.touch-friendly-large {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Prevenir zoom en inputs en iOS */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* Mejores scroll para móviles */
+.mobile-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+
+/* Prevent text selection en elementos de UI */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Mejoras de performance en animaciones */
+.gpu-accelerated {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Estados de touch para botones */
+.touch-button {
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.touch-button:active {
+  transform: scale(0.98);
+  opacity: 0.8;
+}
+
+/* Spacing para móviles */
+.mobile-spacing-xs { padding: 0.25rem; }
+.mobile-spacing-sm { padding: 0.5rem; }
+.mobile-spacing-md { padding: 0.75rem; }
+.mobile-spacing-lg { padding: 1rem; }
+.mobile-spacing-xl { padding: 1.25rem; }
+
+/* Margin para móviles */
+.mobile-margin-xs { margin: 0.25rem; }
+.mobile-margin-sm { margin: 0.5rem; }
+.mobile-margin-md { margin: 0.75rem; }
+.mobile-margin-lg { margin: 1rem; }
+.mobile-margin-xl { margin: 1.25rem; }
+
+/* Grid helpers para móviles */
+.mobile-grid-1 { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 0.75rem; 
+}
+
+.mobile-grid-2 { 
+  display: grid; 
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 0.5rem; 
+}
+
+.mobile-flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Typography para móviles */
+.mobile-text-xs { font-size: 0.7rem; }
+.mobile-text-sm { font-size: 0.8rem; }
+.mobile-text-md { font-size: 0.9rem; }
+.mobile-text-lg { font-size: 1rem; }
+.mobile-text-xl { font-size: 1.1rem; }
+
+/* Visibility helpers */
+.hide-mobile {
+  display: block;
+}
+
+.show-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+  
+  .show-mobile {
+    display: block !important;
+  }
+  
+  .show-mobile-flex {
+    display: flex !important;
+  }
+  
+  .show-mobile-grid {
+    display: grid !important;
+  }
+}
+
+/* Responsive containers */
+.mobile-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .mobile-container {
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .mobile-container {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Safe area support para dispositivos con notch */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Mejoras para tablas en móviles */
+.mobile-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+}
+
+.mobile-table-scroll table {
+  min-width: 100%;
+}
+
+/* Loading states optimizados para móviles */
+.mobile-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.mobile-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #52691a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Mejoras de contraste para mejor legibilidad */
+@media (prefers-contrast: high) {
+  .metric-card,
+  .product-card,
+  .ventas-filters {
+    border: 2px solid #333;
+  }
+  
+  .btn-export,
+  .pagination-btn,
+  .quick-filter-btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reducir animaciones si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .ventas-page {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #ffffff;
+  }
+  
+  .metric-card,
+  .product-card,
+  .ventas-filters,
+  .chart-container {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #ffffff;
+  }
+}

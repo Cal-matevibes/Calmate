@@ -1,0 +1,91 @@
+.tienda-cards-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100vw;
+}
+
+.tienda-card {
+  flex: 1 1 0;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  min-height: 180px;
+  height: 500px;
+  margin: 0;
+  border-radius: 0;
+  display: block;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tienda-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+}
+
+.tienda-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(47, 49, 41, 0.85) 0%, rgba(82, 105, 26, 0.1) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  /* Centra verticalmente */
+  justify-content: center;
+  /* Centra horizontalmente */
+  height: 100%;
+}
+
+.tienda-card-overlay h3 {
+  font-family: 'rl-limo', sans-serif;
+  font-size: 4rem;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.tienda-title {
+  font-family: 'rl-limo', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .tienda-cards-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .tienda-card {
+    width: 100vw;
+    height: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tienda-cards-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tienda-card {
+    max-width: 98vw;
+    height: 160px;
+  }
+
+  .tienda-card-overlay h3 {
+    font-size: 1.2rem;
+  }
+}

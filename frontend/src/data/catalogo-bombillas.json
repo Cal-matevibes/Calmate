@@ -1,0 +1,33 @@
+{
+  "nombre": "bombillas",
+  "id": "Bombillas",
+  "descripcion": "Elige entre nuestras bombillas de alta calidad.",
+  "items": [
+    {
+      "id": "0",
+      "nombre": "Bombilla de acero inoxidable",
+      "descripcion": "Bombilla duradera y fácil de limpiar.",
+      "grabado": true,
+      "descripcionDelGrabado": "2 dijes",
+      "tamaño": "mediana",
+      "imagen": "/bombilla-2.jpeg",
+      "imagenHover": "/javi-mate.jpeg",
+      "stock": 10,
+      "precioVenta": 800,
+      "precioCosto": 600
+    },
+    {
+      "id": "1",
+      "nombre": "Bombilla de alpaca",
+      "imagen": "/bombilla.jpeg",
+      "descripcion": "Bombilla duradera y fácil de limpiar.",
+      "grabado": true,
+      "descripcionDelGrabado": "2 dijes",
+      "tamaño": "mediana",
+      "imagenHover": "/javi-mate.jpeg",
+      "stock": 10,
+      "precioVenta": 950,
+      "precioCosto": 600
+    }
+  ]
+}

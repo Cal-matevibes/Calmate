@@ -1,0 +1,138 @@
+/* ========== ADD ITEM MODAL ========== */
+
+.add-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.add-modal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.3s ease-out;
+  margin: 2rem 0;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.add-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 2px solid #f8f9fa;
+  background: linear-gradient(135deg, #52691a 0%, #6a8620 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.add-modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.add-modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.add-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.add-modal-content {
+  padding: 0;
+  max-height: calc(90vh - 80px);
+  overflow-y: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .add-modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .add-modal {
+    max-width: 100%;
+    margin: 1rem 0;
+    border-radius: 8px;
+  }
+  
+  .add-modal-header {
+    padding: 1rem 1.5rem;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .add-modal-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .add-modal-close {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-modal-overlay {
+    padding: 0.25rem;
+  }
+  
+  .add-modal {
+    margin: 0.5rem 0;
+    max-height: 95vh;
+  }
+  
+  .add-modal-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .add-modal-header h2 {
+    font-size: 1.125rem;
+  }
+}
+
+/* Close modal when clicking outside */
+.add-modal-overlay {
+  backdrop-filter: blur(2px);
+}

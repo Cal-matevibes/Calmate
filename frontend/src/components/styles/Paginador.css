@@ -1,0 +1,24 @@
+.paginador {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.paginador-button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.paginador-button.active {
+  background: #52691a;
+  color: #fff;
+}
+
+.paginador-button:hover {
+  background: #128c7e;
+  color: #fff;
+}

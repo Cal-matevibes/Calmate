@@ -1,0 +1,80 @@
+/* Contenedor principal */
+.section-divider-container {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 2rem 0;
+}
+
+/* Wrapper para las imágenes */
+.section-divider-wrapper {
+  display: flex;
+  gap: 0;
+  animation: scroll-infinite 40s linear infinite;
+  white-space: nowrap;
+}
+
+/* Estilo de las imágenes */
+.section-divider-image {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+  position: relative;
+  z-index: 9999;
+  margin-right: 2rem;
+}
+
+/* Animación para el efecto infinito */
+@keyframes scroll-infinite {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* Solo la mitad ya que tenemos duplicados */
+  }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .section-divider-container {
+    height: 100%;
+    margin: 1.5rem 0;
+  }
+
+  .section-divider-image {
+    height: 100%;
+  }
+
+  .section-divider-wrapper {
+    gap: 0;
+    animation-duration: 100s;
+  }
+
+  .section-divider-image {
+    margin-right: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-divider-container {
+    height: 100%;
+    margin: 1rem 0;
+  }
+
+  .section-divider-image {
+    height: 100%;
+  }
+
+  .section-divider-wrapper {
+    gap: 0;
+    animation-duration: 100s;
+  }
+
+  .section-divider-image {
+    margin-right: 1rem;
+  }
+}

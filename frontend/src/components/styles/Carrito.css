@@ -1,0 +1,134 @@
+/* Variables globales para los colores */
+:root {
+  --color-fondo: #e1d6bf;
+  --color-carrito-fondo: #f3ebdb;
+  --color-borde: #52691a;
+  --color-boton: #52691a;
+  --color-boton-hover: #18c45a;
+  --color-eliminar: #dc3545;
+  --color-eliminar-hover: #c82333;
+  --color-texto: #555;
+  --color-total: #333;
+}
+
+/* Contenedor principal para mantener el footer abajo */
+.body, .html {
+  height: 100%;
+  margin: 0;
+}
+
+.carritoPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.carritoContent {
+  flex: 1; /* Empuja el footer hacia abajo */
+  padding: 2rem;
+  background-color: var(--color-fondo);
+}
+
+/* Estilo para el carrito */
+.carrito {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--color-carrito-fondo);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--color-borde);
+  padding: 1.5rem;
+  margin-top: 80px;
+}
+
+.carrito h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--color-borde);
+}
+
+/* Lista de items en el carrito */
+.carrito ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.carrito li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carrito li img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 1rem;
+}
+
+.carrito li span {
+  flex: 1;
+  font-size: 1rem;
+  color: var(--color-texto);
+}
+
+.carrito li button {
+  background-color: var(--color-eliminar);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.carrito li button:hover {
+  background-color: var(--color-eliminar-hover);
+}
+
+/* Total y botones */
+.carrito h3 {
+  text-align: right;
+  margin-top: 1.5rem;
+  color: var(--color-total);
+}
+
+/* Contenedor para los botones */
+.carritoButtons {
+  display: flex;
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  gap: 1rem; /* Espaciado entre los botones */
+  margin-top: 1.5rem; /* Espaciado superior */
+}
+
+.carrito button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-boton);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.carrito button:hover {
+  background-color: var(--color-boton-hover);
+}
+
+/* Input para la cantidad */
+.carrito-quantity-input {
+  width: 60px;
+  padding: 0.3rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  margin: 0 1rem;
+}

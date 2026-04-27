@@ -1,0 +1,97 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+}
+
+body,
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-footer {
+  background: #b7c774;
+  color: #52691a;
+  padding: 1rem 0;
+  text-align: center;
+  margin-top: auto;
+  /* Esto lo empuja al fondo */
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition: none;
+}
+
+.main-footer.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Agrega esto a tu Footer.css */
+.footer-instagram {
+  color: #f05689;
+  margin-left: 12px;
+  font-size: 1.5rem;
+  vertical-align: middle;
+  transition: color 0.2s;
+}
+
+.footer-instagram:hover {
+  color: #e1306c;
+}
+
+.footer-whatsapp {
+  color: #128c7e;
+  font-size: 1.7rem;
+  vertical-align: middle;
+  transition: color 0.2s;
+}
+
+.footer-whatsapp:hover {
+  color: #25d366;
+}
+
+.special-m {
+  font-family: 'segoesc', sans-serif;
+  /* Tipografía específica para la "M" */
+}
+
+.special-rest {
+  font-family: 'tw-cen-mt-std-bold', sans-serif;
+  /* Tipografía para el resto de la palabra */
+}
+
+
+@media (max-width: 900px) {
+  .main-footer {
+    padding: 0.7rem 0;
+    font-size: 0.98rem;
+  }
+
+  .footer-instagram,
+  .footer-whatsapp {
+    font-size: 1.3rem;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-footer {
+    padding: 0.5rem 0;
+    font-size: 0.92rem;
+  }
+
+  .footer-instagram,
+  .footer-whatsapp {
+    font-size: 1.1rem;
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+}

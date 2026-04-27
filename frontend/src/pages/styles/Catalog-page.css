@@ -1,0 +1,945 @@
+/* ========== WRAPPER PRINCIPAL MEJORADO ========== */
+.catalog-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Mejoras de viewport */
+@supports (height: 100dvh) {
+  .catalog-page-wrapper {
+    min-height: 100dvh;
+  }
+}
+
+/* ========== HERO SECTION - MISMO ESTILO QUE CUIDADOS ========== */
+.catalog-hero-section {
+  text-align: center;
+  padding: 1rem;
+  background-color: #52691a;
+  color: white;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.catalog-hero-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: white;
+}
+
+.catalog-hero-subtitle {
+  font-size: 1.3rem;
+  opacity: 0.95;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.5;
+  color: white;
+}
+
+/* Botón de filtros en el hero */
+.mobile-filters-in-hero {
+  display: none;
+  margin-top: 1rem;
+}
+
+.mobile-filters-button-in-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.mobile-filters-button-in-hero:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.mobile-filters-button-in-hero svg {
+  opacity: 0.9;
+}
+
+.catalog-index-section .catalogo-indice {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 10px;
+}
+
+.catalog-index-section .catalogo-indice:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenedor principal del catálogo */
+.catalog-page {
+  padding: 0 1rem 2rem;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+}
+
+/* Sidebar del catálogo */
+.catalog-sidebar {
+  flex: 0 0 280px;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+  z-index: 10;
+}
+
+.catalog-page .catalogo-indice {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.catalog-page .catalogo-indice:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.catalog-page .catalogo-indice h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.catalog-page .catalogo-indice ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.catalog-page .catalogo-indice li {
+  margin-bottom: 0.5rem;
+}
+
+.catalog-page .catalogo-indice li button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 0.5rem 0;
+  transition: color 0.2s ease-in-out;
+}
+
+.catalog-page .catalogo-indice li button:hover {
+  color: #52691a; /* Color verde para el hover */
+}
+
+/* Contenido principal del catálogo */
+.catalog-content {
+  flex: 1;
+  min-width: 0; /* Previene overflow en flex items */
+}
+
+.catalog-page .catalogo {
+  width: 100%;
+}
+
+.catalog-page .catalogo-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Diseño de cuadrícula más flexible */
+  gap: 1rem;
+  justify-content: stretch;
+  width: 100%;
+}
+
+.catalog-page .catalogo-item {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.catalog-page .catalogo-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.catalog-page .catalogo-item-title {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0.5rem 0;
+}
+
+.catalog-page .catalogo-item-price {
+  font-size: 1rem;
+  color: #52691a;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* ========== RESPONSIVE DESIGN COMPLETO ========== */
+
+/* Extra Large Devices (1400px+) */
+@media (min-width: 1400px) {
+  
+  .catalog-page {
+    padding: 0 3rem 3rem;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: 3rem;
+  }
+  
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+}
+
+/* Large Devices (1200px - 1399px) */
+@media (max-width: 1399px) and (min-width: 1200px) {
+  .catalog-header {
+    padding: 2.5rem 1.2rem 0;
+  }  
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.8rem;
+  }
+}
+
+/* Medium Large Devices (992px - 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .catalog-header {
+    padding: 2rem 2rem 0;
+  }
+  
+  .catalog-page {
+    padding: 0 2rem 2rem;
+  }
+  
+  .catalog-index-section {
+    flex: 0 0 250px;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: 2.3rem;
+  }
+  
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.6rem;
+  }
+}
+
+/* Medium Devices - Tablets (768px - 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+  .catalog-header {
+    padding: 1.8rem 1.5rem 0;
+  }
+  
+  .catalog-header-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .catalog-title-section {
+    order: 1;
+    width: 100%;
+  }
+  
+  /* Ocultar CatalogoIndice en tablets también - usamos el selector */
+  .catalog-index-section {
+    display: none;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: 2.2rem;
+    text-align: center;
+  }
+  
+  .catalog-title-section .catalogo-description {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .catalog-page {
+    padding: 0 1.5rem 1.5rem;
+  }
+  
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.4rem;
+  }
+}
+
+/* Small Medium Devices (576px - 767px) */
+@media (max-width: 767px) and (min-width: 576px) {
+  .catalog-header {
+    padding: 1.5rem 0.5rem 0;
+  }
+  
+  .catalog-header-content {
+    gap: 1.25rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .catalog-title-section {
+    order: 1;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: 2rem;
+  }
+  
+  .catalog-title-section .catalogo-description {
+    font-size: 1rem;
+  }
+  
+  /* Ocultar CatalogoIndice - usar selector en controles */
+  .catalog-index-section {
+    display: none;
+  }
+  
+  .catalog-page {
+    padding: 0 0.5rem 1.25rem;
+  }
+  
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .catalog-page .catalogo-item img {
+    height: 180px;
+  }
+  
+}
+
+/* Small Devices - Large Phones (480px - 575px) - Estilo Adidas */
+@media (max-width: 575px) and (min-width: 480px) {
+  .catalog-header {
+    padding: 1rem 0.5rem 0.5rem;
+  }
+  
+  .catalog-header-content {
+    gap: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .catalog-title-section {
+    order: 1;
+    width: 100%;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 0.25rem;
+    text-align: left;
+  }
+  
+  .catalog-title-section .catalogo-description {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    color: #767677;
+    margin-bottom: 0.5rem;
+  }
+  
+  .catalog-index-section {
+    order: 2;
+    width: 100%;
+  }
+  
+  .catalog-index-section .catalogo-indice {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .catalog-page {
+    padding: 0;
+  }
+  
+}
+
+/* Extra Small Devices - Small Phones (320px - 479px) - Estilo Adidas */
+@media (max-width: 479px) {
+  .catalog-header {
+    padding: 0.75rem 0.25rem 0.5rem;
+  }
+  
+  .catalog-header-content {
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .catalog-title-section {
+    order: 1;
+    width: 100%;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: 1.4rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 0.2rem;
+  }
+  
+  .catalog-title-section .catalogo-description {
+    font-size: 0.8rem;
+    line-height: 1.25;
+    color: #767677;
+    margin-bottom: 0.4rem;
+  }
+  
+  .catalog-index-section {
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .catalog-index-section .catalogo-indice {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    margin-bottom: 0.4rem;
+  }
+  
+  .catalog-page {
+    padding: 0;
+  }
+  
+}
+
+/* Ultra Small Devices (menos de 320px) - Estilo Adidas Ultra Compacto */
+@media (max-width: 319px) {
+  .catalog-header {
+    padding: 0.5rem 0.125rem 0.4rem;
+  }
+  
+  .catalog-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .catalog-title-section {
+    order: 1;
+    width: 100%;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 0.15rem;
+  }
+  
+  .catalog-title-section .catalogo-description {
+    font-size: 0.75rem;
+    color: #767677;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+  
+  .catalog-index-section {
+    order: 2;
+    width: 100%;
+  }
+  
+  .catalog-index-section .catalogo-indice {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    margin-bottom: 0.3rem;
+  }
+  
+  .catalog-page {
+    padding: 0;
+  }
+  
+}
+
+/* ========== MEJORAS ESPECÍFICAS PARA MÓVIL ESTILO ADIDAS ========== */
+/* Mobile Extra Small - Full Width */
+@media (max-width: 480px) {
+  .catalog-header {
+    padding: 0.5rem 0.25rem 0.25rem;
+  }
+  
+  .catalog-page {
+    padding: 0 0.25rem 1rem;
+  }
+  
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 575px) {
+  /* Forzar 2 columnas en rango intermedio */
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+  }
+
+  /* Header con fondo blanco sólido */
+  .catalog-header {
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Título en negro puro */
+  .catalog-title-section .catalogo-title {
+    color: #000000;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Descripción en gris Adidas */
+  .catalog-title-section .catalogo-description {
+    color: #767677;
+    font-weight: 400;
+  }
+  
+  /* Ocultar CatalogoIndice en móviles - usamos el selector en los controles */
+  .catalog-index-section {
+    display: none;
+  }
+  
+  
+}
+
+/* Fallback para asegurar visibilidad */
+.catalog-page-wrapper .fade-section {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Mejoras de accesibilidad y rendimiento */
+@media (prefers-reduced-motion: reduce) {
+  .fade-section,
+  .catalog-page .catalogo-item,
+  .catalog-page .catalogo-indice,
+  .loading-spinner {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .fade-section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Focus states mejorados */
+.catalog-page .catalogo-indice li button:focus,
+.retry-button:focus {
+  outline: 2px solid #52691a;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.catalog-page .catalogo-item:focus-within {
+  outline: 2px solid #52691a;
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* Optimización de rendering */
+.catalog-page-wrapper {
+  contain: layout style paint;
+}
+
+.catalog-page .catalogo-items {
+  contain: layout style;
+}
+
+/* Hover effects mejorados */
+@media (hover: hover) {
+  .catalog-page .catalogo-indice li button:hover {
+    background: rgba(82, 105, 26, 0.05);
+    border-radius: 4px;
+    padding-left: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  
+  
+}
+
+/* ========== INTERACCIONES TÁCTILES MEJORADAS ========== */
+@media (hover: none) {
+  .catalog-page .catalogo-item:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  .catalog-index-section .catalogo-indice {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Mejoras para scroll en móviles */
+  .catalog-page .catalogo-items {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ========== MEJORAS DE ACCESIBILIDAD ========== */
+@media (prefers-color-scheme: dark) {  
+  .catalog-title-section .catalogo-title {
+    color: #ffffff;
+  }
+  
+  .catalog-title-section .catalogo-description {
+    color: #cccccc;
+  }
+}
+
+/* Mejoras para usuarios con motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  .catalog-page .catalogo-item:hover {
+    transform: none;
+  }
+  
+  .catalog-index-section .catalogo-indice:hover {
+    transform: none;
+  }
+}
+
+/* ========== ORIENTACIÓN DE DISPOSITIVO ========== */
+@media (orientation: landscape) and (max-height: 600px) {
+  .catalog-header {
+    padding-top: 4rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .catalog-title-section .catalogo-title {
+    font-size: clamp(1.5rem, 3vh, 2rem);
+  }
+  
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  .catalog-page .catalogo-items {
+    grid-template-columns: repeat(auto-fill, minmax(min(45%, 200px), 1fr));
+  }
+}
+
+/* Suavizado de fuentes */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estados de carga y error */
+.catalog-loading-container,
+.catalog-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #52691a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0;
+}
+
+.catalog-error-container h2 {
+  color: #d73527;
+  margin-bottom: 1rem;
+}
+
+.catalog-error-container p {
+  color: #666;
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+.retry-button {
+  background: #52691a;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.retry-button:hover {
+  background: #3d4e14;
+}
+
+/* Breadcrumb section */
+.breadcrumb-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem 0;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-section {
+    padding: 1rem 1rem 0;
+  }
+}
+
+/* ========== SISTEMA DE ANIMACIONES MEJORADO ========== */
+.fade-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition: 
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.fade-section:not(.animate-in):not(.no-motion) {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.fade-section.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-section.no-motion {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* ========== MEJORAS FINALES DE RESPONSIVE ========== */
+
+/* Scroll suave en toda la página */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Mejoras para pantallas muy anchas */
+@media (min-width: 1600px) {
+  .catalog-page-wrapper {
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Optimización para fold phones */
+@media (max-width: 280px) {
+  .catalog-title-section .catalogo-title {
+    font-size: 1.2rem;
+    line-height: 1.1;
+  }
+  
+  .catalog-index-section .catalogo-indice {
+    padding: 0.5rem;
+  }
+  
+  .catalog-page .catalogo-items {
+    gap: 0.5rem;
+  }
+}
+
+/* Mejoras para high-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .catalog-page .catalogo-item img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Print styles */
+@media print {
+  .catalog-page-wrapper {
+    background: white !important;
+  }
+  
+  .catalog-page .catalogo-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .catalog-index-section {
+    display: none;
+  }
+}
+
+/* ========== OPTIMIZACIONES ADICIONALES ========== */
+
+/* Container queries para mejor control */
+.catalog-page-wrapper {
+  container-type: inline-size;
+}
+
+@container (max-width: 768px) {
+  .catalog-header-content {
+    flex-direction: column;
+  }
+}
+
+/* Mejoras de performance */
+.catalog-page .catalogo-items {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px;
+}
+
+/* Aspect ratio para imágenes consistentes */
+.catalog-page .catalogo-item img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Mejoras de usabilidad táctil */
+@media (pointer: coarse) {
+  .catalog-page .catalogo-indice li button {
+    min-height: 44px;
+    padding: 0.75rem 0;
+  }
+  
+  .catalog-page .catalogo-item {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Optimización de fuentes responsive */
+@media (max-width: 768px) {
+  .catalog-title-section .catalogo-title {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+  }
+  
+  .catalog-title-section .catalogo-description {
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+  }
+}
+
+/* Grid adaptativo mejorado */
+.catalog-page .catalogo-items {
+  grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+}
+
+@media (max-width: 480px) {
+  .catalog-page .catalogo-items {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== MOBILE FILTERS BUTTON IN TITLE ========== */
+.title-with-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.title-content {
+  flex: 1;
+}
+
+
+
+/* ========== RESPONSIVE - MISMO PATRÓN QUE CUIDADOS ========== */
+@media (max-width: 768px) {
+  .mobile-filters-in-hero {
+    display: block;
+  }
+  
+  .catalog-hero-section {
+    padding: 2rem 1rem;
+  }
+  
+  .catalog-hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .catalog-hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .mobile-filters-button-in-hero {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-hero-title {
+    font-size: 2rem;
+  }
+  
+  .catalog-hero-subtitle {
+    font-size: 1rem;
+  }
+}

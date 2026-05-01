@@ -187,19 +187,6 @@ exports.createProducto = async (req, res) => {
       });
     }
 
-    // Validar que no exista un producto con el mismo nombre
-    const productoExistente = await Producto.findOne({ 
-      nombre: req.body.nombre,
-      activo: true 
-    });
-    
-    if (productoExistente) {
-      return res.status(400).json({
-        success: false,
-        message: 'Ya existe un producto con ese nombre'
-      });
-    }
-
     // Preparar datos del producto
     const productoData = { ...req.body };
 
@@ -342,22 +329,6 @@ exports.updateProducto = async (req, res) => {
         success: false,
         message: 'Producto no encontrado'
       });
-    }
-
-    // Validar nombre único (excluyendo el producto actual)
-    if (req.body.nombre && req.body.nombre !== producto.nombre) {
-      const productoExistente = await Producto.findOne({ 
-        nombre: req.body.nombre,
-        _id: { $ne: req.params.id },
-        activo: true 
-      });
-      
-      if (productoExistente) {
-        return res.status(400).json({
-          success: false,
-          message: 'Ya existe un producto con ese nombre'
-        });
-      }
     }
 
     producto = await Producto.findByIdAndUpdate(

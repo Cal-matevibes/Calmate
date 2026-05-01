@@ -62,17 +62,17 @@ function ItemDetail() {
       const m = item.caracteristicasMates || {};
       return (
         <div className="item-detail-specs">
-          {m.forma      && <div className="spec-row"><span className="spec-label">Forma</span><span className="spec-value">{m.forma}</span></div>}
-          {m.tipo       && <div className="spec-row"><span className="spec-label">Tipo</span><span className="spec-value">{m.tipo}</span></div>}
+          {m.forma         && <div className="spec-row"><span className="spec-label">Forma</span><span className="spec-value">{m.forma}</span></div>}
+          {m.tipo          && <div className="spec-row"><span className="spec-label">Tipo</span><span className="spec-value">{m.tipo}</span></div>}
           {m.anchoSuperior && <div className="spec-row"><span className="spec-label">Ancho superior</span><span className="spec-value">{m.anchoSuperior}</span></div>}
           {m.anchoInferior && <div className="spec-row"><span className="spec-label">Ancho inferior</span><span className="spec-value">{m.anchoInferior}</span></div>}
-          {m.virola     && <div className="spec-row"><span className="spec-label">Virola</span><span className="spec-value">{m.virola}{m.tiposDeVirola ? ` — ${m.tiposDeVirola}` : ''}</span></div>}
-          {m.guarda     && <div className="spec-row"><span className="spec-label">Guarda</span><span className="spec-value">{m.guarda}{m.tiposDeGuarda ? ` — ${m.tiposDeGuarda}` : ''}</span></div>}
-          {m.revestimiento && <div className="spec-row"><span className="spec-label">Revestimiento</span><span className="spec-value">{m.revestimiento}{m.tiposDeRevestimientos ? ` — ${m.tiposDeRevestimientos}` : ''}</span></div>}
-          {m.curados    && <div className="spec-row"><span className="spec-label">Curado</span><span className="spec-value">{m.curados}{m.tiposDeCurados ? ` — ${m.tiposDeCurados}` : ''}</span></div>}
-          {m.terminacion && <div className="spec-row"><span className="spec-label">Terminación</span><span className="spec-value">{m.terminacion}</span></div>}
-          {m.grabado    && <div className="spec-row"><span className="spec-label">Grabado</span><span className="spec-value">{m.grabado}{m.descripcionDelGrabado ? ` — ${m.descripcionDelGrabado}` : ''}</span></div>}
-          {m.color      && <div className="spec-row"><span className="spec-label">Color</span><span className="spec-value">{m.color}</span></div>}
+          {m.virola === 'Si'       && <div className="spec-row"><span className="spec-label">Virola</span><span className="spec-value">Sí{m.tiposDeVirola ? ` — ${m.tiposDeVirola}` : ''}</span></div>}
+          {m.guarda === 'Si'       && <div className="spec-row"><span className="spec-label">Guarda</span><span className="spec-value">Sí{m.tiposDeGuarda ? ` — ${m.tiposDeGuarda}` : ''}</span></div>}
+          {m.revestimiento === 'Si' && <div className="spec-row"><span className="spec-label">Revestimiento</span><span className="spec-value">Sí{m.tiposDeRevestimientos ? ` — ${m.tiposDeRevestimientos}` : ''}</span></div>}
+          {m.curados === 'Si'      && <div className="spec-row"><span className="spec-label">Curado</span><span className="spec-value">Sí{m.tiposDeCurados ? ` — ${m.tiposDeCurados}` : ''}</span></div>}
+          {m.terminacion   && <div className="spec-row"><span className="spec-label">Terminación</span><span className="spec-value">{m.terminacion}</span></div>}
+          {m.grabado === 'Si'      && <div className="spec-row"><span className="spec-label">Grabado</span><span className="spec-value">Sí{m.descripcionDelGrabado ? ` — ${m.descripcionDelGrabado}` : ''}</span></div>}
+          {m.color         && <div className="spec-row"><span className="spec-label">Color</span><span className="spec-value">{m.color}</span></div>}
         </div>
       );
     }

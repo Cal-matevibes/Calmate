@@ -1,15 +1,15 @@
 import React from 'react';
 import '../styles/SimpleItemForm.css';
 
-function SimpleItemForm({ 
-  formData, 
+function SimpleItemForm({
+  formData,
   attributeData = {},
-  onInputChange, 
-  onImageUpload, 
-  onImageRemove, 
-  onSubmit, 
-  onPreview, 
-  catalogos, 
+  onInputChange,
+  onImageUpload,
+  onImageRemove,
+  onSubmit,
+  onPreview,
+  catalogos,
   onCatalogChange,
   availableAttributes = {},
   onAttributeChange
@@ -33,12 +33,12 @@ function SimpleItemForm({
   };
 
   // Debug log para verificar la categoría seleccionada
-  
+
   return (
     <form onSubmit={onSubmit} className="simple-item-form">
       <div className="form-section">
         <h3>Información Básica</h3>
-        
+
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="nombre">Nombre del Producto *</label>
@@ -52,7 +52,7 @@ function SimpleItemForm({
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="catalogo">Categoría *</label>
             <select
@@ -91,7 +91,7 @@ function SimpleItemForm({
 
       <div className="form-section">
         <h3>Precios y Stock</h3>
-        
+
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="precioVenta">Precio de Venta *</label>
@@ -107,7 +107,7 @@ function SimpleItemForm({
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label htmlFor="stock">Stock</label>
             <input
@@ -128,13 +128,13 @@ function SimpleItemForm({
         <div className="form-section">
           <h3>Productos del Combo</h3>
           <div className="combo-selector">
-            
+
             {/* Sistema dinámico de productos para combo */}
             <div className="combo-products-container">
               <p className="combo-instructions">
                 Selecciona productos de diferentes categorías para crear tu combo:
               </p>
-              
+
               {/* Renderizar selectores para todas las categorías disponibles (excepto la actual) */}
               {catalogos && catalogos
                 .filter(categoria => categoria.nombre?.toLowerCase() !== 'combos' && categoria.items && categoria.items.length > 0)
@@ -142,7 +142,7 @@ function SimpleItemForm({
                   const categoryKey = `combo_${categoria.nombre}`;
                   const selectedProductId = attributeData[categoryKey];
                   const selectedProduct = selectedProductId ? categoria.items.find(item => item.id === selectedProductId) : null;
-                  
+
                   return (
                     <div key={categoria.id} className="form-group combo-category-selector">
                       <label htmlFor={categoryKey} className="combo-category-label">
@@ -151,7 +151,7 @@ function SimpleItemForm({
                           <span className="selected-indicator"> ✓ {selectedProduct.nombre}</span>
                         )}
                       </label>
-                      <select 
+                      <select
                         id={categoryKey}
                         name={categoryKey}
                         value={selectedProductId || ''}
@@ -169,7 +169,7 @@ function SimpleItemForm({
                   );
                 })
               }
-              
+
               {/* Mensaje si no hay categorías disponibles */}
               {(!catalogos || catalogos.filter(cat => cat.nombre?.toLowerCase() !== 'combos' && cat.items?.length > 0).length === 0) && (
                 <div className="no-categories-message">
@@ -178,7 +178,7 @@ function SimpleItemForm({
                 </div>
               )}
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="comboQuantity">Cantidad de cada producto:</label>
               <input
@@ -191,7 +191,7 @@ function SimpleItemForm({
                 placeholder="1"
               />
             </div>
-            
+
             {/* Selector de cantidad para el combo */}
             <div className="form-group">
               <label htmlFor="comboQuantity">Cantidad de cada producto en el combo:</label>
@@ -216,7 +216,7 @@ function SimpleItemForm({
               // const totalProducts = catalogos ? catalogos
               //   .filter(categoria => categoria.nombre?.toLowerCase() !== 'combos' && categoria.items?.length > 0)
               //   .length : 0;
-              
+
               catalogos && catalogos.forEach(categoria => {
                 if (categoria.nombre?.toLowerCase() !== 'combos') {
                   const categoryKey = `combo_${categoria.nombre}`;
@@ -233,7 +233,7 @@ function SimpleItemForm({
                   }
                 }
               });
-              
+
               // Mostrar información si hay productos seleccionados
               if (selectedProducts.length === 0) {
                 return (
@@ -249,7 +249,7 @@ function SimpleItemForm({
               return (
                 <div className="combo-summary">
                   <h4>Resumen del Combo ({selectedProducts.length} producto{selectedProducts.length !== 1 ? 's' : ''} seleccionado{selectedProducts.length !== 1 ? 's' : ''}):</h4>
-                  
+
                   <div className="selected-products-list">
                     {selectedProducts.map((product, index) => (
                       <div key={index} className="selected-product-item">
@@ -293,7 +293,7 @@ function SimpleItemForm({
                           })()}</strong></span>
                         </div>
                       </div>
-                      
+
                       <div className="combo-savings">
                         <small>💰 ¡Ahorro de ${(() => {
                           const quantity = attributeData.comboQuantity || 1;
@@ -324,12 +324,12 @@ function SimpleItemForm({
       {(formData.catalogo?.toLowerCase() === 'mate' || formData.catalogo?.toLowerCase() === 'mates') && (
         <div className="form-section mate-characteristics">
           <h3>Características de los Mates</h3>
-          
+
           {/* Forma */}
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="forma">Forma:</label>
-              <select 
+              <select
                 id="forma"
                 name="forma"
                 value={attributeData.forma || ''}
@@ -358,7 +358,7 @@ function SimpleItemForm({
             {/* Tipo */}
             <div className="form-group">
               <label htmlFor="tipo">Tipo:</label>
-              <select 
+              <select
                 id="tipo"
                 name="tipo"
                 value={attributeData.tipo || ''}
@@ -387,32 +387,34 @@ function SimpleItemForm({
           {/* Ancho superior e inferior */}
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="anchoSuperior">Ancho Superior:</label>
-              <select 
-                id="anchoSuperior"
-                name="anchoSuperior"
-                value={attributeData.anchoSuperior || ''}
-                onChange={(e) => onAttributeChange && onAttributeChange('anchoSuperior', e.target.value)}
+              <label htmlFor="medidaExterior">Medida exterior:</label>
+              <select
+                id="medidaExterior"
+                name="medidaExterior"
+                value={attributeData.medidaExterior || ''}
+                onChange={(e) => onAttributeChange && onAttributeChange('medidaExterior', e.target.value)}
               >
                 <option value="">Seleccionar</option>
-                <option value="Ancho">Ancho</option>
-                <option value="Medio">Medio</option>
-                <option value="Angosto">Angosto</option>
+                <option value="Ancho">Small</option>
+                <option value="Medio">Medium</option>
+                <option value="Angosto">Large</option>
+                <option value="Angosto">X-Large</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="anchoInferior">Ancho Inferior:</label>
-              <select 
-                id="anchoInferior"
-                name="anchoInferior"
-                value={attributeData.anchoInferior || ''}
-                onChange={(e) => onAttributeChange && onAttributeChange('anchoInferior', e.target.value)}
+              <label htmlFor="medidaInterior">Medida interior:</label>
+              <select
+                id="medidaInterior"
+                name="medidaInterior"
+                value={attributeData.medidaInterior || ''}
+                onChange={(e) => onAttributeChange && onAttributeChange('medidaInterior', e.target.value)}
               >
                 <option value="">Seleccionar</option>
-                <option value="Ancho">Ancho</option>
-                <option value="Medio">Medio</option>
-                <option value="Angosto">Angosto</option>
+                <option value="Ancho">Small</option>
+                <option value="Medio">Medium</option>
+                <option value="Angosto">Large</option>
+                <option value="Angosto">X-Large</option>
               </select>
             </div>
           </div>
@@ -442,7 +444,7 @@ function SimpleItemForm({
             {(attributeData.virola === 'Si' || attributeData.virola === true) && (
               <div className="form-group">
                 <label htmlFor="tiposDeVirola">Tipo de Virola:</label>
-                <select 
+                <select
                   id="tiposDeVirola"
                   name="tiposDeVirola"
                   value={attributeData.tiposDeVirola || ''}
@@ -495,7 +497,7 @@ function SimpleItemForm({
             {(attributeData.guarda === 'Si' || attributeData.guarda === true) && (
               <div className="form-group">
                 <label htmlFor="tiposDeGuarda">Tipo de Guarda:</label>
-                <select 
+                <select
                   id="tiposDeGuarda"
                   name="tiposDeGuarda"
                   value={attributeData.tiposDeGuarda || ''}
@@ -548,7 +550,7 @@ function SimpleItemForm({
             {(attributeData.revestimiento === 'Si' || attributeData.revestimiento === true) && (
               <div className="form-group">
                 <label htmlFor="tiposDeRevestimientos">Tipo de Revestimiento:</label>
-                <select 
+                <select
                   id="tiposDeRevestimientos"
                   name="tiposDeRevestimientos"
                   value={attributeData.tiposDeRevestimientos || ''}
@@ -600,7 +602,7 @@ function SimpleItemForm({
             {(attributeData.curados === 'Si' || attributeData.curados === true) && (
               <div className="form-group">
                 <label htmlFor="tiposDeCurados">Tipo de Curado:</label>
-                <select 
+                <select
                   id="tiposDeCurados"
                   name="tiposDeCurados"
                   value={attributeData.tiposDeCurados || ''}
@@ -636,7 +638,7 @@ function SimpleItemForm({
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="terminacion">Terminación:</label>
-              <select 
+              <select
                 id="terminacion"
                 name="terminacion"
                 value={attributeData.terminacion || ''}
@@ -712,15 +714,79 @@ function SimpleItemForm({
         </div>
       )}
 
+      {/* Características específicas para BOMBILLAS */}
+      {(formData.catalogo?.toLowerCase() === 'bombilla' || formData.catalogo?.toLowerCase() === 'bombillas') && (
+        <div className="form-section mate-characteristics">
+          <h3>Características de la Bombilla</h3>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="forma">Forma:</label>
+              <input
+                type="text"
+                id="forma"
+                name="forma"
+                value={attributeData.forma || ''}
+                onChange={(e) => onAttributeChange && onAttributeChange('forma', e.target.value)}
+                placeholder="Ej: Recta, Curva, Pico de loro..."
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="tipoMaterial">Material:</label>
+              <input
+                type="text"
+                id="tipoMaterial"
+                name="tipoMaterial"
+                value={attributeData.tipoMaterial || ''}
+                onChange={(e) => onAttributeChange && onAttributeChange('tipoMaterial', e.target.value)}
+                placeholder="Ej: Acero inoxidable, Alpaca..."
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="tamaño">Tamaño:</label>
+              <select
+                id="tamaño"
+                name="tamaño"
+                value={attributeData.tamaño || ''}
+                onChange={(e) => onAttributeChange && onAttributeChange('tamaño', e.target.value)}
+              >
+                <option value="">Seleccionar tamaño</option>
+                <option value="Larga">Larga</option>
+                <option value="Mediana">Mediana</option>
+                <option value="Pequeña">Pequeña</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="centimetros">Largo (cm):</label>
+              <input
+                type="number"
+                id="centimetros"
+                name="centimetros"
+                value={attributeData.centimetros || ''}
+                onChange={(e) => onAttributeChange && onAttributeChange('centimetros', parseFloat(e.target.value) || '')}
+                placeholder="Ej: 20"
+                min="1"
+                max="50"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Atributos específicos para otras categorías */}
-      {formData.catalogo && formData.catalogo?.toLowerCase() !== 'combos' && formData.catalogo?.toLowerCase() !== 'mate' && formData.catalogo?.toLowerCase() !== 'mates' && availableAttributes && Object.keys(availableAttributes).length > 0 && (
+      {formData.catalogo && formData.catalogo?.toLowerCase() !== 'combos' && formData.catalogo?.toLowerCase() !== 'mate' && formData.catalogo?.toLowerCase() !== 'mates' && formData.catalogo?.toLowerCase() !== 'bombilla' && formData.catalogo?.toLowerCase() !== 'bombillas' && availableAttributes && Object.keys(availableAttributes).length > 0 && (
         <div className="form-section">
           <h3>Atributos Específicos</h3>
           <div className="attributes-grid">
             {Object.entries(availableAttributes).map(([attrName, values]) => (
               <div key={attrName} className="form-group">
                 <label htmlFor={attrName}>{getAttributeLabel(attrName)}:</label>
-                <select 
+                <select
                   id={attrName}
                   name={attrName}
                   value={attributeData[attrName] || ''}
@@ -741,7 +807,7 @@ function SimpleItemForm({
 
       <div className="form-section">
         <h3>Imágenes</h3>
-        
+
         <div className="form-group">
           <label htmlFor="imagenes">Subir Imágenes</label>
           <input

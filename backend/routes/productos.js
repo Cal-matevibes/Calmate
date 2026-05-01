@@ -20,7 +20,7 @@ const validate = require('../middleware/validate');
 const productoBodyRules = [
   body('nombre').trim().notEmpty().withMessage('El nombre es obligatorio')
     .isLength({ max: 200 }).withMessage('Nombre demasiado largo'),
-  body('precio').isFloat({ min: 0 }).withMessage('El precio debe ser un número positivo'),
+  body('precioVenta').isFloat({ min: 0 }).withMessage('El precio debe ser un número positivo'),
   body('descripcion').optional().trim()
     .isLength({ max: 2000 }).withMessage('La descripción no puede exceder 2000 caracteres'),
   body('stock').optional().isInt({ min: 0 }).withMessage('El stock debe ser un entero no negativo'),
@@ -32,11 +32,11 @@ const productoBodyRules = [
 router.get('/search', searchProductos);
 router.get('/destacados', getProductosDestacados);
 router.get('/categoria/:categoria', getProductosByCategoria);
+router.get('/resumen', protect, admin, getInventarioResumen);
 router.get('/', getProductos);
 router.get('/:id', getProducto);
 
 // Rutas protegidas (solo admin)
-router.get('/resumen', protect, admin, getInventarioResumen);
 router.post('/', protect, admin, productoBodyRules, validate, createProducto);
 router.put('/:id', protect, admin, productoBodyRules, validate, updateProducto);
 router.put('/:id/stock', protect, admin, [

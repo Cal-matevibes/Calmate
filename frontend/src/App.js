@@ -33,17 +33,14 @@ const AppWithProviders = () => {
 
   const handleAddItem = (newItem, catalogoId) => {
     // Lógica para agregar un nuevo item al catálogo correspondiente
-    console.log('Agregando item:', newItem, 'al catálogo:', catalogoId);
   };
 
   const handleUpdateItem = (itemId, updatedItem, catalogoId) => {
     // Lógica para actualizar un item existente en el catálogo correspondiente
-    console.log('Actualizando item:', itemId, 'con datos:', updatedItem, 'en catálogo:', catalogoId);
   };
 
   const handleDeleteItem = (itemId, catalogoId) => {
     // Lógica para eliminar un item del catálogo correspondiente
-    console.log('Eliminando item:', itemId, 'del catálogo:', catalogoId);
   };
 
   return (

@@ -21,14 +21,6 @@ function PaymentFailure() {
                 const payment_type = searchParams.get('payment_type');
                 const merchant_order_id = searchParams.get('merchant_order_id');
 
-                console.log('❌ Procesando pago fallido:', {
-                    status,
-                    payment_id,
-                    external_reference,
-                    payment_type,
-                    merchant_order_id,
-                    allParams: Object.fromEntries(searchParams.entries())
-                });
 
                 // Procesar resultado localmente
                 const resultado = procesarResultadoPago({
@@ -46,16 +38,13 @@ function PaymentFailure() {
                     try {
                         const backendVerification = await verificarEstadoPago(external_reference, payment_id);
                         if (backendVerification) {
-                            console.log('✅ Verificación backend exitosa:', backendVerification);
                         }
                     } catch (error) {
-                        console.warn('⚠️ No se pudo verificar en backend:', error);
                         // No es crítico, continuamos con el resultado local
                     }
                 }
 
             } catch (error) {
-                console.error('❌ Error procesando fallo:', error);
                 setPaymentResult({
                     estado: 'error',
                     mensaje: 'No se pudo procesar el resultado del pago.',

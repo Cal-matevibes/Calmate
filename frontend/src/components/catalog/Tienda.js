@@ -25,7 +25,6 @@ function Tienda() {
         setError(response.message || 'Error al cargar las categorías');
       }
     } catch (err) {
-      console.error('Error al cargar categorías:', err);
       setError(err.message || 'Error al cargar las categorías');
     } finally {
       setLoading(false);

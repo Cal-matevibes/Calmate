@@ -95,27 +95,17 @@ function Catalog() {
       try {
         let response, catalogoData;
         
-        console.log('🔍 [Catalog-page] Cargando catálogo, catalogoId:', catalogoId);
         
         if (catalogoId) {
           // Si hay catalogoId, cargar productos de esa categoría específica usando el slug
-          console.log('📂 [Catalog-page] Cargando categoría con slug:', catalogoId);
-          console.log('🌐 [Catalog-page] URL del servicio:', `${process.env.REACT_APP_BACKEND_URL}/productos/categoria/${catalogoId}`);
           response = await productoService.obtenerProductosPorCategoria(catalogoId);
-          console.log('📦 [Catalog-page] Respuesta del backend:', response);
           
           if (response.success) {
             // Usar el nombre de la categoría desde la respuesta si está disponible
             const categoryName = response.categoria?.nombre || catalogoId.replace(/-/g, ' ');
             
-            console.log('🔍 [Catalog-page] Analizando respuesta del backend:');
-            console.log('  - response.productos:', response.productos);
-            console.log('  - response.data:', response.data);
-            console.log('  - response.categoria:', response.categoria);
             
             const productos = response.productos || response.data || [];
-            console.log('  - productos finales:', productos);
-            console.log('  - cantidad de productos:', productos.length);
             
             catalogoData = {
               nombre: categoryName, // Para el CategorySelector
@@ -123,19 +113,13 @@ function Catalog() {
               descripcion: response.categoria?.descripcion || `Catálogo de ${categoryName}`,
               items: productos
             };
-            console.log('✅ [Catalog-page] Productos de categoría cargados:', catalogoData.items.length);
-            console.log('📋 [Catalog-page] Estructura catalogoData:', catalogoData);
           } else {
-            console.error('❌ [Catalog-page] Backend retornó success: false');
-            console.error('❌ [Catalog-page] Mensaje de error:', response.message || 'Sin mensaje');
             setError(`No se pudo cargar el catálogo "${catalogoId}": ${response.message || 'Error desconocido'}`);
             return;
           }
         } else {
           // Si no hay catalogoId, cargar TODOS los productos
-          console.log('📦 [Catalog-page] Cargando TODOS los productos');
           response = await productoService.obtenerProductos();
-          console.log('📦 [Catalog-page] Respuesta del backend (todos):', response);
           
           if (response.success) {
             catalogoData = {
@@ -144,10 +128,7 @@ function Catalog() {
               descripcion: 'Catálogo completo de productos disponibles',
               items: response.productos || response.data || []
             };
-            console.log('✅ [Catalog-page] Todos los productos cargados:', catalogoData.items.length);
-            console.log('📋 [Catalog-page] Estructura catalogoData (todos):', catalogoData);
           } else {
-            console.error('❌ [Catalog-page] Error cargando todos los productos:', response);
             setError(`No se pudo cargar el catálogo completo: ${response.message || 'Error desconocido'}`);
             return;
           }
@@ -155,8 +136,6 @@ function Catalog() {
         
         setCatalogo(catalogoData);
       } catch (err) {
-        console.error('❌ [Catalog-page] Error de red o servicio:', err);
-        console.error('❌ [Catalog-page] Intentando usar datos de fallback...');
         
         try {
           // Usar datos estáticos como fallback
@@ -182,7 +161,6 @@ function Catalog() {
                 descripcion: fallbackData.descripcion,
                 items: fallbackData.items
               };
-              console.log('✅ [Catalog-page] Usando datos de fallback para:', catalogoId);
             } else {
               setError(`Categoría "${catalogoId}" no encontrada`);
               return;
@@ -201,13 +179,11 @@ function Catalog() {
               descripcion: 'Catálogo completo de productos disponibles',
               items: allItems
             };
-            console.log('✅ [Catalog-page] Usando datos de fallback para todos los productos');
           }
           
           setCatalogo(catalogoData);
           
         } catch (fallbackError) {
-          console.error('❌ [Catalog-page] Error con datos de fallback:', fallbackError);
           setError('No se pudo cargar el catálogo. Por favor, intenta más tarde.');
         }
       } finally {

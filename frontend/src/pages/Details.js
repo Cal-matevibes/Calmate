@@ -48,7 +48,6 @@ function Details() {
       setData(result.success ? result.data : result);
 
     } catch (err) {
-      console.error('Error fetching details:', err);
       setError(err.message || 'Error al cargar los detalles');
     } finally {
       setLoading(false);

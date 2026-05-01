@@ -16,7 +16,6 @@ const cuidadoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en obtenerCuidados:', error);
             throw error;
         }
     },
@@ -33,7 +32,6 @@ const cuidadoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en obtenerCuidado:', error);
             throw error;
         }
     },
@@ -58,7 +56,6 @@ const cuidadoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en crearCuidado:', error);
             throw error;
         }
     },
@@ -83,7 +80,6 @@ const cuidadoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en actualizarCuidado:', error);
             throw error;
         }
     },
@@ -106,7 +102,6 @@ const cuidadoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en eliminarCuidado:', error);
             throw error;
         }
     }

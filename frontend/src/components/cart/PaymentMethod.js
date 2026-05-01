@@ -12,13 +12,11 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
   // Preparar datos para MercadoPago
   const prepareOrderData = () => {
     if (!carrito || !carrito.length) {
-      console.warn('⚠️ Carrito vacío o no disponible');
       return null;
     }
 
     // Validar que tengamos información del cliente
     if (!customerInfo) {
-      console.warn('⚠️ Información del cliente no disponible');
       return null;
     }
 
@@ -54,8 +52,6 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
       }
     };
     
-    console.log('📋 Datos del cliente:', customerInfo);
-    console.log('📦 Datos de la orden preparados:', orderData);
     
     return orderData;
   };

@@ -54,7 +54,6 @@ function SimpleCategoryManager({
           alt: newCategoryName.trim()
         } : null
       };
-      console.log('➕ Creando nueva categoría:', categoryData);
       onAddCatalogo(categoryData);
       setNewCategoryName('');
       setNewCategoryImage('');
@@ -63,7 +62,6 @@ function SimpleCategoryManager({
   };
 
   const handleEditCategory = (category) => {
-    console.log('🔧 Editando categoría:', category.nombre, 'Imagen actual:', category.imagen);
     setEditingCategory(category.id);
     setEditCategoryName(category.nombre);
     setEditCategoryImage(category.imagen?.url || '');
@@ -81,8 +79,6 @@ function SimpleCategoryManager({
           alt: editCategoryName.trim()
         } : currentCategory?.imagen || null
       };
-      console.log('💾 Guardando categoría editada:', updatedData);
-      console.log('🔍 Categoría actual encontrada:', currentCategory);
       onEditCatalogo(editingCategory, updatedData);
       setEditingCategory(null);
       setEditCategoryName('');

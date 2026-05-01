@@ -115,7 +115,6 @@ export const AuthProvider = ({ children, onAuthSuccess }) => {
           dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
         }
       } catch (error) {
-        console.error('Error al cargar usuario:', error);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false });
@@ -158,7 +157,6 @@ export const AuthProvider = ({ children, onAuthSuccess }) => {
           try {
             await onAuthSuccess();
           } catch (err) {
-            console.error('Error en callback de autenticación:', err);
           }
         }
         
@@ -171,7 +169,6 @@ export const AuthProvider = ({ children, onAuthSuccess }) => {
         return { success: false, error: data.message };
       }
     } catch (error) {
-      console.error('Error de login:', error);
       let errorMessage = 'Error de conexión. Verifica tu internet e intenta de nuevo.';
       
       // Si es un error de red específico
@@ -227,7 +224,6 @@ export const AuthProvider = ({ children, onAuthSuccess }) => {
           try {
             await onAuthSuccess();
           } catch (err) {
-            console.error('Error en callback de autenticación:', err);
           }
         }
         

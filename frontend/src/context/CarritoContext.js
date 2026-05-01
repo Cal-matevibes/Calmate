@@ -75,7 +75,6 @@ export const CarritoProvider = ({ children }) => {
                 return { items: [], esRegalo: false, destinatarioRegalo: { nombre: '', apellido: '' } };
             }
         } catch (error) {
-            console.error('Error cargando carrito local:', error);
             setCarrito([]);
             setTotal(0);
             setCantidadTotal(0);
@@ -96,7 +95,6 @@ export const CarritoProvider = ({ children }) => {
             };
             localStorage.setItem('carrito_invitado', JSON.stringify(carritoData));
         } catch (error) {
-            console.error('Error guardando carrito local:', error);
         }
     };
 
@@ -140,7 +138,6 @@ export const CarritoProvider = ({ children }) => {
                 cargarCarritoLocal();
             }
         } catch (err) {
-            console.error('Error cargando carrito:', err);
             setError('Error al cargar el carrito');
             // Fallback a carrito local si falla la API
             cargarCarritoLocal();
@@ -158,7 +155,6 @@ export const CarritoProvider = ({ children }) => {
             const carritoData = response.data;
             const items = carritoData.items || [];
             
-            console.log('🛒 Items originales:', items);
             
             // Aplanar la estructura para que sea más fácil de usar en el frontend
             const itemsAplanados = items.map(item => {
@@ -189,17 +185,9 @@ export const CarritoProvider = ({ children }) => {
                 }
             });
             
-            console.log('🛒 Items aplanados:', itemsAplanados);
             
             // Debug: Verificar estructura de imágenes y precios
             itemsAplanados.forEach(item => {
-                console.log('📦 Item procesado:', {
-                    nombre: item.nombre,
-                    precioVenta: item.precioVenta,
-                    precioUnitario: item.precioUnitario,
-                    imagen: item.imagen,
-                    imagenes: item.imagenes
-                });
             });
             
             setCarrito(itemsAplanados);
@@ -210,7 +198,6 @@ export const CarritoProvider = ({ children }) => {
             setEsRegalo(carritoData.esRegalo || false);
             setDestinatarioRegalo(carritoData.destinatarioRegalo || { nombre: '', apellido: '' });
             
-            console.log('🛒 Carrito cargado:', carritoData);
         }
     };
 
@@ -224,7 +211,6 @@ export const CarritoProvider = ({ children }) => {
             const productoId = producto._id || producto.id;
             const cantidad = producto.cantidad || 1;
             
-            console.log('🛒 Agregando al carrito:', { productoId, cantidad, autenticado: !!token });
             
             if (isUserAuthenticated()) {
                 // Usuario autenticado: usar API
@@ -233,7 +219,6 @@ export const CarritoProvider = ({ children }) => {
                 if (response.success) {
                     // Recargar carrito después de agregar
                     await cargarCarrito();
-                    console.log('✅ Producto agregado al carrito (API)');
                     return { success: true };
                 }
             } else {
@@ -272,11 +257,9 @@ export const CarritoProvider = ({ children }) => {
                 setTotal(total);
                 setCantidadTotal(cantidadTotal);
                 
-                console.log('✅ Producto agregado al carrito (localStorage)');
                 return { success: true };
             }
         } catch (err) {
-            console.error('❌ Error agregando al carrito:', err);
             setError('Error al agregar producto al carrito');
             return { success: false, error: err.message };
         } finally {
@@ -292,7 +275,6 @@ export const CarritoProvider = ({ children }) => {
             
             const token = getToken();
             
-            console.log('🛒 Actualizando cantidad:', { productoId, nuevaCantidad, autenticado: !!token });
             
             if (isUserAuthenticated()) {
                 // Usuario autenticado: usar API
@@ -301,7 +283,6 @@ export const CarritoProvider = ({ children }) => {
                 if (response.success) {
                     // Recargar carrito después de actualizar
                     await cargarCarrito();
-                    console.log('✅ Cantidad actualizada (API)');
                     return { success: true };
                 }
             } else {
@@ -331,12 +312,10 @@ export const CarritoProvider = ({ children }) => {
                     setTotal(total);
                     setCantidadTotal(cantidadTotal);
                     
-                    console.log('✅ Cantidad actualizada (localStorage)');
                     return { success: true };
                 }
             }
         } catch (err) {
-            console.error('❌ Error actualizando cantidad:', err);
             setError('Error al actualizar cantidad');
             return { success: false, error: err.message };
         } finally {
@@ -352,14 +331,12 @@ export const CarritoProvider = ({ children }) => {
             
             const token = getToken();
             
-            console.log('🛒 Eliminando del carrito:', productoId);
 
             if (isUserAuthenticated()) {
                 // Usuario autenticado: usar API
                 const response = await carritoService.eliminarProducto(productoId, token);
                 if (response.success) {
                     await cargarCarrito();
-                    console.log('✅ Producto eliminado del carrito (API)');
                     return { success: true };
                 }
             } else {
@@ -370,11 +347,9 @@ export const CarritoProvider = ({ children }) => {
                 guardarCarritoLocal(carritoLocal);
                 setCarrito(carritoLocal);
                 calcularTotales(carritoLocal);
-                console.log('✅ Producto eliminado del carrito (localStorage)');
                 return { success: true };
             }
         } catch (err) {
-            console.error('❌ Error eliminando del carrito:', err);
             setError('Error al eliminar producto del carrito');
             return { success: false, error: err.message };
         } finally {
@@ -390,7 +365,6 @@ export const CarritoProvider = ({ children }) => {
             
             const token = getToken();
             
-            console.log('🛒 Vaciando carrito:', { autenticado: !!token });
             
             if (isUserAuthenticated()) {
                 // Usuario autenticado: usar API
@@ -401,7 +375,6 @@ export const CarritoProvider = ({ children }) => {
                     setCarrito([]);
                     setTotal(0);
                     setCantidadTotal(0);
-                    console.log('✅ Carrito vaciado (API)');
                     return { success: true };
                 }
             } else {
@@ -413,11 +386,9 @@ export const CarritoProvider = ({ children }) => {
                 setTotal(0);
                 setCantidadTotal(0);
                 
-                console.log('✅ Carrito vaciado (localStorage)');
                 return { success: true };
             }
         } catch (err) {
-            console.error('❌ Error vaciando carrito:', err);
             setError('Error al vaciar el carrito');
             return { success: false, error: err.message };
         } finally {
@@ -432,7 +403,6 @@ export const CarritoProvider = ({ children }) => {
             const response = await carritoService.validarCarrito(token);
             return response;
         } catch (err) {
-            console.error('❌ Error validando carrito:', err);
             return { success: false, error: err.message };
         }
     };
@@ -447,13 +417,11 @@ export const CarritoProvider = ({ children }) => {
             
             // Si hay items en el carrito local, agregarlos al carrito del servidor
             if (carritoLocal && carritoLocal.length > 0) {
-                console.log('🔄 Sincronizando carrito local con servidor:', carritoLocal);
                 
                 for (const item of carritoLocal) {
                     try {
                         await carritoService.agregarProducto(item._id || item.id, item.cantidad, token);
                     } catch (err) {
-                        console.error('❌ Error sincronizando item:', item, err);
                     }
                 }
                 
@@ -463,10 +431,8 @@ export const CarritoProvider = ({ children }) => {
                 // Recargar carrito desde el servidor
                 await cargarCarrito();
                 
-                console.log('✅ Carrito sincronizado exitosamente');
             }
         } catch (err) {
-            console.error('❌ Error sincronizando carrito:', err);
         }
     };
 
@@ -512,9 +478,7 @@ export const CarritoProvider = ({ children }) => {
                 guardarCarritoLocal(carrito, regaloInfo);
             }
             
-            console.log('✅ Información de regalo actualizada');
         } catch (err) {
-            console.error('❌ Error actualizando información de regalo:', err);
             setError(err.message);
         } finally {
             setLoading(false);

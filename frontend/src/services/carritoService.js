@@ -34,7 +34,6 @@ const carritoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en obtenerCarrito:', error);
       throw error;
     }
   },
@@ -74,7 +73,6 @@ const carritoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en agregarProducto:', error);
       throw error;
     }
   },
@@ -114,7 +112,6 @@ const carritoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en actualizarCantidad:', error);
       throw error;
     }
   },
@@ -150,7 +147,6 @@ const carritoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en eliminarProducto:', error);
       throw error;
     }
   },
@@ -186,7 +182,6 @@ const carritoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en limpiarCarrito:', error);
       throw error;
     }
   },
@@ -222,7 +217,6 @@ const carritoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en validarCarrito:', error);
       throw error;
     }
   },
@@ -264,7 +258,6 @@ const carritoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en actualizarInfoRegalo:', error);
       throw error;
     }
   }

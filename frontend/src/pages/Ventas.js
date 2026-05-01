@@ -202,7 +202,6 @@ function Ventas() {
   // };
 
   const handleExport = (format) => {
-    console.log(`Exportando en formato: ${format}`);
     // Implementar lógica de exportación
     setShowExportModal(false);
   };

@@ -36,7 +36,6 @@ function CrearItem() {
         }
 
       } catch (error) {
-        console.error('Error al cargar datos:', error);
         setError('Error al cargar los datos necesarios');
       } finally {
         setLoading(false);
@@ -49,7 +48,6 @@ function CrearItem() {
   // Manejar creación de producto
   const handleCreateProduct = async (productData) => {
     try {
-      console.log('Enviando datos:', productData);
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/productos`, {
         method: 'POST',
@@ -62,7 +60,6 @@ function CrearItem() {
       const result = await response.json();
 
       if (result.success) {
-        console.log('Producto creado exitosamente:', result.data);
         alert('✅ Producto creado exitosamente!');
 
         // Si es un mate o bombilla, actualizar las listas
@@ -76,7 +73,6 @@ function CrearItem() {
         // window.location.href = '/inventario';
 
       } else {
-        console.error('Error al crear producto:', result.message);
         alert(`❌ Error al crear producto: ${result.message}`);
 
         // Mostrar errores de validación si los hay
@@ -86,7 +82,6 @@ function CrearItem() {
         }
       }
     } catch (error) {
-      console.error('Error de conexión:', error);
       alert('❌ Error de conexión. Verifica que el servidor esté funcionando.');
     }
   };

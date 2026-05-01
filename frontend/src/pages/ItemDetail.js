@@ -30,7 +30,6 @@ function ItemDetail() {
           setError('Producto no encontrado');
         }
       } catch (err) {
-        console.error('Error al cargar el producto:', err);
         setError('Error al cargar el producto');
       } finally {
         setLoading(false);

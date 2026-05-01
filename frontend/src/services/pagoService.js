@@ -1,8 +1,6 @@
 // Función para crear preferencia de pago
 export const crearPreferenciaPago = async (orderData, usuario = null) => {
   try {
-    console.log('💳 Creando preferencia con:', orderData);
-    console.log('👤 Usuario:', usuario);
 
     // Validaciones básicas
     if (!orderData.items || orderData.items.length === 0) {
@@ -53,7 +51,6 @@ export const crearPreferenciaPago = async (orderData, usuario = null) => {
       // Las back_urls y auto_return se configuran en el backend
     };
 
-    console.log('📨 Enviando al backend:', requestData);
 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/pagos/crear-preferencia`, {
       method: 'POST',
@@ -65,7 +62,6 @@ export const crearPreferenciaPago = async (orderData, usuario = null) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ Error response:', errorText);
 
       let errorData;
       try {
@@ -84,7 +80,6 @@ export const crearPreferenciaPago = async (orderData, usuario = null) => {
     }
 
     if (!data.preferenceId) {
-      console.error('❌ Respuesta sin preferenceId:', data);
       throw new Error('El servidor no devolvió un preferenceId válido');
     }
 
@@ -131,13 +126,6 @@ export const formatearDatosOrden = (carrito, customer = {}, shipping = {}) => {
       } : undefined
     };
 
-    console.log('📋 Datos del cliente para MercadoPago:', {
-      name: payer.name,
-      surname: payer.surname,
-      email: payer.email,
-      hasPhone: !!payer.phone,
-      hasAddress: !!payer.address
-    });
 
     const orderData = {
       items,
@@ -159,7 +147,6 @@ export const procesarResultadoPago = (params) => {
   try {
     const { status, payment_id, external_reference, payment_type, merchant_order_id } = params;
 
-    console.log('🔄 Procesando resultado de pago:', params);
 
     // Mapear estados de MercadoPago
     let estado, mensaje, esExitoso;
@@ -205,7 +192,6 @@ export const procesarResultadoPago = (params) => {
     };
 
   } catch (error) {
-    console.error('❌ Error procesando resultado:', error);
     return {
       estado: 'error',
       mensaje: 'Error al procesar el resultado del pago',
@@ -218,7 +204,6 @@ export const procesarResultadoPago = (params) => {
 // Función para enviar resultado del pago al backend para procesamiento
 export const procesarPagoEnBackend = async (searchParams) => {
   try {
-    console.log('🔄 Enviando resultado de pago al backend...');
 
     // Convertir searchParams a objeto
     const params = {};
@@ -226,7 +211,6 @@ export const procesarPagoEnBackend = async (searchParams) => {
       params[key] = value;
     }
 
-    console.log('📋 Parámetros a enviar:', params);
 
     // Crear URL con query parameters
     const queryString = new URLSearchParams(params).toString();
@@ -241,16 +225,13 @@ export const procesarPagoEnBackend = async (searchParams) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ Error procesando resultado:', errorText);
       throw new Error(`Error ${response.status}: ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('✅ Resultado procesado exitosamente en backend:', data);
     return data;
 
   } catch (error) {
-    console.error('❌ Error procesando resultado del pago en backend:', error);
     throw error;
   }
 };
@@ -258,7 +239,6 @@ export const procesarPagoEnBackend = async (searchParams) => {
 // Función para verificar estado del pago en el backend
 export const verificarEstadoPago = async (externalReference, paymentId = null) => {
   try {
-    console.log('🔍 Verificando pago en backend:', { externalReference, paymentId });
 
     // Si tenemos paymentId, usar la ruta completa
     let url;
@@ -278,16 +258,13 @@ export const verificarEstadoPago = async (externalReference, paymentId = null) =
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.warn('⚠️ Error verificando en backend:', errorText);
       return null; // No es crítico si falla
     }
 
     const data = await response.json();
-    console.log('✅ Verificación backend exitosa:', data);
     return data;
 
   } catch (error) {
-    console.warn('⚠️ Error verificando en backend:', error);
     return null; // No es crítico si falla
   }
 };

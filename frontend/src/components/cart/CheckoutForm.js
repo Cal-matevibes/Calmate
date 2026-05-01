@@ -186,7 +186,6 @@ function CheckoutForm({
                     const dedicatoria = name === 'dedicatoria' ? value : formData.dedicatoria;
                     await actualizarInfoRegalo(true, nombreRegalo, apellidoRegalo, dedicatoria);
                 } catch (error) {
-                    console.error('Error actualizando información de regalo:', error);
                 }
             }, 1000); // Actualizar después de 1 segundo sin cambios
         }
@@ -220,7 +219,6 @@ function CheckoutForm({
                 esRegalo ? formData.dedicatoria : ''
             );
         } catch (error) {
-            console.error('Error actualizando información de regalo:', error);
         }
 
         // Limpiar errores relacionados con regalo
@@ -249,7 +247,6 @@ function CheckoutForm({
             await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API delay
             onSubmit(formData);
         } catch (error) {
-            console.error('Error submitting form:', error);
         } finally {
             setIsSubmitting(false);
         }

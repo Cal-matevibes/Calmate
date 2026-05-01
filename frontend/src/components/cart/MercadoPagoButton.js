@@ -11,12 +11,9 @@ if (publicKey && publicKey !== 'undefined' && !isInitialized) {
     try {
         initMercadoPago(publicKey);
         isInitialized = true;
-        console.log('✅ MercadoPago inicializado');
     } catch (error) {
-        console.error('❌ Error al inicializar MercadoPago:', error);
     }
 } else if (!publicKey) {
-    console.error('❌ No se encontró PUBLIC_KEY válida');
 }
 
 function MercadoPagoButton({
@@ -51,7 +48,6 @@ function MercadoPagoButton({
             setError(null);
             setPreferenceId(null);
 
-            console.log('🚀 Creando preferencia de pago...');
 
             // Formatear datos
             const formattedData = formatearDatosOrden(
@@ -60,12 +56,10 @@ function MercadoPagoButton({
                 orderData.shipping 
             );
 
-            console.log('📋 Datos formateados:', formattedData);
 
             // Crear preferencia
             const response = await crearPreferenciaPago(formattedData, user);
 
-            console.log('📨 Respuesta del servidor:', response);
 
             if (!response || !response.success) {
                 throw new Error(response?.message || 'Error al crear preferencia');
@@ -75,7 +69,6 @@ function MercadoPagoButton({
                 throw new Error('No se recibió preferenceId del servidor');
             }
 
-            console.log('✅ Preferencia creada:', response.preferenceId);
             setPreferenceId(response.preferenceId);
 
             if (onPaymentCreated) {
@@ -83,7 +76,6 @@ function MercadoPagoButton({
             }
 
         } catch (err) {
-            console.error('❌ Error creando preferencia:', err);
             const errorMessage = err.message || 'Error desconocido';
             setError(errorMessage);
 

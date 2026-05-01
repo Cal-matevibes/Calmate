@@ -24,14 +24,6 @@ function PaymentSuccess() {
                 const payment_type = searchParams.get('payment_type');
                 const merchant_order_id = searchParams.get('merchant_order_id');
 
-                console.log('🎉 Procesando resultado de pago exitoso:', {
-                    status,
-                    payment_id,
-                    external_reference,
-                    payment_type,
-                    merchant_order_id,
-                    allParams: Object.fromEntries(searchParams.entries())
-                });
 
                 // Procesar resultado localmente primero
                 const resultadoLocal = procesarResultadoPago({
@@ -46,9 +38,7 @@ function PaymentSuccess() {
 
                 // ¡IMPORTANTE! Procesar pago en backend para crear pedido y actualizar stock
                 try {
-                    console.log('🏆 Procesando pago exitoso en backend...');
                     const backendResult = await procesarPagoEnBackend(searchParams);
-                    console.log('✅ Pago procesado exitosamente en backend:', backendResult);
                     
                     // Actualizar el resultado con información del backend
                     setPaymentResult(prev => ({
@@ -62,13 +52,10 @@ function PaymentSuccess() {
                     // Vaciar el carrito en el frontend ahora que el pedido fue confirmado
                     try {
                         await vaciarCarrito();
-                        console.log('🛒 Carrito vaciado en frontend');
                     } catch (cartError) {
-                        console.warn('⚠️ No se pudo vaciar el carrito en frontend:', cartError);
                     }
                     
                 } catch (backendError) {
-                    console.error('❌ Error procesando en backend:', backendError);
                     // No falla la página, solo muestra advertencia
                     setPaymentResult(prev => ({
                         ...prev,
@@ -82,7 +69,6 @@ function PaymentSuccess() {
                 localStorage.removeItem('mp_preference_id');
 
             } catch (error) {
-                console.error('❌ Error procesando resultado:', error);
                 setError(error.message);
             } finally {
                 setLoading(false);

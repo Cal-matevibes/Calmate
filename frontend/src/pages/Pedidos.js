@@ -129,7 +129,6 @@ function Pedidos() {
         setError(response.message || 'Error al cargar los pedidos');
       }
     } catch (err) {
-      console.error('Error fetching pedidos:', err);
       setError(err.message || 'Error al cargar los pedidos');
     } finally {
       setLoading(false);
@@ -177,7 +176,6 @@ function Pedidos() {
         setSelectedPedido(prev => ({ ...prev, estado: newStatus }));
       }
     } catch (err) {
-      console.error('Error al actualizar estado:', err);
       setError(err.message || 'Error al actualizar el estado del pedido');
     }
   };

@@ -33,9 +33,6 @@ function SimpleItemForm({
   };
 
   // Debug log para verificar la categoría seleccionada
-  console.log('🔍 SimpleItemForm - Categoría actual:', formData.catalogo);
-  console.log('🔍 SimpleItemForm - Es mate?', (formData.catalogo === 'mate' || formData.catalogo === 'mates'));
-  console.log('🔍 SimpleItemForm - availableAttributes:', Object.keys(availableAttributes));
   
   return (
     <form onSubmit={onSubmit} className="simple-item-form">

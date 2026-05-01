@@ -17,7 +17,6 @@ const CuidadosList = ({ categoria = null }) => {
                 const response = await cuidadoService.obtenerCuidados(categoria);
                 setCuidados(response.data);
             } catch (error) {
-                console.error('Error al cargar cuidados:', error);
                 setError('Error al cargar los cuidados');
             } finally {
                 setLoading(false);

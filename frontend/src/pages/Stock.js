@@ -192,7 +192,6 @@ function Stock() {
         setError(response.message || 'Error al crear la categoría');
       }
     } catch (err) {
-      console.error('Error al crear categoría:', err);
       setError(err.message || 'Error al crear la categoría');
     }
   };
@@ -266,7 +265,6 @@ function Stock() {
         setError(response.message || 'Error al actualizar la categoría');
       }
     } catch (err) {
-      console.error('Error al actualizar categoría:', err);
       setError(err.message || 'Error al actualizar la categoría');
     }
   };
@@ -299,7 +297,6 @@ function Stock() {
         setError(response.message || 'Error al eliminar la categoría');
       }
     } catch (err) {
-      console.error('Error al eliminar categoría:', err);
       setError(err.message || 'Error al eliminar la categoría');
     }
   };
@@ -316,7 +313,6 @@ function Stock() {
 
       // Validar categoría
       if (!catalogoId) {
-        console.error('❌ [handleAddItem] No se seleccionó categoría');
         setError('Debe seleccionar una categoría');
         return;
       }
@@ -325,7 +321,6 @@ function Stock() {
       const categoriaEncontrada = catalogos?.find(cat => cat.id === catalogoId || cat.nombre === catalogoId);
       
       if (!categoriaEncontrada) {
-        console.error('❌ [handleAddItem] Categoría no encontrada:', catalogoId);
         setError(`Categoría "${catalogoId}" no válida`);
         return;
       }
@@ -385,7 +380,6 @@ function Stock() {
         throw new Error(response.message || 'Error al crear el producto');
       }
     } catch (err) {
-      console.error('Error al agregar producto:', err);
       setError(err.message || 'Error al crear el producto');
     }
   };
@@ -416,11 +410,9 @@ function Stock() {
 
         setError(null);
       } else {
-        console.error('Error en la respuesta de la API:', response);
         setError(response.message || 'Error al eliminar el producto');
       }
     } catch (err) {
-      console.error('Error al eliminar producto:', err);
       setError(err.message || 'Error al eliminar el producto');
     }
   };
@@ -464,7 +456,6 @@ function Stock() {
       }
     } catch (err) {
       // El error ya se maneja en handleAddItem, no cerrar el modal
-      console.error('Error al crear producto:', err);
     }
   };
 
@@ -690,7 +681,6 @@ function Stock() {
         setError(response.message || 'Error al actualizar el producto');
       }
     } catch (error) {
-      console.error('Error al actualizar item:', error);
       setError(error.message || 'Error al actualizar el producto');
       throw error;
     }

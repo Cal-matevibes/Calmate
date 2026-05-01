@@ -13,7 +13,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en obtenerProductos:', error);
             throw error;
         }
     },
@@ -31,7 +30,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en obtenerProductosPorCategoria:', error);
             throw error;
         }
     },
@@ -49,7 +47,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en obtenerProducto:', error);
             throw error;
         }
     },
@@ -67,11 +64,6 @@ const productoService = {
             });
             const data = await response.json();
             if (!response.ok) {
-                console.error('❌ [productoService] Error response:', {
-                    status: response.status,
-                    statusText: response.statusText,
-                    data: data
-                });
                 
                 // Manejar errores específicos
                 let errorMessage = data.message || 'Error al crear producto';
@@ -88,7 +80,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en crearProducto:', error);
             throw error;
         }
     },
@@ -113,7 +104,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en actualizarProducto:', error);
             throw error;
         }
     },
@@ -138,7 +128,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en actualizarStock:', error);
             throw error;
         }
     },
@@ -162,7 +151,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en eliminarProducto:', error);
             throw error;
         }
     },
@@ -180,7 +168,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en buscarProductos:', error);
             throw error;
         }
     },
@@ -203,7 +190,6 @@ const productoService = {
 
             return data;
         } catch (error) {
-            console.error('Error en obtenerResumenInventario:', error);
             throw error;
         }
     }

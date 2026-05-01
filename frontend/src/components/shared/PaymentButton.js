@@ -26,7 +26,6 @@ function PaymentButton({ items }) {
         autoOpen: true, // Abre el Checkout automáticamente
       });
     } catch (error) {
-      console.error('Error al procesar el pago:', error);
     }
   };
 

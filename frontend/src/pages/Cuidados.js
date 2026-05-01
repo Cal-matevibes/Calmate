@@ -82,7 +82,6 @@ function Cuidados() {
       const data = await nodoCuidadoService.getAll(catId);
       setNodesByCat(prev => ({ ...prev, [id]: data }));
     } catch (e) {
-      console.error(e);
       loadedRef.current.delete(id);
     } finally {
       setLoadingNodes(prev => { const s = new Set(prev); s.delete(id); return s; });

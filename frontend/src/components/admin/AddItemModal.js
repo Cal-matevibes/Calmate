@@ -46,20 +46,16 @@ function AddItemModal({
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     
-    console.log('📷 [handleImageUpload] Procesando archivos:', files.length);
-    
     files.forEach((file) => {
-      // Validar tamaño del archivo (5MB máximo)
-      if (file.size > 5 * 1024 * 1024) {
-        alert(`La imagen ${file.name} es demasiado grande. Máximo 5MB.`);
+      // Validar tamaño del archivo (10MB máximo)
+      if (file.size > 10 * 1024 * 1024) {
+        alert(`La imagen ${file.name} es demasiado grande. Máximo 10MB.`);
         return;
       }
       
       const reader = new FileReader();
       reader.onload = (event) => {
         const base64String = event.target.result;
-        console.log('📷 [handleImageUpload] Imagen convertida a base64:', file.name, 'Tamaño:', base64String.length);
-        
         setFormData((prevData) => ({
           ...prevData,
           imagenes: [...prevData.imagenes, base64String],
@@ -67,7 +63,6 @@ function AddItemModal({
       };
       
       reader.onerror = () => {
-        console.error('❌ Error al leer el archivo:', file.name);
         alert(`Error al procesar la imagen ${file.name}`);
       };
       
@@ -84,10 +79,6 @@ function AddItemModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    console.log('🚀 Iniciando handleSubmit - FormData completo:', formData);
-    console.log('🚀 AttributeData completo:', attributeData);
-    console.log('🚀 Catalogos disponibles:', catalogos);
     
     // Validar datos básicos
     if (!formData.nombre?.trim()) {
@@ -108,33 +99,16 @@ function AddItemModal({
 
     // Validar que la categoría sea válida (usar categorías dinámicas)
     const validCategories = catalogos.map(cat => cat.nombre);
-    console.log('🧪 DEBUG - Categorías válidas:', validCategories);
-    console.log('🧪 DEBUG - Categoría seleccionada:', formData.catalogo);
     
     if (!validCategories.includes(formData.catalogo)) {
       alert(`Categoría inválida. Debe ser una de: ${validCategories.join(', ')}`);
       return;
     }
 
-    console.log('✅ Validación frontend pasada - enviando datos:', {
-      categoria: formData.catalogo,
-      nombre: formData.nombre,
-      precio: formData.precioVenta
-    });
-    
     // Validar y procesar imágenes
     const imagenesValidas = formData.imagenes.filter(img => 
       img && typeof img === 'string' && (img.startsWith('data:image/') || img.startsWith('http'))
     );
-    
-    console.log('📷 [handleSubmit] Imágenes procesadas:', {
-      total: formData.imagenes.length,
-      validas: imagenesValidas.length,
-      imagenes: imagenesValidas.map(img => ({
-        tipo: img.startsWith('data:image/') ? 'base64' : 'url',
-        tamaño: img.length
-      }))
-    });
     
     let completeData = {
       ...formData,
@@ -189,28 +163,16 @@ function AddItemModal({
     
     // Verificar tamaño de los datos
     const dataSize = JSON.stringify(completeData).length;
-    console.log('📊 [handleSubmit] Tamaño de datos:', {
-      tamaño_bytes: dataSize,
-      tamaño_mb: (dataSize / 1024 / 1024).toFixed(2),
-      cantidad_imagenes: imagenesValidas.length,
-      tamaño_imagenes: imagenesValidas.map(img => ({
-        tamaño: img.length,
-        mb: (img.length / 1024 / 1024).toFixed(2)
-      }))
-    });
     
     if (dataSize > 16 * 1024 * 1024) { // 16MB límite típico de Express
       alert('Los datos son demasiado grandes. Intenta con imágenes más pequeñas.');
       return;
     }
     
-    console.log('📤 Enviando datos completos al onSubmit:', completeData);
-    
     try {
       onSubmit(completeData);
       onClose();
     } catch (error) {
-      console.error('❌ Error en onSubmit:', error);
       alert('Error al agregar el producto: ' + error.message);
     }
   };
@@ -311,8 +273,6 @@ function AddItemModal({
   };
 
   const handlePreview = () => {
-    // Función para preview del item (opcional)
-    console.log('Preview:', formData);
   };
 
   const handleOverlayClick = (e) => {

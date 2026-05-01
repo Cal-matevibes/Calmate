@@ -6,7 +6,6 @@ function CatalogItems({ catalogo, catalogos, onEditItem, onPreviewItem, onDelete
   const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
 
   // Debug: Logging básico para verificar la estructura de datos
-  console.log('🔍 [CatalogItems] Catalogos cargados:', catalogos?.length, 'categorías');
 
   // Filtrar los items según el término de búsqueda
   const filterItems = (items) =>

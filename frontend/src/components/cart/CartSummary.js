@@ -29,15 +29,6 @@ function CartSummary({
     const realSubtotal = subtotal || calculatedSubtotal;
     
     // Debug: mostrar los valores en consola
-    console.log('🧮 CartSummary Debug:', {
-        items: items.length,
-        subtotalProp: subtotal,
-        calculatedSubtotal,
-        realSubtotal,
-        envio,
-        showShipping,
-        finalTotal: showShipping ? realSubtotal + envio : realSubtotal
-    });
     
     // Calcular el total correctamente
     // Si showShipping es true: subtotal + envío

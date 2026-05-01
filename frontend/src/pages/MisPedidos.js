@@ -81,7 +81,6 @@ function MisPedidos() {
       }
 
     } catch (err) {
-      console.error('Error fetching pedidos:', err);
       
       if (err.message.includes('Failed to fetch') || err.message.includes('Network')) {
         setError('Error de conexión. Verifica tu conexión a internet.');

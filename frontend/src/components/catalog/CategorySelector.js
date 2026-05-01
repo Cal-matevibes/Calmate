@@ -30,7 +30,6 @@ function CategorySelector({ currentCategory }) {
 
         // Verificar que tenemos categorías válidas
         if (categoriasArray.length === 0) {
-          console.warn('⚠️ No se encontraron categorías en la respuesta');
           return;
         }
 
@@ -45,7 +44,6 @@ function CategorySelector({ currentCategory }) {
             const productos = await productoService.obtenerProductosPorCategoria(categoria.slug);
             return { nombre: categoria.nombre, count: productos.productos?.length || 0 };
           } catch (error) {
-            console.error(`Error contando productos para ${categoria.nombre}:`, error);
             return { nombre: categoria.nombre, count: 0 };
           }
         });
@@ -81,7 +79,6 @@ function CategorySelector({ currentCategory }) {
 
           setUsingFallback(true);
         } catch (fallbackError) {
-          console.error('❌ Error cargando datos de respaldo:', fallbackError);
           setCategorias([]);
           setProductCounts({});
           setUsingFallback(false);

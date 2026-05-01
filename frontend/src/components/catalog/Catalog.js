@@ -101,14 +101,12 @@ function Catalogo({ catalogo, hideFiltersButton = false, filteredItems = [], onI
   const handleItemClick = (itemId, itemCategoria) => {
     // Asegurarse de que itemId sea válido antes de navegar
     if (!itemId) {
-      console.error('itemId no definido');
       return;
     }
     
     // Usar la categoría del item en lugar del catálogo cuando estamos en "todos"
     const categoria = catalogo.nombre === 'todos' ? itemCategoria : catalogo.nombre;
     
-    console.log('Navegando a:', `/item/${categoria}/${itemId}`);
     navigate(`/item/${categoria}/${itemId}`);
   };
 
@@ -132,7 +130,6 @@ function Catalogo({ catalogo, hideFiltersButton = false, filteredItems = [], onI
           setShowNotification(true);
         }
       } catch (error) {
-        console.error('Error agregando al carrito:', error);
         setNotificationMessage('Error al agregar al carrito');
         setShowNotification(true);
       }

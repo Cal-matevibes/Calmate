@@ -126,7 +126,6 @@ function EditItemModal({
       await onSave(updatedItem);
       onClose();
     } catch (error) {
-      console.error('Error al guardar:', error);
       setErrors({ submit: 'Error al guardar los cambios' });
     } finally {
       setIsLoading(false);
@@ -137,11 +136,11 @@ function EditItemModal({
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validar tamaño (5MB máximo)
-      if (file.size > 5 * 1024 * 1024) {
+      // Validar tamaño (10MB máximo)
+      if (file.size > 10 * 1024 * 1024) {
         setErrors(prev => ({
           ...prev,
-          image: 'La imagen no puede superar los 5MB'
+          image: 'La imagen no puede superar los 10MB'
         }));
         return;
       }

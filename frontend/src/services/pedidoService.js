@@ -17,7 +17,6 @@ const pedidoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en obtenerTodosPedidos:', error);
       throw error;
     }
   },
@@ -40,7 +39,6 @@ const pedidoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en obtenerMisPedidos:', error);
       throw error;
     }
   },
@@ -63,7 +61,6 @@ const pedidoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en obtenerPedido:', error);
       throw error;
     }
   },
@@ -88,7 +85,6 @@ const pedidoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en actualizarEstadoPedido:', error);
       throw error;
     }
   },
@@ -111,7 +107,6 @@ const pedidoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en obtenerEstadisticas:', error);
       throw error;
     }
   },
@@ -135,7 +130,6 @@ const pedidoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en procesarPago:', error);
       throw error;
     }
   },
@@ -159,7 +153,6 @@ const pedidoService = {
 
       return data;
     } catch (error) {
-      console.error('Error en cancelarPedido:', error);
       throw error;
     }
   }

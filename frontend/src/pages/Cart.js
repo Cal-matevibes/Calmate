@@ -81,9 +81,7 @@ function Cart() {
             const { crearPreferenciaPago, formatearDatosOrden, testearConexion } = await import('../services/pagoService');
             
             // Primero probar conectividad
-            console.log('🧪 Probando conexión con backend...');
             await testearConexion();
-            console.log('✅ Conexión con backend confirmada');
             
             const order = generateOrder();
 
@@ -103,13 +101,11 @@ function Cart() {
                 }
             );
 
-            console.log('🛒 Procesando pago con MercadoPago:', datosOrden);
 
             // Crear preferencia de pago
             const response = await crearPreferenciaPago(datosOrden);
 
             if (response.success && response.initPoint) {
-                console.log('✅ Redirigiendo a MercadoPago:', response.initPoint);
                 
                 // Guardar referencia del pago para seguimiento
                 localStorage.setItem('mp_external_reference', response.externalReference);
@@ -121,7 +117,6 @@ function Cart() {
                 throw new Error(response.message || 'No se pudo crear la preferencia de pago');
             }
         } catch (error) {
-            console.error('❌ Error al procesar el pago:', error);
             alert(`Error al procesar el pago: ${error.message}`);
         } finally {
             setIsLoading(false);

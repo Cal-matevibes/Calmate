@@ -357,6 +357,44 @@ function Stock() {
         tags: newItem.tags || [],
         activo: true
       };
+
+      // Agregar características específicas según la categoría
+      const cat = catalogoId?.toLowerCase();
+
+      if (cat === 'mates') {
+        const mates = {};
+        if (newItem.forma) mates.forma = newItem.forma;
+        if (newItem.tipo) mates.tipo = newItem.tipo;
+        if (newItem.anchoSuperior) mates.anchoSuperior = newItem.anchoSuperior;
+        if (newItem.anchoInferior) mates.anchoInferior = newItem.anchoInferior;
+        mates.virola = newItem.virola || 'No';
+        if (newItem.tiposDeVirola) mates.tiposDeVirola = newItem.tiposDeVirola;
+        mates.guarda = newItem.guarda || 'No';
+        if (newItem.tiposDeGuarda) mates.tiposDeGuarda = newItem.tiposDeGuarda;
+        mates.revestimiento = newItem.revestimiento || 'No';
+        if (newItem.tiposDeRevestimientos) mates.tiposDeRevestimientos = newItem.tiposDeRevestimientos;
+        mates.curados = newItem.curados || 'No';
+        if (newItem.tiposDeCurados) mates.tiposDeCurados = newItem.tiposDeCurados;
+        if (newItem.terminacion) mates.terminacion = newItem.terminacion;
+        mates.grabado = newItem.grabado || 'No';
+        if (newItem.descripcionDelGrabado) mates.descripcionDelGrabado = newItem.descripcionDelGrabado;
+        if (newItem.color) mates.color = newItem.color;
+        productoData.caracteristicasMates = mates;
+
+      } else if (cat === 'bombillas') {
+        const bombillas = {};
+        if (newItem.forma) bombillas.forma = newItem.forma;
+        if (newItem.tipoMaterial) bombillas.tipoMaterial = newItem.tipoMaterial;
+        if (newItem.tamaño) bombillas.tamaño = newItem.tamaño;
+        if (newItem.centimetros) bombillas.centimetros = Number(newItem.centimetros);
+        productoData.caracteristicasBombillas = bombillas;
+
+      } else if (cat === 'combos') {
+        const combos = {};
+        if (newItem['combo_mates']) combos.mate = newItem['combo_mates'];
+        if (newItem['combo_bombillas']) combos.bombilla = newItem['combo_bombillas'];
+        if (Object.keys(combos).length > 0) productoData.caracteristicasCombos = combos;
+      }
       
       // Crear producto en la API
       const response = await productoService.crearProducto(productoData, token);

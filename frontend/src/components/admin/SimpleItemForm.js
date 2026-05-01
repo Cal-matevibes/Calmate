@@ -173,7 +173,7 @@ function SimpleItemForm({
               {/* Mensaje si no hay categorías disponibles */}
               {(!catalogos || catalogos.filter(cat => cat.nombre?.toLowerCase() !== 'combos' && cat.items?.length > 0).length === 0) && (
                 <div className="no-categories-message">
-                  <p>⚠️ No hay categorías con productos disponibles para crear combos.</p>
+                  <p>No hay categorías con productos disponibles para crear combos.</p>
                   <p>Primero crea productos en otras categorías.</p>
                 </div>
               )}
@@ -239,7 +239,7 @@ function SimpleItemForm({
                 return (
                   <div className="combo-status">
                     <p className="combo-help">
-                      💡 Selecciona al menos 2 productos de diferentes categorías para crear el combo
+                      Selecciona al menos 2 productos de diferentes categorías para crear el combo
                     </p>
                   </div>
                 );
@@ -309,7 +309,7 @@ function SimpleItemForm({
                   {selectedProducts.length === 1 && (
                     <div className="combo-suggestion">
                       <p className="single-product-tip">
-                        ℹ️ Selecciona al menos un producto más para activar el descuento del combo
+                        Selecciona al menos un producto más para activar el descuento del combo
                       </p>
                     </div>
                   )}

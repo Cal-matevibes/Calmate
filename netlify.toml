@@ -1,6 +1,6 @@
 [build]
   base    = "frontend"
-  command = "npm install && CI=false npx react-scripts build"
+  command = "npm install && export CI=false && node ./node_modules/react-scripts/bin/react-scripts.js build"
   publish = "build"
 
 [build.environment]

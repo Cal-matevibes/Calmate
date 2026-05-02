@@ -1,17 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import '../styles/Notification.css';
 
 function Notification({ message, onClose }) {
-  const onCloseRef = useRef(onClose);
-  useEffect(() => { onCloseRef.current = onClose; });
-
   useEffect(() => {
     const timer = setTimeout(() => {
-      onCloseRef.current();
+      onClose(); // Cierra la notificación automáticamente después de 3 segundos
     }, 3000);
-    return () => clearTimeout(timer);
-  }, []); // solo al montar
+
+    return () => clearTimeout(timer); // Limpia el temporizador al desmontar
+  }, [onClose]);
 
   const notificationContent = (
     <div className="notification">

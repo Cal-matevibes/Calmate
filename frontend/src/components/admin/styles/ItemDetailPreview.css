@@ -1,0 +1,96 @@
+/* ===== OVERLAY ===== */
+.idp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000000;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* ===== MODAL CONTAINER ===== */
+.idp-modal {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 900px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: idpSlideIn 0.25s ease-out;
+}
+
+@keyframes idpSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== HEADER ===== */
+.idp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.5rem;
+  background: linear-gradient(135deg, #52691a 0%, #6a8620 100%);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.idp-title-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.95;
+}
+
+.idp-close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.idp-close-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ===== BODY ===== */
+.idp-body {
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Override card margin/padding to fit inside modal */
+.idp-card {
+  margin: 1.5rem auto !important;
+  padding: 0 1.5rem !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  .idp-card {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+    padding: 0 1rem !important;
+  }
+}

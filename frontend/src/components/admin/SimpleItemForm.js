@@ -577,6 +577,34 @@ function SimpleItemForm({
             )}
           </div>
 
+          {/* Color */}
+          <div className="form-group">
+            <label htmlFor="color">Color:</label>
+            <select
+              id="color"
+              name="color"
+              value={attributeData.color || ''}
+              onChange={(e) => onAttributeChange && onAttributeChange('color', e.target.value)}
+            >
+              <option value="">Seleccionar color</option>
+              <option value="Natural">Natural</option>
+              <option value="Negro">Negro</option>
+              <option value="Marron">Marrón</option>
+              <option value="Beige">Beige</option>
+              <option value="Rojo">Rojo</option>
+              <option value="Bordó">Bordó</option>
+              <option value="Azul">Azul</option>
+              <option value="Verde">Verde</option>
+              <option value="Blanco">Blanco</option>
+              <option value="Gris">Gris</option>
+              <option value="Dorado">Dorado</option>
+              <option value="Plateado">Plateado</option>
+              {attributeData.color && !['Natural', 'Negro', 'Marron', 'Beige', 'Rojo', 'Bordó', 'Azul', 'Verde', 'Blanco', 'Gris', 'Dorado', 'Plateado'].includes(attributeData.color) && (
+                <option value={attributeData.color}>{attributeData.color}</option>
+              )}
+            </select>
+          </div>
+
           {/* Curados */}
           <div className="form-row">
             <div className="form-group">
@@ -698,19 +726,7 @@ function SimpleItemForm({
             </div>
           )}
 
-          {/* Color */}
-          <div className="form-group">
-            <label htmlFor="color">Color:</label>
-            <input
-              type="text"
-              id="color"
-              name="color"
-              value={attributeData.color || ''}
-              onChange={(e) => onAttributeChange && onAttributeChange('color', e.target.value)}
-              placeholder="Opciones de colores disponibles..."
-            />
-            <small className="field-help">Puedes ingresar múltiples colores separados por comas</small>
-          </div>
+
         </div>
       )}
 

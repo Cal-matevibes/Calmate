@@ -90,6 +90,8 @@ function Stock() {
                 activo: producto.activo,
                 tags: producto.tags || [],
                 campos: producto.campos || {},
+                caracteristicasMates: producto.caracteristicasMates || {},
+                caracteristicasBombillas: producto.caracteristicasBombillas || {},
                 fechaCreacion: producto.createdAt,
                 fechaActualizacion: producto.updatedAt
               }));
@@ -684,6 +686,25 @@ function Stock() {
       }
 
       // Preparar datos para la API
+      const categoria = (updatedItem.categoria || '').toLowerCase();
+
+      // Reconstruir el objeto de caracteristicas segun la categoria
+      const matesFields = ['forma', 'tipo', 'anchoSuperior', 'anchoInferior', 'medidaExterior', 'medidaInterior', 'virola', 'tiposDeVirola', 'guarda', 'tiposDeGuarda', 'revestimiento', 'tiposDeRevestimientos', 'curados', 'tiposDeCurados', 'terminacion', 'grabado', 'descripcionDelGrabado', 'color'];
+      const bombillasFields = ['forma', 'tipoMaterial', 'tamaño', 'centimetros'];
+
+      let caracteristicasMates = updatedItem.caracteristicasMates || {};
+      let caracteristicasBombillas = updatedItem.caracteristicasBombillas || {};
+
+      if (categoria === 'mates' || categoria === 'mate') {
+        const fromTop = {};
+        matesFields.forEach(f => { if (updatedItem[f] !== undefined) fromTop[f] = updatedItem[f]; });
+        caracteristicasMates = { ...caracteristicasMates, ...fromTop };
+      } else if (categoria === 'bombillas' || categoria === 'bombilla') {
+        const fromTop = {};
+        bombillasFields.forEach(f => { if (updatedItem[f] !== undefined) fromTop[f] = updatedItem[f]; });
+        caracteristicasBombillas = { ...caracteristicasBombillas, ...fromTop };
+      }
+
       const productoData = {
         nombre: updatedItem.nombre,
         categoria: updatedItem.categoria,
@@ -692,6 +713,8 @@ function Stock() {
         precioVenta: Number(updatedItem.precioVenta) || Number(updatedItem.precio) || 0,
         stock: Number(updatedItem.stock) || 0,
         campos: updatedItem.campos || {},
+        caracteristicasMates,
+        caracteristicasBombillas,
         imagenes: updatedItem.imagenes || [],
         tags: updatedItem.tags || [],
         activo: updatedItem.activo !== false // Por defecto true
@@ -701,12 +724,17 @@ function Stock() {
       const response = await productoService.actualizarProducto(updatedItem.id, productoData, token);
 
       if (response.success) {
-        // Actualizar el estado local
+        // Actualizar el estado local con las caracteristicas reconstruidas
+        const itemConCaracteristicas = {
+          ...updatedItem,
+          caracteristicasMates,
+          caracteristicasBombillas
+        };
         setCatalogos(prevCatalogos =>
           prevCatalogos.map(catalogo => ({
             ...catalogo,
             items: catalogo.items.map(item =>
-              item.id === updatedItem.id ? updatedItem : item
+              item.id === updatedItem.id ? itemConCaracteristicas : item
             )
           }))
         );
@@ -910,7 +938,7 @@ function Stock() {
             isOpen={showEditModal}
             onClose={handleCloseEditModal}
             onSave={handleSaveItem}
-            categories={catalogos}
+            catalogos={catalogos}
           />
 
           {/* Modal de ayuda */}

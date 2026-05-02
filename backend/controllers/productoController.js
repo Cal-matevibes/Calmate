@@ -137,8 +137,7 @@ exports.getProducto = async (req, res) => {
       .populate({
         path: 'caracteristicasCombos.mate caracteristicasCombos.bombilla',
         select: 'nombre stock precioVenta imagenes caracteristicasMates caracteristicasBombillas'
-      })
-      .lean();
+      });
 
     if (!producto) {
       return res.status(404).json({
@@ -151,10 +150,11 @@ exports.getProducto = async (req, res) => {
     if (producto.categoria === 'combos' && 
         producto.caracteristicasCombos?.mate && 
         producto.caracteristicasCombos?.bombilla) {
-      producto.stock = Math.min(
+      const stockCalculado = Math.min(
         producto.caracteristicasCombos.mate.stock,
         producto.caracteristicasCombos.bombilla.stock
       );
+      producto.stock = stockCalculado;
     }
 
     res.json({

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SimpleItemForm from './SimpleItemForm';
+import ItemDetailPreview from './ItemDetailPreview';
 import '../styles/AddItemModal.css';
 
 
@@ -19,6 +20,7 @@ function AddItemModal({
   });
   
   const [attributeData, setAttributeData] = useState({});
+  const [showPreview, setShowPreview] = useState(false);
 
   // Resetear formulario cuando se abre el modal
   useEffect(() => {
@@ -273,6 +275,7 @@ function AddItemModal({
   };
 
   const handlePreview = () => {
+    setShowPreview(true);
   };
 
   const handleOverlayClick = (e) => {
@@ -309,6 +312,14 @@ function AddItemModal({
           />
         </div>
       </div>
+
+      {showPreview && (
+        <ItemDetailPreview
+          formData={formData}
+          attributeData={attributeData}
+          onClose={() => setShowPreview(false)}
+        />
+      )}
     </div>
   );
 }

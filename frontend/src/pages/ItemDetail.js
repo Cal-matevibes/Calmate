@@ -56,38 +56,55 @@ function ItemDetail() {
 
   const renderDetalles = () => {
     if (!item) return null;
-    const cat = item.categoria;
+    const cat = item.categoria?.toLowerCase();
 
-    if (cat === 'mates') {
+    if (cat === 'mates' || cat === 'mate') {
       const m = item.caracteristicasMates || {};
-      return (
-        <div className="item-detail-specs">
-          {m.forma         && <div className="spec-row"><span className="spec-label">Forma</span><span className="spec-value">{m.forma}</span></div>}
-          {m.tipo          && <div className="spec-row"><span className="spec-label">Tipo</span><span className="spec-value">{m.tipo}</span></div>}
-          {m.anchoSuperior && <div className="spec-row"><span className="spec-label">Ancho superior</span><span className="spec-value">{m.anchoSuperior}</span></div>}
-          {m.anchoInferior && <div className="spec-row"><span className="spec-label">Ancho inferior</span><span className="spec-value">{m.anchoInferior}</span></div>}
-          {m.virola === 'Si'       && <div className="spec-row"><span className="spec-label">Virola</span><span className="spec-value">Sí{m.tiposDeVirola ? ` — ${m.tiposDeVirola}` : ''}</span></div>}
-          {m.guarda === 'Si'       && <div className="spec-row"><span className="spec-label">Guarda</span><span className="spec-value">Sí{m.tiposDeGuarda ? ` — ${m.tiposDeGuarda}` : ''}</span></div>}
-          {m.revestimiento === 'Si' && <div className="spec-row"><span className="spec-label">Revestimiento</span><span className="spec-value">Sí{m.tiposDeRevestimientos ? ` — ${m.tiposDeRevestimientos}` : ''}</span></div>}
-          {m.curados === 'Si'      && <div className="spec-row"><span className="spec-label">Curado</span><span className="spec-value">Sí{m.tiposDeCurados ? ` — ${m.tiposDeCurados}` : ''}</span></div>}
-          {m.terminacion   && <div className="spec-row"><span className="spec-label">Terminación</span><span className="spec-value">{m.terminacion}</span></div>}
-          {m.grabado === 'Si'      && <div className="spec-row"><span className="spec-label">Grabado</span><span className="spec-value">Sí{m.descripcionDelGrabado ? ` — ${m.descripcionDelGrabado}` : ''}</span></div>}
-          {m.color         && <div className="spec-row"><span className="spec-label">Color</span><span className="spec-value">{m.color}</span></div>}
-        </div>
+      const chips = [
+        m.forma         && { label: 'Forma',          value: m.forma },
+        m.tipo          && { label: 'Tipo',            value: m.tipo },
+        m.anchoSuperior && { label: 'Ancho superior',  value: m.anchoSuperior },
+        m.anchoInferior && { label: 'Ancho inferior',  value: m.anchoInferior },
+        m.virola === 'Si' && { label: 'Virola',        value: m.tiposDeVirola || 'Incluida' },
+        m.guarda === 'Si' && { label: 'Guarda',        value: m.tiposDeGuarda || 'Incluida' },
+        m.revestimiento === 'Si' && { label: 'Revestimiento', value: m.tiposDeRevestimientos || 'Incluido' },
+        m.curados === 'Si' && { label: 'Curado',       value: m.tiposDeCurados || 'Incluido' },
+        m.terminacion   && { label: 'Terminación',     value: m.terminacion },
+        m.grabado === 'Si' && { label: 'Grabado',      value: m.descripcionDelGrabado || 'Personalizado' },
+        m.color         && { label: 'Color',           value: m.color },
+      ].filter(Boolean);
 
-      );
+      return chips.length > 0 ? (
+        <div className="item-detail-specs">
+          {chips.map(({ label, value }) => (
+            <div key={label} className="spec-chip">
+              <span className="spec-chip-label">{label}</span>
+              <span className="spec-chip-value">{value}</span>
+            </div>
+          ))}
+        </div>
+      ) : <p className="spec-empty">Sin detalles disponibles.</p>;
     }
 
-    if (cat === 'bombillas') {
+    if (cat === 'bombillas' || cat === 'bombilla') {
       const b = item.caracteristicasBombillas || {};
-      return (
+      const chips = [
+        b.forma        && { label: 'Forma',    value: b.forma },
+        b.tipoMaterial && { label: 'Material', value: b.tipoMaterial },
+        b.tamaño       && { label: 'Tamaño',   value: b.tamaño },
+        b.centimetros  && { label: 'Largo',    value: `${b.centimetros} cm` },
+      ].filter(Boolean);
+
+      return chips.length > 0 ? (
         <div className="item-detail-specs">
-          {b.forma        && <div className="spec-row"><span className="spec-label">Forma</span><span className="spec-value">{b.forma}</span></div>}
-          {b.tipoMaterial && <div className="spec-row"><span className="spec-label">Material</span><span className="spec-value">{b.tipoMaterial}</span></div>}
-          {b.tamaño       && <div className="spec-row"><span className="spec-label">Tamaño</span><span className="spec-value">{b.tamaño}</span></div>}
-          {b.centimetros  && <div className="spec-row"><span className="spec-label">Largo</span><span className="spec-value">{b.centimetros} cm</span></div>}
+          {chips.map(({ label, value }) => (
+            <div key={label} className="spec-chip">
+              <span className="spec-chip-label">{label}</span>
+              <span className="spec-chip-value">{value}</span>
+            </div>
+          ))}
         </div>
-      );
+      ) : <p className="spec-empty">Sin detalles disponibles.</p>;
     }
 
     if (cat === 'combos') {
@@ -95,15 +112,15 @@ function ItemDetail() {
       return (
         <div className="item-detail-specs">
           {c.mate && (
-            <div className="spec-row combo-item">
-              <span className="spec-label">Mate incluido</span>
-              <span className="spec-value">{c.mate.nombre || 'N/D'}</span>
+            <div className="spec-chip">
+              <span className="spec-chip-label">Mate</span>
+              <span className="spec-chip-value">{c.mate.nombre || 'N/D'}</span>
             </div>
           )}
           {c.bombilla && (
-            <div className="spec-row combo-item">
-              <span className="spec-label">Bombilla incluida</span>
-              <span className="spec-value">{c.bombilla.nombre || 'N/D'}</span>
+            <div className="spec-chip">
+              <span className="spec-chip-label">Bombilla</span>
+              <span className="spec-chip-value">{c.bombilla.nombre || 'N/D'}</span>
             </div>
           )}
         </div>
@@ -134,6 +151,7 @@ function ItemDetail() {
           <div className="item-detail-card">
             {/* Columna izquierda — imágenes */}
             <div className="item-detail-gallery">
+              <button className="item-back-link" onClick={() => navigate(-1)}>← Volver</button>
               <div className="item-main-image">
                 <img
                   src={imagenes[activeImage]?.url || '/placeholder.svg'}
@@ -162,11 +180,15 @@ function ItemDetail() {
 
             {/* Columna derecha — info */}
             <div className="item-detail-info">
-              <button className="item-back-link" onClick={() => navigate(-1)}>← Volver</button>
 
-              {item.categoria && (
-                <span className="item-categoria-badge">{item.categoria}</span>
-              )}
+              <div className="item-badges-row">
+                {item.categoria && (
+                  <span className="item-categoria-badge">{item.categoria}</span>
+                )}
+                <div className={`item-stock-badge ${item.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
+                  {item.stock > 0 ? 'En stock' : 'Sin stock'}
+                </div>
+              </div>
 
               <h1 className="item-detail-title">{item.nombre}</h1>
 
@@ -179,10 +201,6 @@ function ItemDetail() {
                 ) : (
                   <span className="item-price">${item.precioVenta}</span>
                 )}
-              </div>
-
-              <div className={`item-stock-badge ${item.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                {item.stock > 0 ? `En stock` : 'Sin stock'}
               </div>
 
               {item.descripcion && (
@@ -218,19 +236,25 @@ function ItemDetail() {
                 )}
               </div>
 
-              {/* Agregar al carrito */}
-              {item.stock > 0 && (
-                <div className="item-add-cart">
-                  <div className="item-qty-control">
-                    <button onClick={() => setCantidad(c => Math.max(1, c - 1))}>−</button>
-                    <span>{cantidad}</span>
-                    <button onClick={() => setCantidad(c => Math.min(item.stock, c + 1))}>+</button>
-                  </div>
-                  <button className="item-btn-cart" onClick={handleAgregarAlCarrito}>
-                    Agregar al carrito
+              {/* Comprar */}
+              <div className="item-add-cart">
+                {item.stock > 0 ? (
+                  <>
+                    <div className="item-qty-control">
+                      <button onClick={() => setCantidad(c => Math.max(1, c - 1))}>−</button>
+                      <span>{cantidad}</span>
+                      <button onClick={() => setCantidad(c => Math.min(item.stock, c + 1))}>+</button>
+                    </div>
+                    <button className="item-btn-cart" onClick={handleAgregarAlCarrito}>
+                      Comprar
+                    </button>
+                  </>
+                ) : (
+                  <button className="item-btn-cart item-btn-cart--agotado" disabled>
+                    Sin stock
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         )}

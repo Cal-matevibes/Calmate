@@ -114,14 +114,23 @@ function EditItemModal({
       img && typeof img === 'string' && (img.startsWith('data:image/') || img.startsWith('http'))
     );
 
+    const categoriaNorm = formData.catalogo?.toLowerCase();
     let updatedItem = {
       ...item,
       ...formData,
-      ...attributeData,
       imagenes: imagenesValidas,
       categoria: formData.catalogo,
       precio: formData.precioVenta
     };
+
+    // Mapear attributeData al objeto de caracteristicas correcto segun categoria
+    if (categoriaNorm === 'mates' || categoriaNorm === 'mate') {
+      updatedItem.caracteristicasMates = { ...attributeData };
+    } else if (categoriaNorm === 'bombillas' || categoriaNorm === 'bombilla') {
+      updatedItem.caracteristicasBombillas = { ...attributeData };
+    } else {
+      updatedItem = { ...updatedItem, ...attributeData };
+    }
 
     if (formData.catalogo?.toLowerCase() === 'combos') {
       const selectedProducts = [];
@@ -177,8 +186,8 @@ function EditItemModal({
   const getAvailableAttributes = () => {
     if (!formData.catalogo || !catalogos) return {};
 
-    const selectedCatalog = catalogos.find(cat => cat.nombre === formData.catalogo);
-    if (!selectedCatalog || !selectedCatalog.items || selectedCatalog.items.length === 0) return {};
+    const selectedCatalog = catalogos.find(cat => cat.nombre == formData.catalogo);
+    if (!selectedCatalog || !selectedCatalog.items || selectedCatalog.items.length == 0) return {};
 
     const attributes = {};
 

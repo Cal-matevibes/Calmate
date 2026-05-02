@@ -364,32 +364,11 @@ function Stock() {
       const cat = catalogoId?.toLowerCase();
 
       if (cat === 'mates') {
-        const mates = {};
-        if (newItem.forma) mates.forma = newItem.forma;
-        if (newItem.tipo) mates.tipo = newItem.tipo;
-        if (newItem.anchoSuperior) mates.anchoSuperior = newItem.anchoSuperior;
-        if (newItem.anchoInferior) mates.anchoInferior = newItem.anchoInferior;
-        mates.virola = newItem.virola || 'No';
-        if (newItem.tiposDeVirola) mates.tiposDeVirola = newItem.tiposDeVirola;
-        mates.guarda = newItem.guarda || 'No';
-        if (newItem.tiposDeGuarda) mates.tiposDeGuarda = newItem.tiposDeGuarda;
-        mates.revestimiento = newItem.revestimiento || 'No';
-        if (newItem.tiposDeRevestimientos) mates.tiposDeRevestimientos = newItem.tiposDeRevestimientos;
-        mates.curados = newItem.curados || 'No';
-        if (newItem.tiposDeCurados) mates.tiposDeCurados = newItem.tiposDeCurados;
-        if (newItem.terminacion) mates.terminacion = newItem.terminacion;
-        mates.grabado = newItem.grabado || 'No';
-        if (newItem.descripcionDelGrabado) mates.descripcionDelGrabado = newItem.descripcionDelGrabado;
-        if (newItem.color) mates.color = newItem.color;
-        productoData.caracteristicasMates = mates;
+        // Las características vienen ya anidadas desde AddItemModal
+        productoData.caracteristicasMates = newItem.caracteristicasMates || {};
 
       } else if (cat === 'bombillas') {
-        const bombillas = {};
-        if (newItem.forma) bombillas.forma = newItem.forma;
-        if (newItem.tipoMaterial) bombillas.tipoMaterial = newItem.tipoMaterial;
-        if (newItem.tamaño) bombillas.tamaño = newItem.tamaño;
-        if (newItem.centimetros) bombillas.centimetros = Number(newItem.centimetros);
-        productoData.caracteristicasBombillas = bombillas;
+        productoData.caracteristicasBombillas = newItem.caracteristicasBombillas || {};
 
       } else if (cat === 'combos') {
         const combos = {};

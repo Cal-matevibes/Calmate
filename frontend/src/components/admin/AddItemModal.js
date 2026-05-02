@@ -112,13 +112,23 @@ function AddItemModal({
       img && typeof img === 'string' && (img.startsWith('data:image/') || img.startsWith('http'))
     );
     
+    const categoriaNorm = formData.catalogo?.toLowerCase();
     let completeData = {
       ...formData,
-      ...attributeData,
       imagenes: imagenesValidas,
-      categoria: formData.catalogo, // Asegurar que ambos campos tengan el mismo valor
-      precio: formData.precioVenta // Mapear precioVenta a precio
+      categoria: formData.catalogo,
+      precio: formData.precioVenta
     };
+
+    // Mapear attributeData al objeto de caracteristicas correcto segun categoria
+    if (categoriaNorm === 'mates' || categoriaNorm === 'mate') {
+      completeData.caracteristicasMates = { ...attributeData };
+    } else if (categoriaNorm === 'bombillas' || categoriaNorm === 'bombilla') {
+      completeData.caracteristicasBombillas = { ...attributeData };
+    } else {
+      // Para combos y otras categorias, mantener a nivel raiz
+      completeData = { ...completeData, ...attributeData };
+    }
     
     // Si es un combo, enriquecer la descripción con información de los productos seleccionados
     if (formData.catalogo?.toLowerCase() === 'combos') {

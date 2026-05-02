@@ -280,53 +280,63 @@
 
 .item-tab-panel {
   min-height: 80px;
-  padding-top: 0.75rem;
+  padding-top: 1rem;
+}
+
+/* tab panel title */
+.item-tab-panel h4 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8a9a5b;
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e4eccc;
 }
 
 /* ===== SPECS TABLE ===== */
 .item-detail-specs {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #e8edd8;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  padding: 0.25rem 0;
 }
 
 .spec-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.55rem 0.9rem;
-  font-size: 0.92rem;
-  border-bottom: 1px solid #e8edd8;
-}
-
-.spec-row:last-child {
-  border-bottom: none;
-}
-
-.spec-row:nth-child(odd) {
+  flex-direction: column;
+  gap: 0.15rem;
   background: #f7f9f0;
+  border: 1px solid #e4eccc;
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+  transition: box-shadow 0.15s;
+}
+
+.spec-row:hover {
+  box-shadow: 0 2px 8px rgba(82, 105, 26, 0.1);
 }
 
 .spec-label {
-  color: #777;
-  font-weight: 500;
-  flex: 0 0 45%;
+  color: #8a9a5b;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .spec-value {
   color: #1a2a00;
+  font-size: 0.95rem;
   font-weight: 600;
-  text-align: right;
-  flex: 1;
 }
 
 .spec-empty {
   color: #aaa;
   font-size: 0.9rem;
   padding: 0.5rem 0;
+  grid-column: 1 / -1;
 }
 
 .spec-row.combo-item .spec-label {
@@ -352,10 +362,15 @@
 
 /* ===== ADD TO CART ===== */
 .item-add-cart {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   margin-top: 0.5rem;
+  padding: 1.5rem 2rem;
+  border-radius: 14px;
+  border: 1px solid #e4eccc;
   flex-wrap: wrap;
 }
 
@@ -392,24 +407,21 @@
 
 .item-btn-cart {
   flex: 1;
-  min-width: 160px;
-  padding: 0.75rem 1.5rem;
-  background: #52691a;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  max-width: 360px;
+  min-width: 200px;
+  padding: 0.75rem 2rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-radius: 4px;
+  height: auto;
 }
 
-.item-btn-cart:hover {
-  background: #3e5315;
-}
-
-.item-btn-cart:active {
-  transform: scale(0.98);
+.item-btn-cart:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* ===== RESPONSIVE ===== */

@@ -56,28 +56,50 @@ function ItemDetail() {
 
   const renderDetalles = () => {
     if (!item) return null;
-    const cat = item.categoria;
+    const cat = item.categoria?.toLowerCase();
 
-    if (cat === 'mates') {
+    if (cat === 'mates' || cat === 'mate') {
       const m = item.caracteristicasMates || {};
+      const labelMap = {
+        forma: 'Forma',
+        tipo: 'Tipo',
+        anchoSuperior: 'Ancho superior',
+        anchoInferior: 'Ancho inferior',
+        virola: 'Virola',
+        tiposDeVirola: 'Tipo de virola',
+        guarda: 'Guarda',
+        tiposDeGuarda: 'Tipo de guarda',
+        revestimiento: 'Revestimiento',
+        tiposDeRevestimientos: 'Tipo de revestimiento',
+        curados: 'Curado',
+        tiposDeCurados: 'Tipo de curado',
+        terminacion: 'Terminación',
+        grabado: 'Grabado',
+        descripcionDelGrabado: 'Descripción del grabado',
+        color: 'Color'
+      };
+
+      const entries = Object.entries(m).filter(([key, val]) =>
+        key !== '_id' && key !== '__v' &&
+        val !== null && val !== undefined && val !== '' && val !== 'No' &&
+        typeof val !== 'object'
+      );
+
+      if (entries.length === 0) return <p className="spec-empty">Sin detalles disponibles.</p>;
+
       return (
         <div className="item-detail-specs">
-          {m.forma         && <div className="spec-row"><span className="spec-label">Forma</span><span className="spec-value">{m.forma}</span></div>}
-          {m.tipo          && <div className="spec-row"><span className="spec-label">Tipo</span><span className="spec-value">{m.tipo}</span></div>}
-          {m.anchoSuperior && <div className="spec-row"><span className="spec-label">Ancho superior</span><span className="spec-value">{m.anchoSuperior}</span></div>}
-          {m.anchoInferior && <div className="spec-row"><span className="spec-label">Ancho inferior</span><span className="spec-value">{m.anchoInferior}</span></div>}
-          {m.virola === 'Si'       && <div className="spec-row"><span className="spec-label">Virola</span><span className="spec-value">Sí{m.tiposDeVirola ? ` — ${m.tiposDeVirola}` : ''}</span></div>}
-          {m.guarda === 'Si'       && <div className="spec-row"><span className="spec-label">Guarda</span><span className="spec-value">Sí{m.tiposDeGuarda ? ` — ${m.tiposDeGuarda}` : ''}</span></div>}
-          {m.revestimiento === 'Si' && <div className="spec-row"><span className="spec-label">Revestimiento</span><span className="spec-value">Sí{m.tiposDeRevestimientos ? ` — ${m.tiposDeRevestimientos}` : ''}</span></div>}
-          {m.curados === 'Si'      && <div className="spec-row"><span className="spec-label">Curado</span><span className="spec-value">Sí{m.tiposDeCurados ? ` — ${m.tiposDeCurados}` : ''}</span></div>}
-          {m.terminacion   && <div className="spec-row"><span className="spec-label">Terminación</span><span className="spec-value">{m.terminacion}</span></div>}
-          {m.grabado === 'Si'      && <div className="spec-row"><span className="spec-label">Grabado</span><span className="spec-value">Sí{m.descripcionDelGrabado ? ` — ${m.descripcionDelGrabado}` : ''}</span></div>}
-          {m.color         && <div className="spec-row"><span className="spec-label">Color</span><span className="spec-value">{m.color}</span></div>}
+          {entries.map(([key, val]) => (
+            <div key={key} className="spec-row">
+              <span className="spec-label">{labelMap[key] || key}</span>
+              <span className="spec-value">{val === 'Si' ? 'Sí' : val}</span>
+            </div>
+          ))}
         </div>
       );
     }
 
-    if (cat === 'bombillas') {
+    if (cat === 'bombillas' || cat === 'bombilla') {
       const b = item.caracteristicasBombillas || {};
       return (
         <div className="item-detail-specs">
@@ -89,7 +111,7 @@ function ItemDetail() {
       );
     }
 
-    if (cat === 'combos') {
+    if (cat === 'combos' || cat === 'combo') {
       const c = item.caracteristicasCombos || {};
       return (
         <div className="item-detail-specs">
@@ -130,9 +152,12 @@ function ItemDetail() {
         )}
 
         {!loading && item && (
+          <>
           <div className="item-detail-card">
             {/* Columna izquierda — imágenes */}
             <div className="item-detail-gallery">
+                            <button className="item-back-link" onClick={() => navigate(-1)}>← Volver</button>
+
               <div className="item-main-image">
                 <img
                   src={imagenes[activeImage]?.url || '/placeholder.svg'}
@@ -161,7 +186,6 @@ function ItemDetail() {
 
             {/* Columna derecha — info */}
             <div className="item-detail-info">
-              <button className="item-back-link" onClick={() => navigate(-1)}>← Volver</button>
 
               {item.categoria && (
                 <span className="item-categoria-badge">{item.categoria}</span>
@@ -181,7 +205,7 @@ function ItemDetail() {
               </div>
 
               <div className={`item-stock-badge ${item.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                {item.stock > 0 ? `✓ En stock (${item.stock} disponibles)` : '✗ Sin stock'}
+                {item.stock > 0 ? `En stock` : 'Sin stock'}
               </div>
 
               {item.descripcion && (
@@ -217,21 +241,27 @@ function ItemDetail() {
                 )}
               </div>
 
-              {/* Agregar al carrito */}
-              {item.stock > 0 && (
-                <div className="item-add-cart">
-                  <div className="item-qty-control">
-                    <button onClick={() => setCantidad(c => Math.max(1, c - 1))}>−</button>
-                    <span>{cantidad}</span>
-                    <button onClick={() => setCantidad(c => Math.min(item.stock, c + 1))}>+</button>
-                  </div>
-                  <button className="item-btn-cart" onClick={handleAgregarAlCarrito}>
-                    Agregar al carrito
-                  </button>
-                </div>
-              )}
             </div>
           </div>
+
+          {/* Agregar al carrito — barra inferior */}
+          <div className="item-add-cart">
+            {item.stock > 0 && (
+              <div className="item-qty-control">
+                <button onClick={() => setCantidad(c => Math.max(1, c - 1))}>−</button>
+                <span>{cantidad}</span>
+                <button onClick={() => setCantidad(c => Math.min(item.stock, c + 1))}>+</button>
+              </div>
+            )}
+            <button
+              className="add-to-cart-btn item-btn-cart"
+              onClick={handleAgregarAlCarrito}
+              disabled={!item.stock || item.stock <= 0}
+            >
+              {item.stock > 0 ? 'Comprar' : 'Sin stock'}
+            </button>
+          </div>
+          </>
         )}
       </main>
 

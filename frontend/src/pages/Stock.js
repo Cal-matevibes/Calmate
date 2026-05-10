@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import Popup from '../components/ui/Popup';
-import PreviewItem from '../components/features/PreviewItem';
+import ItemDetailPreview from '../components/admin/ItemDetailPreview';
 // import ItemForm from '../components/ItemForm'; // Commented out - not currently used
 import AdminFilters from '../components/admin/AdminFilters';
 import AdminItemsView from '../components/admin/AdminItemsView';
@@ -748,12 +748,10 @@ function Stock() {
   // Mostrar loading
   if (loading) {
     return (
-      <div>
+      <div className="stock-loading-wrapper">
         <Header carrito={carrito} userRole="admin" />
-        <div className="stock-page">
-          <div className="stock-container">
-              <Loading text="Cargando productos..." />
-          </div>
+        <div className="page-loading-center">
+          <Loading text="Cargando productos..." />
         </div>
         <Footer />
       </div>
@@ -898,7 +896,7 @@ function Stock() {
 
           {/* Popup de vista previa */}
           {previewItem && (
-            <PreviewItem item={previewItem} onClose={handleClosePreview} />
+            <ItemDetailPreview producto={previewItem} onClose={handleClosePreview} />
           )}
 
           {/* Popup de confirmación */}

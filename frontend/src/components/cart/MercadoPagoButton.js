@@ -23,7 +23,7 @@ function MercadoPagoButton({
     disabled = false,
     className = ''
 }) {
-    const { user } = useAuth();
+    const { user, token } = useAuth();
     const [preferenceId, setPreferenceId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -58,7 +58,7 @@ function MercadoPagoButton({
 
 
             // Crear preferencia
-            const response = await crearPreferenciaPago(formattedData, user);
+            const response = await crearPreferenciaPago(formattedData, user, token);
 
 
             if (!response || !response.success) {

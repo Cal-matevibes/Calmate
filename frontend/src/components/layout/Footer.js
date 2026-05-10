@@ -29,7 +29,7 @@ function Footer() {
             <i className="bi bi-instagram"></i>
           </a>
           <a
-            href="https://wa.me/5492804666566"
+            href="https://wa.me/5492915109826"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-whatsapp"

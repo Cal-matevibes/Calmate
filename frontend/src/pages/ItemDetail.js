@@ -135,7 +135,9 @@ function ItemDetail() {
       <Header carrito={carrito} userRole="client" />
       <main className="item-detail-main">
         {loading && (
-          <Loading text="Cargando producto..." fullPage />
+          <div className="page-loading-center">
+            <Loading text="Cargando producto..." />
+          </div>
         )}
 
         {!loading && (error || !item) && (

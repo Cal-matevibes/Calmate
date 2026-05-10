@@ -221,10 +221,10 @@ function Ventas() {
 
   if (loading) {
     return (
-      <div>
+      <div className="ventas-loading-wrapper">
         <Header />
-        <div className="ventas-page safe-top safe-bottom">
-            <Loading text="Cargando datos de ventas..." />
+        <div className="page-loading-center">
+          <Loading text="Cargando datos de ventas..." />
         </div>
       </div>
     );

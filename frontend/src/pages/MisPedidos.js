@@ -144,7 +144,7 @@ function MisPedidos() {
     return (
       <div className="mis-pedidos-wrapper">
         <Header />
-        <div className="mis-pedidos-container">
+        <div className="page-loading-center">
           <Loading text={!isAuthenticated ? 'Verificando autenticación...' : 'Cargando tus pedidos...'} />
         </div>
         <Footer />

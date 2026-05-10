@@ -7,6 +7,8 @@
 
 .item-detail-main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding-top: 80px; /* fixed header height */
   padding-bottom: 3rem;
 }

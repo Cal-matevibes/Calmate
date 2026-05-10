@@ -1,6 +1,7 @@
 // src/pages/Cart.js
 import React, { useState, useEffect } from 'react';
 import { useCarrito } from '../context/CarritoContext.js';
+import { useAuth } from '../context/AuthContext';
 import Header from '../components/layout/Header.js';
 import Footer from '../components/layout/Footer.js';
 import CartItems from '../components/cart/CartItems.js';
@@ -13,6 +14,7 @@ import Loading from '../components/shared/Loading';
 
 function Cart() {
     const { carrito, eliminarDelCarrito, vaciarCarrito, actualizarCantidad, loading, error, total: carritoTotal } = useCarrito();
+    const { user, token } = useAuth();
     const [currentStep, setCurrentStep] = useState('cart'); // cart, checkout, payment
     const [customerInfo, setCustomerInfo] = useState({
         nombre: '',
@@ -103,7 +105,7 @@ function Cart() {
 
 
             // Crear preferencia de pago
-            const response = await crearPreferenciaPago(datosOrden);
+            const response = await crearPreferenciaPago(datosOrden, user, token);
 
             if (response.success && response.initPoint) {
                 
@@ -163,7 +165,7 @@ function Cart() {
         return (
             <div className="cart-page-wrapper">
                 <Header />
-                <div className="cart-content-container">
+                <div className="page-loading-center">
                     <Loading text="Cargando tu carrito..." />
                 </div>
                 <Footer />

@@ -256,7 +256,7 @@ function Profile() {
     return (
       <div className="profile-wrapper">
         <Header />
-        <div className="profile-container">
+        <div className="page-loading-center">
           <Loading text="Verificando autenticación..." />
         </div>
         <Footer />

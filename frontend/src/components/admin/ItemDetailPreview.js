@@ -2,59 +2,120 @@ import React, { useState } from 'react';
 import '../../pages/styles/ItemDetail.css';
 import './styles/ItemDetailPreview.css';
 
-function ItemDetailPreview({ formData, attributeData = {}, onClose }) {
+function ItemDetailPreview({ formData: rawFormData, attributeData: rawAttributeData, producto, onClose }) {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('detalles');
 
-  const categoria = (formData.catalogo || '').toLowerCase();
+  // Normalizar: acepta un producto real de la BD o los datos del formulario
+  const catRaw = producto ? producto.categoria : rawFormData?.catalogo;
+  const catNorm = (catRaw || '').toLowerCase();
+
+  const item = producto
+    ? {
+        nombre:                   producto.nombre,
+        descripcion:              producto.descripcion,
+        precioVenta:              producto.precioVenta,
+        stock:                    producto.stock,
+        imagenes:                 producto.imagenes || [],
+        categoria:                producto.categoria,
+        tags:                     producto.tags || [],
+        ofertaActiva:             producto.ofertaActiva,
+        precioDescuento:          producto.precioDescuento,
+        tipoDescuento:            producto.tipoDescuento,
+        caracteristicasMates:     producto.caracteristicasMates || {},
+        caracteristicasBombillas: producto.caracteristicasBombillas || {},
+        caracteristicasCombos:    producto.caracteristicasCombos || {},
+      }
+    : {
+        nombre:      rawFormData?.nombre,
+        descripcion: rawFormData?.descripcion,
+        precioVenta: rawFormData?.precioVenta,
+        stock:       rawFormData?.stock,
+        imagenes:    rawFormData?.imagenes || [],
+        categoria:   rawFormData?.catalogo,
+        tags:        rawFormData?.tags || [],
+        caracteristicasMates:     (catNorm === 'mates' || catNorm === 'mate') ? (rawAttributeData || {}) : {},
+        caracteristicasBombillas: (catNorm === 'bombillas' || catNorm === 'bombilla') ? (rawAttributeData || {}) : {},
+        caracteristicasCombos:    {},
+      };
+
+  const cat = (item.categoria || '').toLowerCase();
 
   // Normalizar imágenes: pueden ser strings base64 o {url, alt}
-  const rawImagenes = formData.imagenes || [];
+  const rawImagenes = item.imagenes || [];
   const imagenes = rawImagenes.length > 0
     ? rawImagenes.map((img, i) => ({
         url: typeof img === 'string' ? img : img?.url,
-        alt: typeof img === 'object' ? img?.alt : `${formData.nombre || 'Imagen'} ${i + 1}`
+        alt: typeof img === 'object' ? img?.alt : `${item.nombre || 'Imagen'} ${i + 1}`
       })).filter(img => img.url)
-    : [{ url: '/placeholder.svg', alt: formData.nombre || 'Sin imagen' }];
-
-  // Construir caracteristicas desde attributeData (datos del formulario aún no guardados)
-  const caracteristicasMates = categoria === 'mates' || categoria === 'mate' ? attributeData : {};
-  const caracteristicasBombillas = categoria === 'bombillas' || categoria === 'bombilla' ? attributeData : {};
+    : [{ url: '/placeholder.svg', alt: item.nombre || 'Sin imagen' }];
 
   const renderDetalles = () => {
-    if (categoria === 'mates' || categoria === 'mate') {
-      const m = caracteristicasMates;
-      const hasAny = m.forma || m.tipo || m.anchoSuperior || m.anchoInferior || m.medidaExterior || m.medidaInterior ||
-        m.virola === 'Si' || m.guarda === 'Si' || m.revestimiento === 'Si' || m.curados === 'Si' ||
-        m.terminacion || m.grabado === 'Si' || m.color;
-      if (!hasAny) return <p className="spec-empty">Sin características cargadas.</p>;
-      return (
+    if (cat === 'mates' || cat === 'mate') {
+      const m = item.caracteristicasMates || {};
+      const chips = [
+        m.forma           && { label: 'Forma',          value: m.forma },
+        m.tipo            && { label: 'Tipo',            value: m.tipo },
+        m.anchoSuperior   && { label: 'Ancho superior',  value: m.anchoSuperior },
+        m.anchoInferior   && { label: 'Ancho inferior',  value: m.anchoInferior },
+        m.virola === 'Si' && { label: 'Virola',          value: m.tiposDeVirola || 'Incluida' },
+        m.guarda === 'Si' && { label: 'Guarda',          value: m.tiposDeGuarda || 'Incluida' },
+        m.revestimiento === 'Si' && { label: 'Revestimiento', value: m.tiposDeRevestimientos || 'Incluido' },
+        m.curados === 'Si' && { label: 'Curado',         value: m.tiposDeCurados || 'Incluido' },
+        m.terminacion     && { label: 'Terminación',     value: m.terminacion },
+        m.grabado === 'Si' && { label: 'Grabado',        value: m.descripcionDelGrabado || 'Personalizado' },
+        m.color           && { label: 'Color',           value: m.color },
+      ].filter(Boolean);
+
+      return chips.length > 0 ? (
         <div className="item-detail-specs">
-          {m.forma         && <div className="spec-row"><span className="spec-label">Forma</span><span className="spec-value">{m.forma}</span></div>}
-          {m.tipo          && <div className="spec-row"><span className="spec-label">Tipo</span><span className="spec-value">{m.tipo}</span></div>}
-          {(m.anchoSuperior || m.medidaExterior) && <div className="spec-row"><span className="spec-label">Medida exterior</span><span className="spec-value">{m.anchoSuperior || m.medidaExterior}</span></div>}
-          {(m.anchoInferior || m.medidaInterior) && <div className="spec-row"><span className="spec-label">Medida interior</span><span className="spec-value">{m.anchoInferior || m.medidaInterior}</span></div>}
-          {m.virola === 'Si' && <div className="spec-row"><span className="spec-label">Virola</span><span className="spec-value">Sí{m.tiposDeVirola ? ` — ${m.tiposDeVirola}` : ''}</span></div>}
-          {m.guarda === 'Si' && <div className="spec-row"><span className="spec-label">Guarda</span><span className="spec-value">Sí{m.tiposDeGuarda ? ` — ${m.tiposDeGuarda}` : ''}</span></div>}
-          {m.revestimiento === 'Si' && <div className="spec-row"><span className="spec-label">Revestimiento</span><span className="spec-value">Sí{m.tiposDeRevestimientos ? ` — ${m.tiposDeRevestimientos}` : ''}</span></div>}
-          {m.curados === 'Si' && <div className="spec-row"><span className="spec-label">Curado</span><span className="spec-value">Sí{m.tiposDeCurados ? ` — ${m.tiposDeCurados}` : ''}</span></div>}
-          {m.terminacion   && <div className="spec-row"><span className="spec-label">Terminación</span><span className="spec-value">{m.terminacion}</span></div>}
-          {m.grabado === 'Si' && <div className="spec-row"><span className="spec-label">Grabado</span><span className="spec-value">Sí{m.descripcionDelGrabado ? ` — ${m.descripcionDelGrabado}` : ''}</span></div>}
-          {m.color         && <div className="spec-row"><span className="spec-label">Color</span><span className="spec-value">{m.color}</span></div>}
+          {chips.map(({ label, value }) => (
+            <div key={label} className="spec-chip">
+              <span className="spec-chip-label">{label}</span>
+              <span className="spec-chip-value">{value}</span>
+            </div>
+          ))}
         </div>
-      );
+      ) : <p className="spec-empty">Sin detalles disponibles.</p>;
     }
 
-    if (categoria === 'bombillas' || categoria === 'bombilla') {
-      const b = caracteristicasBombillas;
-      const hasAny = b.forma || b.tipoMaterial || b.tamaño || b.centimetros;
-      if (!hasAny) return <p className="spec-empty">Sin características cargadas.</p>;
+    if (cat === 'bombillas' || cat === 'bombilla') {
+      const b = item.caracteristicasBombillas || {};
+      const chips = [
+        b.forma        && { label: 'Forma',    value: b.forma },
+        b.tipoMaterial && { label: 'Material', value: b.tipoMaterial },
+        b.tamaño       && { label: 'Tamaño',   value: b.tamaño },
+        b.centimetros  && { label: 'Largo',    value: `${b.centimetros} cm` },
+      ].filter(Boolean);
+
+      return chips.length > 0 ? (
+        <div className="item-detail-specs">
+          {chips.map(({ label, value }) => (
+            <div key={label} className="spec-chip">
+              <span className="spec-chip-label">{label}</span>
+              <span className="spec-chip-value">{value}</span>
+            </div>
+          ))}
+        </div>
+      ) : <p className="spec-empty">Sin detalles disponibles.</p>;
+    }
+
+    if (cat === 'combos') {
+      const c = item.caracteristicasCombos || {};
       return (
         <div className="item-detail-specs">
-          {b.forma        && <div className="spec-row"><span className="spec-label">Forma</span><span className="spec-value">{b.forma}</span></div>}
-          {b.tipoMaterial && <div className="spec-row"><span className="spec-label">Material</span><span className="spec-value">{b.tipoMaterial}</span></div>}
-          {b.tamaño       && <div className="spec-row"><span className="spec-label">Tamaño</span><span className="spec-value">{b.tamaño}</span></div>}
-          {b.centimetros  && <div className="spec-row"><span className="spec-label">Largo</span><span className="spec-value">{b.centimetros} cm</span></div>}
+          {c.mate && (
+            <div className="spec-chip">
+              <span className="spec-chip-label">Mate</span>
+              <span className="spec-chip-value">{c.mate.nombre || 'N/D'}</span>
+            </div>
+          )}
+          {c.bombilla && (
+            <div className="spec-chip">
+              <span className="spec-chip-label">Bombilla</span>
+              <span className="spec-chip-value">{c.bombilla.nombre || 'N/D'}</span>
+            </div>
+          )}
         </div>
       );
     }
@@ -65,13 +126,11 @@ function ItemDetailPreview({ formData, attributeData = {}, onClose }) {
   return (
     <div className="idp-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="idp-modal">
-        {/* Header del modal */}
         <div className="idp-header">
           <span className="idp-title-label">Vista previa del producto</span>
           <button className="idp-close-btn" onClick={onClose}>✕</button>
         </div>
 
-        {/* Contenido con el estilo exacto de ItemDetail */}
         <div className="idp-body">
           <div className="item-detail-card idp-card">
             {/* Columna izquierda — imágenes */}
@@ -79,9 +138,14 @@ function ItemDetailPreview({ formData, attributeData = {}, onClose }) {
               <div className="item-main-image">
                 <img
                   src={imagenes[activeImage]?.url || '/placeholder.svg'}
-                  alt={imagenes[activeImage]?.alt || formData.nombre}
+                  alt={imagenes[activeImage]?.alt || item.nombre}
                   onError={(e) => { e.target.src = '/placeholder.svg'; }}
                 />
+                {item.ofertaActiva && (
+                  <span className="item-badge-oferta">
+                    {item.tipoDescuento === 'porcentaje' ? `−${item.precioDescuento}%` : 'Oferta'}
+                  </span>
+                )}
               </div>
               {imagenes.length > 1 && (
                 <div className="item-thumbnails">
@@ -93,7 +157,7 @@ function ItemDetailPreview({ formData, attributeData = {}, onClose }) {
                     >
                       <img
                         src={img.url}
-                        alt={img.alt || formData.nombre}
+                        alt={img.alt || item.nombre}
                         onError={(e) => { e.target.src = '/placeholder.svg'; }}
                       />
                     </button>
@@ -104,30 +168,36 @@ function ItemDetailPreview({ formData, attributeData = {}, onClose }) {
 
             {/* Columna derecha — info */}
             <div className="item-detail-info">
-              {formData.catalogo && (
-                <span className="item-categoria-badge">{formData.catalogo}</span>
-              )}
+              <div className="item-badges-row">
+                {item.categoria && (
+                  <span className="item-categoria-badge">{item.categoria}</span>
+                )}
+                <div className={`item-stock-badge ${item.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
+                  {item.stock > 0 ? 'En stock' : 'Sin stock'}
+                </div>
+              </div>
 
               <h1 className="item-detail-title">
-                {formData.nombre || <span style={{ color: '#aaa', fontStyle: 'italic' }}>Sin nombre</span>}
+                {item.nombre || <span style={{ color: '#aaa', fontStyle: 'italic' }}>Sin nombre</span>}
               </h1>
 
               <div className="item-price-row">
-                <span className="item-price">
-                  {formData.precioVenta
-                    ? `$${parseFloat(formData.precioVenta).toLocaleString('es-AR')}`
-                    : <span style={{ color: '#aaa', fontStyle: 'italic' }}>Sin precio</span>}
-                </span>
+                {item.ofertaActiva && item.precioDescuento != null ? (
+                  <>
+                    <span className="item-price-original">${item.precioVenta}</span>
+                    <span className="item-price-oferta">${item.precioDescuento}</span>
+                  </>
+                ) : (
+                  <span className="item-price">
+                    {item.precioVenta
+                      ? `$${item.precioVenta}`
+                      : <span style={{ color: '#aaa', fontStyle: 'italic' }}>Sin precio</span>}
+                  </span>
+                )}
               </div>
 
-              <div className={`item-stock-badge ${parseInt(formData.stock) > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                {parseInt(formData.stock) > 0
-                  ? `✓ En stock (${formData.stock} disponibles)`
-                  : '✗ Sin stock'}
-              </div>
-
-              {formData.descripcion && (
-                <p className="item-descripcion">{formData.descripcion}</p>
+              {item.descripcion && (
+                <p className="item-descripcion">{item.descripcion}</p>
               )}
 
               {/* Tabs */}
@@ -138,25 +208,46 @@ function ItemDetailPreview({ formData, attributeData = {}, onClose }) {
                 >
                   Características
                 </button>
+                {item.tags?.length > 0 && (
+                  <button
+                    className={`item-tab ${activeTab === 'tags' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('tags')}
+                  >
+                    Etiquetas
+                  </button>
+                )}
               </div>
 
               <div className="item-tab-panel">
                 {activeTab === 'detalles' && renderDetalles()}
+                {activeTab === 'tags' && (
+                  <div className="item-tags-list">
+                    {item.tags.map((tag, i) => (
+                      <span key={i} className="item-tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* Botón de carrito deshabilitado (es preview) */}
-              {parseInt(formData.stock) > 0 && (
-                <div className="item-add-cart">
-                  <div className="item-qty-control">
-                    <button disabled>−</button>
-                    <span>1</span>
-                    <button disabled>+</button>
-                  </div>
-                  <button className="item-btn-cart" disabled style={{ opacity: 0.6, cursor: 'not-allowed' }}>
-                    Agregar al carrito
+              {/* Comprar (deshabilitado en preview) */}
+              <div className="item-add-cart">
+                {item.stock > 0 ? (
+                  <>
+                    <div className="item-qty-control">
+                      <button disabled>−</button>
+                      <span>1</span>
+                      <button disabled>+</button>
+                    </div>
+                    <button className="item-btn-cart" disabled style={{ opacity: 0.6, cursor: 'not-allowed' }}>
+                      Comprar
+                    </button>
+                  </>
+                ) : (
+                  <button className="item-btn-cart item-btn-cart--agotado" disabled>
+                    Sin stock
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>

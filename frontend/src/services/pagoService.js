@@ -1,5 +1,5 @@
 // Función para crear preferencia de pago
-export const crearPreferenciaPago = async (orderData, usuario = null) => {
+export const crearPreferenciaPago = async (orderData, usuario = null, token = null) => {
   try {
 
     // Validaciones básicas
@@ -52,11 +52,12 @@ export const crearPreferenciaPago = async (orderData, usuario = null) => {
     };
 
 
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/pagos/crear-preferencia`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(requestData),
     });
 

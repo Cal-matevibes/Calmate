@@ -199,7 +199,9 @@ function Catalog() {
     return (
       <div className="catalog-page-wrapper">
         <Header carrito={carrito} userRole="client" />
+        <div className="catalog-loading-main">
           <Loading text="Cargando catálogo..." />
+        </div>
         <Footer />
       </div>
     );

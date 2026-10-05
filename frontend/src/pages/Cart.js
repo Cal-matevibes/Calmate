@@ -9,6 +9,7 @@ import CartSummary from '../components/cart/CartSummary.js';
 import EmptyCart from '../components/cart/EmptyCart.js';
 import CheckoutForm from '../components/cart/CheckoutForm.js';
 import PaymentMethod from '../components/cart/PaymentMethod.js';
+import { crearPreferenciaPago, formatearDatosOrden, testConexion } from '../services/pagoService';
 import '../components/cart/styles/Cart.css';
 import Loading from '../components/shared/Loading';
 
@@ -30,11 +31,13 @@ function Cart() {
     const [paymentMethod, setPaymentMethod] = useState('mercadopago'); // mercadopago, whatsapp
     const [isLoading, setIsLoading] = useState(false);
 
-    // Usar el total del contexto o calcularlo como fallback
-    const total = carritoTotal || carrito.reduce((sum, item) => {
+    // Recalcular siempre a partir de los items actuales del carrito: carritoTotal del contexto
+    // puede quedar desincronizado (stale) tras cambios de cantidad, provocando un envío mal calculado
+    const totalCalculado = carrito.reduce((sum, item) => {
         const precio = item.precioUnitario || item.precioVenta || item.precio || 0;
         return sum + precio * item.cantidad;
     }, 0);
+    const total = carrito.length > 0 ? totalCalculado : (carritoTotal || 0);
     const envio = total > 35000 ? 0 : 2500; // Envío gratis en compras mayores a $35.000 (solo productos)
     const totalConEnvio = total + envio;
     const showShipping = currentStep !== 'cart'; // Mostrar shipping en pasos avanzados
@@ -79,11 +82,8 @@ function Cart() {
     const handleMercadoPagoPayment = async () => {
         setIsLoading(true);
         try {
-            // Importar el servicio de pagos dinámicamente
-            const { crearPreferenciaPago, formatearDatosOrden, testearConexion } = await import('../services/pagoService');
-            
             // Primero probar conectividad
-            await testearConexion();
+            await testConexion();
             
             const order = generateOrder();
 
@@ -99,7 +99,12 @@ function Cart() {
                 {
                     costo: order.envio || 0,
                     descuento: order.descuento || 0,
-                    metodo: 'standard'
+                    metodo: 'standard',
+                    direccion: order.customer.direccion,
+                    ciudad: order.customer.ciudad,
+                    provincia: order.customer.provincia,
+                    pais: order.customer.pais,
+                    codigoPostal: order.customer.codigoPostal
                 }
             );
 

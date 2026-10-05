@@ -33,7 +33,7 @@ const crearPreferencia = async (req, res) => {
         console.log('💳 === CREAR PREFERENCIA DE PAGO ===');
         console.log('📦 Body recibido:', JSON.stringify(req.body, null, 2));
 
-        const { items, total, payer, backUrls, auto_return, external_reference, usuario_id, session_id } = req.body;
+        const { items, total, payer, backUrls, auto_return, external_reference, usuario_id, session_id, costoEnvio, direccionEnvio } = req.body;
 
         // Validaciones básicas
         if (!items || !Array.isArray(items) || items.length === 0) {
@@ -62,6 +62,8 @@ const crearPreferencia = async (req, res) => {
             session_id: session_id || null,
             customer_email: payer?.email || null,
             customer_nombre: payer?.name || null,
+            costo_envio: parseFloat(costoEnvio) || 0,
+            direccion_envio: direccionEnvio || null,
             timestamp: Date.now()
         };
 
@@ -86,7 +88,9 @@ const crearPreferencia = async (req, res) => {
             payer: {
                 name: String(payer.name || 'Cliente'),
                 surname: String(payer.surname || 'Test'),
-                email: String(payer.email)
+                email: String(payer.email),
+                ...(payer.phone?.number && { phone: { area_code: String(payer.phone.area_code || ''), number: String(payer.phone.number) } }),
+                ...(payer.address?.street_name && { address: { street_name: String(payer.address.street_name), zip_code: String(payer.address.zip_code || '') } })
             },
             back_urls: {
                 success: `${backUrlBase}/pago/exito`,
@@ -116,7 +120,7 @@ const crearPreferencia = async (req, res) => {
             metadata: {
                 items_count: preferenceData.items.length,
                 subtotal: total,
-                envio: 0,
+                envio: parseFloat(costoEnvio) || 0,
                 descuento: 0
             }
         });
@@ -507,11 +511,15 @@ const procesarPagoExitoso = async (paymentData) => {
         // Extraer datos del cliente del external_reference si están disponibles
         let emailFromRef = null;
         let nombreFromRef = null;
+        let costoEnvioFromRef = 0;
+        let direccionEnvioFromRef = null;
         if (external_reference) {
             try {
                 const refData = JSON.parse(external_reference);
                 emailFromRef = refData.customer_email || null;
                 nombreFromRef = refData.customer_nombre || null;
+                costoEnvioFromRef = parseFloat(refData.costo_envio) || 0;
+                direccionEnvioFromRef = refData.direccion_envio || null;
             } catch (e) { /* ignorar */ }
         }
 
@@ -617,8 +625,15 @@ const procesarPagoExitoso = async (paymentData) => {
             // Items del pedido
             items: itemsPedido,
 
-            // Dirección - usar dirección completa del usuario o placeholders válidos
-            direccionEnvio: direccionCompleta ? usuario.direccion : {
+            // Dirección - usar dirección real enviada desde el checkout, luego la del usuario, luego un placeholder
+            direccionEnvio: direccionEnvioFromRef ? {
+                calle: direccionEnvioFromRef.calle || 'A confirmar por el cliente',
+                numero: 'S/N',
+                ciudad: direccionEnvioFromRef.ciudad || 'A confirmar',
+                provincia: direccionEnvioFromRef.provincia || 'A confirmar',
+                codigoPostal: direccionEnvioFromRef.codigoPostal || '0000',
+                pais: direccionEnvioFromRef.pais || 'Argentina'
+            } : direccionCompleta ? usuario.direccion : {
                 calle: 'A confirmar por el cliente',
                 numero: '1',
                 ciudad: 'Buenos Aires',
@@ -630,9 +645,9 @@ const procesarPagoExitoso = async (paymentData) => {
 
             // Totales
             subtotal: subtotal,
-            costoEnvio: 0,
+            costoEnvio: costoEnvioFromRef,
             descuentos: 0,
-            total: subtotal,
+            total: subtotal + costoEnvioFromRef,
 
             // Estado inicial
             estado: 'confirmado', // Ya está pagado

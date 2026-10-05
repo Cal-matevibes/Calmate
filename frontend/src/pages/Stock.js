@@ -76,7 +76,7 @@ function Stock() {
           // Organizar datos
           const categoriasConProductos = categoriasResponse.data.map(categoria => {
             const productosDeCategoria = productosResponse.data
-              .filter(producto => producto.categoria === categoria.nombre)
+              .filter(producto => (producto.categoria || '').trim().toLowerCase() === (categoria.nombre || '').trim().toLowerCase())
               .map(producto => ({
                 id: producto._id,
                 nombre: producto.nombre,

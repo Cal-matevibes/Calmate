@@ -7,7 +7,15 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
   const [selectedMethod, setSelectedMethod] = useState('');
 
   // Obtener datos del carrito
-  const { carrito, total } = useCarrito();
+  const { carrito, total: totalContexto } = useCarrito();
+
+  // Recalcular a partir de los items actuales: el total del contexto puede quedar desincronizado
+  const totalCalculado = (carrito || []).reduce((sum, item) => {
+    const precio = item.precioUnitario || item.precioVenta || item.precio || 0;
+    return sum + precio * item.cantidad;
+  }, 0);
+  const total = carrito && carrito.length > 0 ? totalCalculado : (totalContexto || 0);
+  const envio = total > 35000 ? 0 : 2500; // Envío gratis en compras mayores a $35.000 (solo productos)
 
   // Preparar datos para MercadoPago
   const prepareOrderData = () => {
@@ -30,7 +38,7 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
           precioVenta: item.precioVenta
         }))
       },
-      total: total,
+      total: total + envio,
       customer: {
         nombre: customerInfo.esRegalo ? customerInfo.nombreRegalo : customerInfo.nombre || 'Cliente',
         apellido: customerInfo.esRegalo ? customerInfo.apellidoRegalo : customerInfo.apellido || '',
@@ -46,8 +54,11 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
         } : null
       },
       shipping: {
+        costo: envio,
         direccion: customerInfo.direccion,
         ciudad: customerInfo.ciudad,
+        provincia: customerInfo.provincia,
+        pais: customerInfo.pais,
         codigoPostal: customerInfo.codigoPostal
       }
     };

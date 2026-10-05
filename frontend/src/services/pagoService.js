@@ -11,7 +11,9 @@ export const crearPreferenciaPago = async (orderData, usuario = null, token = nu
     const payer = {
       name: orderData.payer?.name || usuario?.nombre || 'Cliente',
       surname: orderData.payer?.surname || usuario?.apellido || 'Test',
-      email: orderData.payer?.email || usuario?.email || 'test@calmatevibes.com'
+      email: orderData.payer?.email || usuario?.email || 'test@calmatevibes.com',
+      phone: orderData.payer?.phone,
+      address: orderData.payer?.address
     };
 
     if (!payer.email || payer.email === '') {
@@ -47,7 +49,9 @@ export const crearPreferenciaPago = async (orderData, usuario = null, token = nu
       total: orderData.total,
       external_reference: orderData.external_reference || `CV_${Date.now()}`,
       usuario_id: usuario_id,
-      session_id: session_id
+      session_id: session_id,
+      costoEnvio: orderData.costoEnvio || 0,
+      direccionEnvio: orderData.direccionEnvio
       // Las back_urls y auto_return se configuran en el backend
     };
 
@@ -103,7 +107,20 @@ export const formatearDatosOrden = (carrito, customer = {}, shipping = {}) => {
       currency_id: 'ARS'
     })) : [];
 
-    // Calcular total
+    // Agregar el costo de envío como ítem propio para que el total sea consistente con lo que paga el cliente
+    const costoEnvio = parseFloat(shipping.costo || 0);
+    if (costoEnvio > 0) {
+      items.push({
+        id: 'envio',
+        title: 'Costo de envío',
+        description: 'Envío según provincia',
+        quantity: 1,
+        unit_price: costoEnvio,
+        currency_id: 'ARS'
+      });
+    }
+
+    // Calcular total (incluye envío)
     const total = items.reduce((sum, item) => sum + (item.unit_price * item.quantity), 0);
 
     // Validar que tengamos al menos email del cliente
@@ -122,16 +139,25 @@ export const formatearDatosOrden = (carrito, customer = {}, shipping = {}) => {
       } : undefined,
       address: shipping.direccion && shipping.direccion.trim() ? {
         street_name: shipping.direccion.trim(),
-        street_number: parseInt(shipping.numero),
         zip_code: shipping.codigoPostal?.trim() 
       } : undefined
     };
 
+    // Dirección completa de envío para que el backend pueda armar el pedido con los datos reales
+    const direccionEnvio = shipping.direccion && shipping.direccion.trim() ? {
+      calle: shipping.direccion.trim(),
+      ciudad: shipping.ciudad?.trim() || '',
+      provincia: shipping.provincia?.trim() || '',
+      codigoPostal: shipping.codigoPostal?.trim() || '',
+      pais: shipping.pais?.trim() || 'Argentina'
+    } : undefined;
 
     const orderData = {
       items,
       total,
       payer,
+      costoEnvio,
+      direccionEnvio,
       external_reference: `CV_${Date.now()}`
       // Las URLs de retorno se configuran en el backend
     };

@@ -358,6 +358,14 @@ const webhook = async (req, res) => {
 
     // Obtener el payment ID desde query params
     const paymentId = req.query.id || req.query['data.id'] || req.body?.data?.id;
+    const topic = req.query.topic || req.query.type || req.body?.topic || req.body?.type;
+
+    // Las notificaciones merchant_order traen el ID de la orden, no de un pago.
+    // El pago llega en su propia notificación (topic/type "payment").
+    if (topic && topic !== 'payment') {
+        console.log(`ℹ️ [${webhookId}] Notificación "${topic}" ignorada (solo se procesan notificaciones "payment")`);
+        return res.sendStatus(200);
+    }
     
     if (!paymentId) {
         console.log(`⚠️ [${webhookId}] No se encontró payment ID en el webhook`);

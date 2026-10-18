@@ -99,12 +99,25 @@ const crearPreferencia = async (req, res) => {
             notification_url: `${process.env.BACKEND_URL}/api/pagos/webhook`,
             external_reference: JSON.stringify(referenceData)
         }
+        console.log('📤 Preferencia enviada a MercadoPago:', JSON.stringify({
+            ...preferenceData,
+            external_reference_length: preferenceData.external_reference.length
+        }, null, 2));
+
         const response = await preference.create({ body: preferenceData });
 
         // Verificar estructura antes de acceder
         const responseBody = response?.body || response;
         // Usar la estructura correcta según el SDK
         const responseData = response?.body || response;
+
+        console.log('✅ Preferencia creada en MercadoPago:', {
+            id: responseData?.id,
+            collector_id: responseData?.collector_id,
+            live_mode: responseData?.live_mode,
+            init_point: responseData?.init_point,
+            sandbox_init_point: responseData?.sandbox_init_point
+        });
 
 
         res.json({
@@ -125,10 +138,11 @@ const crearPreferencia = async (req, res) => {
     } catch (error) {
         console.error('❌ [Backend] Error completo:', {
             message: error.message,
-            stack: error.stack,
+            status: error.status,
+            error: error.error,
+            cause: JSON.stringify(error.cause, null, 2),
             response: error.response?.data,
-            cause: error.cause,
-            status: error.status
+            stack: error.stack
         });
 
         res.status(500).json({
@@ -203,6 +217,13 @@ const procesarResultado = async (req, res) => {
         }
 
         // Para otros estados (pending, rejected, etc.)
+        console.warn('⚠️ Retorno de MercadoPago sin pago aprobado:', {
+            status,
+            payment_id,
+            merchant_order_id,
+            external_reference,
+            query: req.query
+        });
         res.json({
             success: true,
             message: 'Resultado procesado correctamente',
@@ -357,6 +378,18 @@ const webhook = async (req, res) => {
                 payer_email: paymentData.payer?.email
             });
 
+            if (paymentData.status !== 'approved') {
+                console.warn(`⚠️ [${webhookId}] Pago NO aprobado:`, {
+                    id: paymentData.id,
+                    status: paymentData.status,
+                    status_detail: paymentData.status_detail,
+                    payment_method_id: paymentData.payment_method_id,
+                    payment_type_id: paymentData.payment_type_id,
+                    transaction_amount: paymentData.transaction_amount,
+                    live_mode: paymentData.live_mode
+                });
+            }
+
             // Extraer información del external_reference para todos los pagos
             let usuarioId = null;
             let sessionId = null;
@@ -443,7 +476,8 @@ const webhook = async (req, res) => {
                 console.log(`⚠️ Pago con estado: ${paymentData.status} - Solo guardado en BD, no se crea pedido`);
             }
         } else {
-            console.error('❌ Error obteniendo pago de MercadoPago API:', response.status, response.statusText);
+            const errorBody = await response.text();
+            console.error(`❌ [${webhookId}] Error obteniendo pago ${paymentId} de MercadoPago API:`, response.status, response.statusText, errorBody);
         }
 
         res.sendStatus(200);

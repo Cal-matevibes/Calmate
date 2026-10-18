@@ -20,8 +20,7 @@ if (!accessToken) {
 const client = new MercadoPagoConfig({
     accessToken: accessToken,
     options: {
-        timeout: 15000,
-        integratorId: 'dev_24c65fb163bf11ea96500242ac130004'
+        timeout: 15000
     }
 });
 

@@ -74,6 +74,13 @@ const crearPreferencia = async (req, res) => {
         const backUrlIsHttps = backUrlBase && backUrlBase.startsWith('https');
         console.log('🔗 Back URLs base:', backUrlBase, '| HTTPS:', backUrlIsHttps);
 
+        // MercadoPago rechaza notification_url inválidas (p. ej. "undefined/api/...")
+        const backendUrl = (process.env.BACKEND_URL || '').replace(/\/+$/, '');
+        if (!/^https?:\/\//.test(backendUrl)) {
+            console.warn('⚠️ BACKEND_URL no está definida o no es una URL válida; se omite notification_url. El webhook no se recibirá.');
+        }
+        const backendUrlValida = /^https?:\/\//.test(backendUrl) ? backendUrl : null;
+
         // Formatear preferencia para MercadoPago
         const preferenceData = {
             items: items.map((item, index) => ({
@@ -96,7 +103,7 @@ const crearPreferencia = async (req, res) => {
             },
             // auto_return solo funciona con URLs HTTPS (requerido por MercadoPago)
             ...(backUrlIsHttps && { auto_return: 'approved' }),
-            notification_url: `${process.env.BACKEND_URL}/api/pagos/webhook`,
+            ...(backendUrlValida && { notification_url: `${backendUrlValida}/api/pagos/webhook` }),
             external_reference: JSON.stringify(referenceData)
         }
         console.log('📤 Preferencia enviada a MercadoPago:', JSON.stringify({

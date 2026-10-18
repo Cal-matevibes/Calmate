@@ -88,9 +88,7 @@ const crearPreferencia = async (req, res) => {
             payer: {
                 name: String(payer.name || 'Cliente'),
                 surname: String(payer.surname || 'Test'),
-                email: String(payer.email),
-                ...(payer.phone?.number && { phone: { area_code: String(payer.phone.area_code || ''), number: String(payer.phone.number) } }),
-                ...(payer.address?.street_name && { address: { street_name: String(payer.address.street_name), zip_code: String(payer.address.zip_code || '') } })
+                email: String(payer.email)
             },
             back_urls: {
                 success: `${backUrlBase}/pago/exito`,

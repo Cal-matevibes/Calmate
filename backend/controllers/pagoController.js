@@ -27,6 +27,30 @@ const client = new MercadoPagoConfig({
 // Inicializar el servicio de preferencias
 const preference = new Preference(client);
 
+// Los datos del pedido viajan en metadata (external_reference admite máx. 256 caracteres).
+// Si no hay metadata, se intenta el formato antiguo: JSON dentro de external_reference.
+const parseReferencia = (externalReference, metadata) => {
+    if (metadata && typeof metadata === 'object' && Object.keys(metadata).length > 0) {
+        return metadata;
+    }
+    try {
+        const parsed = JSON.parse(externalReference);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (e) {
+        return {};
+    }
+};
+
+const obtenerPagoMP = async (paymentId) => {
+    const resp = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+    });
+    if (!resp.ok) {
+        throw new Error(`MercadoPago API ${resp.status}: ${await resp.text()}`);
+    }
+    return resp.json();
+};
+
 const crearPreferencia = async (req, res) => {
     try {
         console.log('💳 === CREAR PREFERENCIA DE PAGO ===');
@@ -104,7 +128,8 @@ const crearPreferencia = async (req, res) => {
             // auto_return solo funciona con URLs HTTPS (requerido por MercadoPago)
             ...(backUrlIsHttps && { auto_return: 'approved' }),
             ...(backendUrlValida && { notification_url: `${backendUrlValida}/api/pagos/webhook` }),
-            external_reference: JSON.stringify(referenceData)
+            external_reference: referenceData.referencia,
+            metadata: referenceData
         }
         console.log('📤 Preferencia enviada a MercadoPago:', JSON.stringify({
             ...preferenceData,
@@ -177,28 +202,27 @@ const procesarResultado = async (req, res) => {
         if (status === 'approved' && payment_id) {
             console.log('✅ Pago aprobado, procesando...');
 
-            // Extraer información del external_reference
-            let usuarioId = null;
-            let sessionId = null;
-
-            if (external_reference) {
-                try {
-                    const refData = JSON.parse(external_reference);
-                    usuarioId = refData.usuario_id;
-                    sessionId = refData.session_id;
-                    console.log('📋 Datos extraídos del external_reference:', { usuarioId, sessionId });
-                } catch (e) {
-                    console.log('⚠️ No se pudo parsear external_reference:', external_reference);
-                }
+            // Los datos del pedido están en la metadata del pago en MercadoPago
+            let pagoMP = null;
+            try {
+                pagoMP = await obtenerPagoMP(payment_id);
+            } catch (e) {
+                console.warn('⚠️ No se pudo obtener el pago desde MercadoPago:', e.message);
             }
+
+            const refData = parseReferencia(pagoMP?.external_reference || external_reference, pagoMP?.metadata);
+            const usuarioId = refData.usuario_id || null;
+            const sessionId = refData.session_id || null;
+            console.log('📋 Datos extraídos de la referencia:', { usuarioId, sessionId });
 
             // Procesar el pago exitoso
             const paymentData = {
                 payment_id,
-                external_reference,
+                external_reference: pagoMP?.external_reference || external_reference,
+                metadata: pagoMP?.metadata,
                 usuario_id: usuarioId,
                 session_id: sessionId,
-                payer_email: req.query.payer_email || req.body.payer_email,
+                payer_email: req.query.payer_email || req.body.payer_email || pagoMP?.payer?.email,
                 transaction_amount: req.query.transaction_amount || req.body.transaction_amount,
                 payment_method_id: req.query.payment_method_id || req.body.payment_method_id,
                 payment_type_id: req.query.payment_type_id || req.body.payment_type_id
@@ -405,20 +429,11 @@ const webhook = async (req, res) => {
                 });
             }
 
-            // Extraer información del external_reference para todos los pagos
-            let usuarioId = null;
-            let sessionId = null;
-
-            if (paymentData.external_reference) {
-                try {
-                    const refData = JSON.parse(paymentData.external_reference);
-                    usuarioId = refData.usuario_id;
-                    sessionId = refData.session_id;
-                    console.log('📋 Datos extraídos del external_reference:', { usuarioId, sessionId });
-                } catch (e) {
-                    console.log('⚠️ No se pudo parsear external_reference:', paymentData.external_reference);
-                }
-            }
+            // Extraer información de la metadata (o del external_reference antiguo) para todos los pagos
+            const refData = parseReferencia(paymentData.external_reference, paymentData.metadata);
+            const usuarioId = refData.usuario_id || null;
+            const sessionId = refData.session_id || null;
+            console.log('📋 Datos extraídos de la referencia:', { usuarioId, sessionId });
 
             // 1. SIEMPRE GUARDAR EL PAGO EN LA BASE DE DATOS (cualquier estado)
             try {
@@ -437,6 +452,7 @@ const webhook = async (req, res) => {
                 const paymentProcessData = {
                     payment_id: paymentData.id,
                     external_reference: paymentData.external_reference,
+                    metadata: paymentData.metadata,
                     usuario_id: usuarioId,
                     session_id: sessionId,
                     payer_email: paymentData.payer?.email,
@@ -546,6 +562,7 @@ const procesarPagoExitoso = async (paymentData) => {
         const {
             payment_id,
             external_reference,
+            metadata,
             usuario_id,
             session_id,
             payer_email,
@@ -561,15 +578,11 @@ const procesarPagoExitoso = async (paymentData) => {
         let nombreFromRef = null;
         let costoEnvioFromRef = 0;
         let direccionEnvioFromRef = null;
-        if (external_reference) {
-            try {
-                const refData = JSON.parse(external_reference);
-                emailFromRef = refData.customer_email || null;
-                nombreFromRef = refData.customer_nombre || null;
-                costoEnvioFromRef = parseFloat(refData.costo_envio) || 0;
-                direccionEnvioFromRef = refData.direccion_envio || null;
-            } catch (e) { /* ignorar */ }
-        }
+        const refData = parseReferencia(external_reference, metadata);
+        emailFromRef = refData.customer_email || null;
+        nombreFromRef = refData.customer_nombre || null;
+        costoEnvioFromRef = parseFloat(refData.costo_envio) || 0;
+        direccionEnvioFromRef = refData.direccion_envio || null;
 
         // 0. Verificar si el pedido ya fue procesado (idempotencia)
         const pedidoExistente = await Pedido.findOne({ 'mercadoPago.paymentId': String(payment_id) });

@@ -11,11 +11,14 @@ connectDB();
 
 const app = express();
 
+// Render corre detrás de un proxy; necesario para express-rate-limit
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL,
-    'https://calmatex.netlify.app',
+    'https://cal-mate.netlify.app',
     'http://localhost:3000' // Para desarrollo local
   ],
   credentials: true,

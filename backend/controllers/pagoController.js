@@ -20,7 +20,7 @@ if (!accessToken) {
 const client = new MercadoPagoConfig({
     accessToken: accessToken,
     options: {
-        timeout: 5000,
+        timeout: 15000,
         integratorId: 'dev_24c65fb163bf11ea96500242ac130004'
     }
 });
@@ -129,7 +129,9 @@ const crearPreferencia = async (req, res) => {
         console.error('❌ [Backend] Error completo:', {
             message: error.message,
             stack: error.stack,
-            response: error.response?.data
+            response: error.response?.data,
+            cause: error.cause,
+            status: error.status
         });
 
         res.status(500).json({

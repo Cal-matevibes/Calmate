@@ -318,13 +318,36 @@ PedidoSchema.pre('save', async function(next) {
 // Middleware para actualizar historial de estados
 PedidoSchema.pre('save', function(next) {
   if (this.isModified('estado') && !this.isNew) {
-    this.historialEstados.push({
-      estado: this.estado,
-      fecha: new Date(),
-      comentario: `Estado actualizado a: ${this.estado}`
-    });
+    const ultimoCambio = this.historialEstados[this.historialEstados.length - 1];
+    if (!ultimoCambio || ultimoCambio.estado !== this.estado) {
+      this.historialEstados.push({
+        estado: this.estado,
+        fecha: new Date(),
+        comentario: `Estado actualizado a: ${this.estado}`
+      });
+    }
   }
   next();
 });
+
+PedidoSchema.methods.actualizarEstado = async function(nuevoEstado, comentario, usuario) {
+  if (this.estado === nuevoEstado) return this;
+
+  this.estado = nuevoEstado;
+  this.historialEstados.push({
+    estado: nuevoEstado,
+    fecha: new Date(),
+    comentario: comentario || `Estado actualizado a: ${nuevoEstado}`,
+    usuario
+  });
+
+  await this.save();
+  return this;
+};
+
+PedidoSchema.methods.cancelar = function(motivo) {
+  const comentario = motivo ? `Pedido cancelado: ${motivo}` : 'Pedido cancelado';
+  return this.actualizarEstado('cancelado', comentario);
+};
 
 module.exports = mongoose.model('Pedido', PedidoSchema);

@@ -1,40 +1,50 @@
-// Variables de entorno requeridas en .env:
-// EMAIL_HOST=smtp.gmail.com
-// EMAIL_PORT=587
-// EMAIL_USER=tu-email@gmail.com
-// EMAIL_PASS=tu-app-password  (para Gmail: contraseña de aplicación generada en Google Account > Seguridad)
-// EMAIL_FROM="CalmateVibes <noreply@calmatevibes.com>"
-// FRONTEND_URL=http://localhost:3000
-
-const nodemailer = require('nodemailer');
 const orderConfirmationTemplate = require('../templates/emails/orderConfirmation');
+const orderStatusTemplate = require('../templates/emails/orderStatus');
 const passwordResetTemplate = require('../templates/emails/passwordReset');
 
 class EmailService {
-  constructor() {
-    this.transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT) || 587,
-      secure: parseInt(process.env.EMAIL_PORT) === 465,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-  }
-
-  // Método genérico de envío — usado internamente por todos los helpers
   async send(to, { subject, html }) {
-    await this.transporter.sendMail({
-      from: process.env.EMAIL_FROM || '"CalmateVibes" <noreply@calmatevibes.com>',
-      to,
-      subject,
-      html
+    const serverToken = process.env.POSTMARK_SERVER_TOKEN;
+    const from = process.env.EMAIL_FROM;
+
+    if (!serverToken) {
+      throw new Error('Falta configurar POSTMARK_SERVER_TOKEN');
+    }
+    if (!from) {
+      throw new Error('Falta configurar EMAIL_FROM con un remitente verificado en Postmark');
+    }
+
+    const response = await fetch('https://api.postmarkapp.com/email', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-Postmark-Server-Token': serverToken
+      },
+      body: JSON.stringify({
+        From: from,
+        To: to,
+        Subject: subject,
+        HtmlBody: html,
+        MessageStream: 'outbound'
+      }),
+      signal: AbortSignal.timeout(15000)
     });
+
+    const result = await response.json();
+    if (!response.ok || result.ErrorCode !== 0) {
+      throw new Error(`Postmark rechazó el correo (${result.ErrorCode}): ${result.Message || response.statusText}`);
+    }
+
+    return result;
   }
 
   async sendOrderConfirmationEmail(email, nombre, pedido) {
     await this.send(email, orderConfirmationTemplate({ nombre, ...pedido }));
+  }
+
+  async sendOrderStatusEmail(email, nombre, pedido) {
+    await this.send(email, orderStatusTemplate({ nombre, ...pedido }));
   }
 
   async sendPasswordResetEmail(email, nombre, resetUrl) {

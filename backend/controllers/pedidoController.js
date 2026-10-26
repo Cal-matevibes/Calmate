@@ -2,6 +2,7 @@ const Pedido = require('../models/Pedido');
 const Producto = require('../models/Producto');
 const Usuario = require('../models/Usuario');
 const Envio = require('../models/Envio');
+const emailService = require('../services/emailService');
 
 // @desc    Crear nuevo pedido
 // @route   POST /api/pedidos
@@ -244,7 +245,25 @@ const actualizarEstadoPedido = async (req, res) => {
       });
     }
 
-    const pedidoActualizado = await pedido.actualizarEstado(estado, observaciones);
+    const estadoAnterior = pedido.estado;
+    const pedidoActualizado = await pedido.actualizarEstado(estado, observaciones, req.usuario.id);
+
+    if (estadoAnterior !== pedidoActualizado.estado && pedidoActualizado.datosContacto?.email) {
+      try {
+        await emailService.sendOrderStatusEmail(
+          pedidoActualizado.datosContacto.email,
+          `${pedidoActualizado.datosContacto.nombre} ${pedidoActualizado.datosContacto.apellido}`.trim(),
+          {
+            numeroPedido: pedidoActualizado.numeroPedido,
+            estado: pedidoActualizado.estado,
+            comentario: observaciones,
+            numeroSeguimiento: pedidoActualizado.envio?.numeroSeguimiento
+          }
+        );
+      } catch (emailError) {
+        console.error('Error enviando actualización de estado del pedido:', emailError.message);
+      }
+    }
 
     res.json({
       success: true,
@@ -299,6 +318,22 @@ const cancelarPedido = async (req, res) => {
         item.producto,
         { $inc: { stock: item.cantidad } }
       );
+    }
+
+    if (pedidoCancelado.datosContacto?.email) {
+      try {
+        await emailService.sendOrderStatusEmail(
+          pedidoCancelado.datosContacto.email,
+          `${pedidoCancelado.datosContacto.nombre} ${pedidoCancelado.datosContacto.apellido}`.trim(),
+          {
+            numeroPedido: pedidoCancelado.numeroPedido,
+            estado: pedidoCancelado.estado,
+            comentario: motivo ? `Motivo de cancelación: ${motivo}` : undefined
+          }
+        );
+      } catch (emailError) {
+        console.error('Error enviando notificación de cancelación del pedido:', emailError.message);
+      }
     }
 
     res.json({
@@ -505,6 +540,8 @@ const procesarPago = async (req, res) => {
       });
     }
 
+    const estadoAnterior = pedido.estado;
+
     // Actualizar información de pago
     pedido.pago = {
       ...pedido.pago,
@@ -521,6 +558,22 @@ const procesarPago = async (req, res) => {
     }
 
     await pedido.save();
+
+    if (estadoAnterior !== pedido.estado && pedido.datosContacto?.email) {
+      try {
+        await emailService.sendOrderStatusEmail(
+          pedido.datosContacto.email,
+          `${pedido.datosContacto.nombre} ${pedido.datosContacto.apellido}`.trim(),
+          {
+            numeroPedido: pedido.numeroPedido,
+            estado: pedido.estado,
+            comentario: 'Tu pago fue confirmado.'
+          }
+        );
+      } catch (emailError) {
+        console.error('Error enviando actualización de estado del pedido:', emailError.message);
+      }
+    }
 
     res.json({
       success: true,

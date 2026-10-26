@@ -1,5 +1,6 @@
 const Envio = require('../models/Envio');
 const Pedido = require('../models/Pedido');
+const emailService = require('../services/emailService');
 
 // @desc    Crear nuevo envío
 // @route   POST /api/envios
@@ -180,6 +181,7 @@ const actualizarEstado = async (req, res) => {
     // Actualizar estado del pedido si corresponde
     const pedido = await Pedido.findById(envio.pedido);
     if (pedido) {
+      const estadoAnterior = pedido.estado;
       switch (estado) {
         case 'despachado':
           if (pedido.estado !== 'enviado') {
@@ -191,6 +193,22 @@ const actualizarEstado = async (req, res) => {
             await pedido.actualizarEstado('entregado', 'Pedido entregado exitosamente');
           }
           break;
+      }
+
+      if (estadoAnterior !== pedido.estado && pedido.datosContacto?.email) {
+        try {
+          await emailService.sendOrderStatusEmail(
+            pedido.datosContacto.email,
+            `${pedido.datosContacto.nombre} ${pedido.datosContacto.apellido}`.trim(),
+            {
+              numeroPedido: pedido.numeroPedido,
+              estado: pedido.estado,
+              numeroSeguimiento: envio.tracking?.numero
+            }
+          );
+        } catch (emailError) {
+          console.error('Error enviando actualización de estado del pedido:', emailError.message);
+        }
       }
     }
 

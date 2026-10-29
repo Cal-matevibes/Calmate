@@ -148,7 +148,7 @@ function PedidosList({ pedidos, selectedPedido, onPedidoSelect, onStatusUpdate }
             )}
 
             {/* Quick actions */}
-            <div className="pedido-actions" onClick={(e) => e.stopPropagation()}>
+            {/* <div className="pedido-actions" onClick={(e) => e.stopPropagation()}>
               <select
                 className="quick-status-select"
                 value="select"
@@ -161,7 +161,7 @@ function PedidosList({ pedidos, selectedPedido, onPedidoSelect, onStatusUpdate }
                 <option value="entregado">Entregado</option>
                 <option value="cancelado">Cancelar</option>
               </select>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

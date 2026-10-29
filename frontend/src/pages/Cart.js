@@ -9,7 +9,7 @@ import CartSummary from '../components/cart/CartSummary.js';
 import EmptyCart from '../components/cart/EmptyCart.js';
 import CheckoutForm from '../components/cart/CheckoutForm.js';
 import PaymentMethod from '../components/cart/PaymentMethod.js';
-import { crearPreferenciaPago, formatearDatosOrden, testConexion } from '../services/pagoService';
+import { crearPreferenciaPago, formatearDatosOrden } from '../services/pagoService';
 import { calcularCostoEnvio } from '../utils/shipping';
 import '../components/cart/styles/Cart.css';
 import Loading from '../components/shared/Loading';
@@ -82,9 +82,6 @@ function Cart() {
     const handleMercadoPagoPayment = async () => {
         setIsLoading(true);
         try {
-            // Primero probar conectividad
-            await testConexion();
-            
             const order = generateOrder();
 
             // Formatear datos para MercadoPago

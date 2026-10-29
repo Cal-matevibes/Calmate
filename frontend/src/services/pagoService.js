@@ -10,13 +10,13 @@ export const crearPreferenciaPago = async (orderData, usuario = null, token = nu
     // Asegurar que tengamos información del pagador
     const payer = {
       name: orderData.payer?.name || usuario?.nombre || 'Cliente',
-      surname: orderData.payer?.surname || usuario?.apellido || 'Test',
-      email: orderData.payer?.email || usuario?.email || 'test@calmatevibes.com',
+      surname: orderData.payer?.surname || usuario?.apellido || '',
+      email: orderData.payer?.email || usuario?.email || '',
       phone: orderData.payer?.phone,
       address: orderData.payer?.address
     };
 
-    if (!payer.email || payer.email === '') {
+    if (!payer.email.trim()) {
       throw new Error('Se requiere un email válido del cliente');
     }
 
@@ -293,21 +293,5 @@ export const verificarEstadoPago = async (externalReference, paymentId = null) =
 
   } catch (error) {
     return null; // No es crítico si falla
-  }
-};
-
-// Test de conectividad
-export const testConexion = async () => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/pagos/test`);
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    throw error;
   }
 };

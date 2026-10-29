@@ -50,7 +50,7 @@ const statusContent = {
   }
 };
 
-const logoUrl = 'https://cal-mate.netlify.app/logo-png.png';
+const logoUrl = 'https://cal-mate.netlify.app/cal.mate%20beige.png';
 
 module.exports = ({ nombre, numeroPedido, estado, comentario, numeroSeguimiento }) => {
   const content = statusContent[estado] || {

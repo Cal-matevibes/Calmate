@@ -2,6 +2,7 @@ const escapeHtml = (v) =>
   String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const money = (n) => `$${Number(n || 0).toLocaleString('es-AR')}`;
+const logoUrl = 'https://cal-mate.netlify.app/cal.mate%20beige.png';
 
 module.exports = ({ nombre, numeroPedido, items = [], subtotal, costoEnvio = 0, total, esRegalo, destinatarioRegalo }) => {
   const filas = items
@@ -24,6 +25,9 @@ module.exports = ({ nombre, numeroPedido, items = [], subtotal, costoEnvio = 0, 
   return {
     subject: `Confirmación de tu pedido ${numeroPedido || ''}`.trim(),
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
+      <div style="padding:18px;text-align:center;background:#52691a">
+        <img src="${logoUrl}" width="112" alt="Calmate" style="display:block;width:112px;max-width:100%;height:auto;margin:auto;border:0">
+      </div>
       <h2>¡Gracias por tu compra, ${escapeHtml(nombre)}!</h2>
       <p>Recibimos tu pedido <strong>${escapeHtml(numeroPedido)}</strong>.</p>
       ${regalo}

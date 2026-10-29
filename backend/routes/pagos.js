@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body, param } = require('express-validator');
-const { protect, admin } = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 const validate = require('../middleware/validate');
 const { paymentLimiter } = require('../middleware/rateLimiter');
 
@@ -11,12 +11,8 @@ const {
     procesarResultado,
     procesarPagoExitoso,
     webhook,
-    verificarEstado,
-    test
+    verificarEstado
 } = require('../controllers/pagoController');
-
-// Ruta de prueba (solo admin)
-router.get('/test', protect, admin, test);
 
 // Crear preferencia de pago (requiere autenticación + rate limit)
 router.post('/crear-preferencia', paymentLimiter, protect, crearPreferencia);

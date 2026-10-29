@@ -8,10 +8,8 @@ const emailService = require('../services/emailService');
 
 // Inicializar el cliente de Mercado Pago con el token correcto
 const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
-const isTestMode = accessToken && accessToken.startsWith('TEST-');
 
 console.log('🔑 Configurando MercadoPago con token:', accessToken ? accessToken.substring(0, 20) + '...' : 'NO CONFIGURADO');
-console.log('🧪 Modo de prueba:', isTestMode ? 'ACTIVADO' : 'DESACTIVADO');
 
 if (!accessToken) {
     console.error('❌ MERCADOPAGO_ACCESS_TOKEN no está configurado en .env');
@@ -163,7 +161,7 @@ const crearPreferencia = async (req, res) => {
             items: itemsPreferencia,
             payer: {
                 name: String(payer.name || 'Cliente'),
-                surname: String(payer.surname || 'Test'),
+                surname: String(payer.surname || ''),
                 email: String(payer.email)
             },
             back_urls: {
@@ -588,17 +586,6 @@ const verificarEstado = async (req, res) => {
     }
 };
 
-// Ruta de prueba
-const test = async (req, res) => {
-    res.json({
-        success: true,
-        message: '🚀 API de pagos funcionando correctamente',
-        timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || 'development',
-        hasAccessToken: !!accessToken
-    });
-};
-
 // Función para procesar pago exitoso - CREAR PEDIDO, ACTUALIZAR STOCK, VACIAR CARRITO
 const procesarPagoExitoso = async (paymentData) => {
     try {
@@ -914,6 +901,5 @@ module.exports = {
     procesarPagoExitoso,
     guardarPago,
     webhook,
-    verificarEstado,
-    test
+    verificarEstado
 };

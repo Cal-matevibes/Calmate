@@ -155,6 +155,7 @@ const PedidoSchema = new mongoose.Schema({
     enum: [
       'pendiente',           // Recién creado
       'confirmado',          // Confirmado por el admin
+      'procesando',          // En procesamiento
       'preparando',          // En preparación
       'listo_para_envio',    // Listo para enviar
       'enviado',             // Enviado

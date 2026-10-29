@@ -303,7 +303,7 @@ const cancelarPedido = async (req, res) => {
     }
 
     // Solo se puede cancelar en ciertos estados
-    if (!['pendiente', 'confirmado', 'preparando'].includes(pedido.estado)) {
+    if (!['pendiente', 'confirmado', 'procesando', 'preparando'].includes(pedido.estado)) {
       return res.status(400).json({
         success: false,
         message: 'Este pedido no se puede cancelar en su estado actual'

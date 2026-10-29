@@ -10,6 +10,7 @@ const escapeHtml = (value) =>
 const statusLabels = {
   pendiente: 'Pendiente',
   confirmado: 'Confirmado',
+  procesando: 'Procesando',
   preparando: 'En preparación',
   listo_para_envio: 'Listo para enviar',
   enviado: 'Enviado',

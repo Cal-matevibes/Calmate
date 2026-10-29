@@ -10,6 +10,7 @@ import EmptyCart from '../components/cart/EmptyCart.js';
 import CheckoutForm from '../components/cart/CheckoutForm.js';
 import PaymentMethod from '../components/cart/PaymentMethod.js';
 import { crearPreferenciaPago, formatearDatosOrden, testConexion } from '../services/pagoService';
+import { calcularCostoEnvio } from '../utils/shipping';
 import '../components/cart/styles/Cart.css';
 import Loading from '../components/shared/Loading';
 
@@ -38,9 +39,8 @@ function Cart() {
         return sum + precio * item.cantidad;
     }, 0);
     const total = carrito.length > 0 ? totalCalculado : (carritoTotal || 0);
-    const envio = total > 35000 ? 0 : 2500; // Envío gratis en compras mayores a $35.000 (solo productos)
+    const envio = calcularCostoEnvio(carrito, total);
     const totalConEnvio = total + envio;
-    const showShipping = currentStep !== 'cart'; // Mostrar shipping en pasos avanzados
 
     // Función para avanzar al checkout
     const handleProceedToCheckout = () => {
@@ -65,7 +65,7 @@ function Cart() {
             items: carrito.map(item => ({
                 id: item.id,
                 nombre: item.nombre,
-                precio: item.precioVenta,
+                precio: item.precioUnitario || item.precioVenta || item.precio || 0,
                 cantidad: item.cantidad,
                 imagen: item.imagen
             })),
@@ -226,7 +226,7 @@ function Cart() {
                             <h1 className="cart-title">Carrito de Compras</h1>
                             <div className="cart-total-display">
                                 <span className="total-label">Total:</span>
-                                <span className="total-amount">{`$${(showShipping ? totalConEnvio : total).toLocaleString()}`}</span>
+                                <span className="total-amount">{`$${totalConEnvio.toLocaleString()}`}</span>
                             </div>
                         </div>
 
@@ -254,7 +254,7 @@ function Cart() {
                                             itemCount={carrito.length}
                                             items={carrito}
                                             onClearCart={vaciarCarrito}
-                                            showShipping={false}
+                                            showShipping={true}
                                             currentStep={currentStep}
                                         />
                                         <div className="cart-continue-section">

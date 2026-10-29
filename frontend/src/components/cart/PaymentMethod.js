@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { useCarrito } from '../../context/CarritoContext';
-import MercadoPagoButton from './MercadoPagoButton';
+import { calcularCostoEnvio } from '../../utils/shipping';
 import './styles/PaymentMethod.css';
 
-const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
+const PaymentMethod = ({
+  onNext,
+  onBack,
+  customerInfo,
+  onMercadoPagoPayment,
+  isLoading = false
+}) => {
   const [selectedMethod, setSelectedMethod] = useState('');
 
   // Obtener datos del carrito
@@ -15,57 +21,8 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
     return sum + precio * item.cantidad;
   }, 0);
   const total = carrito && carrito.length > 0 ? totalCalculado : (totalContexto || 0);
-  const envio = total > 35000 ? 0 : 2500; // Envío gratis en compras mayores a $35.000 (solo productos)
-
-  // Preparar datos para MercadoPago
-  const prepareOrderData = () => {
-    if (!carrito || !carrito.length) {
-      return null;
-    }
-
-    // Validar que tengamos información del cliente
-    if (!customerInfo) {
-      return null;
-    }
-
-    const orderData = {
-      carrito: {
-        items: carrito.map(item => ({
-          _id: item._id,
-          nombre: item.nombre,
-          descripcion: item.descripcion,
-          cantidad: item.cantidad,
-          precioVenta: item.precioVenta
-        }))
-      },
-      total: total + envio,
-      customer: {
-        nombre: customerInfo.esRegalo ? customerInfo.nombreRegalo : customerInfo.nombre || 'Cliente',
-        apellido: customerInfo.esRegalo ? customerInfo.apellidoRegalo : customerInfo.apellido || '',
-        email: customerInfo.email || 'cliente@calmatevibes.com',
-        telefono: customerInfo.telefono || '',
-        direccion: customerInfo.direccion || '',
-        ciudad: customerInfo.ciudad || '',
-        codigoPostal: customerInfo.codigoPostal || '',
-        esRegalo: customerInfo.esRegalo || false,
-        comprador: customerInfo.esRegalo ? {
-          nombre: customerInfo.nombre,
-          apellido: customerInfo.apellido
-        } : null
-      },
-      shipping: {
-        costo: envio,
-        direccion: customerInfo.direccion,
-        ciudad: customerInfo.ciudad,
-        provincia: customerInfo.provincia,
-        pais: customerInfo.pais,
-        codigoPostal: customerInfo.codigoPostal
-      }
-    };
-    
-    
-    return orderData;
-  };
+  const envio = calcularCostoEnvio(carrito, total);
+  const totalAPagar = total + envio;
 
   const handleMethodSelect = (method) => {
     setSelectedMethod(method);
@@ -108,7 +65,7 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
     if (customerAddress) customerDetails += `*Dirección:* ${customerAddress}\n`;
     if (customerCity) customerDetails += `*Ciudad:* ${customerCity}\n`;
 
-    const message = `¡Hola! Me interesa realizar una compra:\n\n${customerDetails}\n\n*Productos:*\n${items}\n\n*Total: $${total.toLocaleString()}*\n\n¿Podrían ayudarme con el proceso de compra?`;
+    const message = `¡Hola! Me interesa realizar una compra:\n\n${customerDetails}\n\n*Productos:*\n${items}\n\nSubtotal: $${total.toLocaleString()}\nEnvío: ${envio === 0 ? 'GRATIS' : `$${envio.toLocaleString()}`}\n*Total: $${(total + envio).toLocaleString()}*\n\n¿Podrían ayudarme con el proceso de compra?`;
 
     // Número de WhatsApp (reemplaza con tu número)
     const phoneNumber = '5492804666566'; // Formato: código país + número sin espacios ni símbolos
@@ -122,9 +79,6 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
       onNext({ paymentMethod: selectedMethod });
     }
   };
-
-  // Preparar orderData una sola vez
-  const orderData = prepareOrderData();
 
   return (
     <div className="payment-method">
@@ -175,9 +129,16 @@ const PaymentMethod = ({ onNext, onBack, customerInfo }) => {
           ← Volver
         </button>
 
-        {selectedMethod === 'mercadopago' && orderData && (
+        {selectedMethod === 'mercadopago' && (
           <div className="mercadopago-container">
-            <MercadoPagoButton orderData={orderData} />
+            <button
+              type="button"
+              className="mercadopago-pay-button"
+              onClick={onMercadoPagoPayment}
+              disabled={isLoading || !carrito?.length || !onMercadoPagoPayment}
+            >
+              {isLoading ? 'Procesando pago...' : `Pagar $${totalAPagar.toLocaleString('es-AR')}`}
+            </button>
           </div>
         )}
 

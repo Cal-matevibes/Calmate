@@ -56,7 +56,7 @@ const crearPreferencia = async (req, res) => {
         console.log('💳 === CREAR PREFERENCIA DE PAGO ===');
         console.log('📦 Body recibido:', JSON.stringify(req.body, null, 2));
 
-        const { items, total, payer, backUrls, auto_return, external_reference, usuario_id, session_id, costoEnvio, direccionEnvio } = req.body;
+        const { items, payer, external_reference, session_id, direccionEnvio } = req.body;
 
         // Validaciones básicas
         if (!items || !Array.isArray(items) || items.length === 0) {
@@ -75,17 +75,70 @@ const crearPreferencia = async (req, res) => {
             });
         }
 
+        const carrito = await Carrito.findOne({
+            usuario: req.usuario._id,
+            activo: true
+        }).populate('items.producto');
+
+        if (!carrito || carrito.items.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'No se encontró un carrito activo con productos para este usuario'
+            });
+        }
+
+        const productos = carrito.items.map(({ producto, cantidad }) => ({
+            producto,
+            cantidad: Number(cantidad)
+        }));
+
+        if (productos.some(({ producto, cantidad }) => !producto || !producto.activo || cantidad < 1)) {
+            return res.status(400).json({
+                success: false,
+                message: 'El carrito contiene productos no disponibles'
+            });
+        }
+
+        const subtotal = productos.reduce(
+            (suma, { producto, cantidad }) => suma + producto.precioVenta * cantidad,
+            0
+        );
+        const incluyeMatera = productos.some(({ producto }) =>
+            String(producto.categoria || '').trim().toLowerCase().includes('matera')
+        );
+        const costoEnvioCalculado = subtotal > 130000 ? 0 : incluyeMatera ? 15000 : 12000;
+        const totalCalculado = subtotal + costoEnvioCalculado;
+        const itemsPreferencia = productos.map(({ producto, cantidad }) => ({
+            id: String(producto._id),
+            title: String(producto.nombre || 'Producto'),
+            description: String(producto.descripcion || 'Producto de CalmateVibes'),
+            quantity: cantidad,
+            unit_price: producto.precioVenta,
+            currency_id: 'ARS'
+        }));
+
+        if (costoEnvioCalculado > 0) {
+            itemsPreferencia.push({
+                id: 'envio',
+                title: 'Costo de envío',
+                description: 'Envío según el contenido del carrito',
+                quantity: 1,
+                unit_price: costoEnvioCalculado,
+                currency_id: 'ARS'
+            });
+        }
+
         // Configurar URLs base
         const frontendUrl = process.env.FRONTEND_URL;
 
         // Crear external_reference con información del usuario/sesión
         const referenceData = {
             referencia: external_reference || `CV_${Date.now()}`,
-            usuario_id: usuario_id || null,
+            usuario_id: req.usuario._id.toString(),
             session_id: session_id || null,
             customer_email: payer?.email || null,
             customer_nombre: payer?.name || null,
-            costo_envio: parseFloat(costoEnvio) || 0,
+            costo_envio: costoEnvioCalculado,
             direccion_envio: direccionEnvio || null,
             timestamp: Date.now()
         };
@@ -107,14 +160,7 @@ const crearPreferencia = async (req, res) => {
 
         // Formatear preferencia para MercadoPago
         const preferenceData = {
-            items: items.map((item, index) => ({
-                id: String(item.id || `item_${index + 1}`),
-                title: String(item.title || 'Producto'),
-                description: String(item.description || 'Producto de CalmateVibes'),
-                quantity: Math.max(1, parseInt(item.quantity) || 1),
-                unit_price: Math.max(0.01, parseFloat(item.unit_price) || 0.01),
-                currency_id: 'ARS'
-            })),
+            items: itemsPreferencia,
             payer: {
                 name: String(payer.name || 'Cliente'),
                 surname: String(payer.surname || 'Test'),
@@ -158,11 +204,11 @@ const crearPreferencia = async (req, res) => {
             initPoint: responseData?.init_point,
             sandboxInitPoint: responseData?.sandbox_init_point,
             externalReference: preferenceData.external_reference,
-            total: total,
+            total: totalCalculado,
             metadata: {
                 items_count: preferenceData.items.length,
-                subtotal: total,
-                envio: parseFloat(costoEnvio) || 0,
+                subtotal,
+                envio: costoEnvioCalculado,
                 descuento: 0
             }
         });

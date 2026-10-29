@@ -246,6 +246,17 @@ const actualizarEstadoPedido = async (req, res) => {
     }
 
     const estadoAnterior = pedido.estado;
+    if (
+      estadoAnterior === 'pendiente' &&
+      estado !== estadoAnterior &&
+      (!pedido.datosContacto?.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pedido.datosContacto.email.trim()))
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: 'No se puede avanzar el pedido: falta un correo válido del comprador'
+      });
+    }
+
     const pedidoActualizado = await pedido.actualizarEstado(estado, observaciones, req.usuario.id);
 
     if (estadoAnterior !== pedidoActualizado.estado && pedidoActualizado.datosContacto?.email) {
@@ -377,7 +388,7 @@ const obtenerTodosPedidos = async (req, res) => {
     }
 
     const pedidos = await Pedido.find(filtros)
-      .populate('usuario', 'nombre apellido email')
+      .populate('usuario', 'nombre apellido email telefono')
       .populate('items.producto', 'nombre categoria')
       .sort({ createdAt: -1 })
       .skip(skip)

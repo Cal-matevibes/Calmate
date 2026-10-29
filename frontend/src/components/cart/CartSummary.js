@@ -84,7 +84,7 @@ function CartSummary({
                             {envio === 0 && (
                                 <div className="free-shipping-note">
                                     <i className="bi bi-truck"></i>
-                                    <span>¡Envío gratis en compras superiores a $35,000!</span>
+                                    <span>¡Envío gratis en compras superiores a $130.000!</span>
                                 </div>
                             )}
                         </>

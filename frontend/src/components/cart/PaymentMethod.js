@@ -137,7 +137,7 @@ const PaymentMethod = ({
               onClick={onMercadoPagoPayment}
               disabled={isLoading || !carrito?.length || !onMercadoPagoPayment}
             >
-              {isLoading ? 'Procesando pago...' : `Pagar $${totalAPagar.toLocaleString('es-AR')}`}
+              {isLoading ? 'Procesando pago...' : `Realizar pedido`}
             </button>
           </div>
         )}

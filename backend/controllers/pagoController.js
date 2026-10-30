@@ -823,17 +823,18 @@ const procesarPagoExitoso = async (paymentData) => {
         const nombreDestino = nombreFromRef || usuario?.nombre || 'Cliente';
         if (emailDestino) {
             try {
-                const itemsParaEmail = carrito.items.map(item => ({
+                const itemsParaEmail = carrito.items.map((item, index) => ({
                     nombre: item.producto?.nombre || 'Producto',
                     cantidad: item.cantidad,
-                    precioUnitario: item.producto?.precioVenta || 0,
-                    subtotal: item.cantidad * (item.producto?.precioVenta || 0)
+                    precioUnitario: itemsPedido[index].precioUnitario,
+                    subtotal: itemsPedido[index].subtotal
                 }));
                 await emailService.sendOrderConfirmationEmail(
                     emailDestino,
                     nombreDestino,
                     {
                         numeroPedido: pedidoGuardado.numeroPedido,
+                        fechaPedido: pedidoGuardado.createdAt,
                         items: itemsParaEmail,
                         subtotal: pedidoGuardado.subtotal,
                         costoEnvio: pedidoGuardado.costoEnvio || 0,

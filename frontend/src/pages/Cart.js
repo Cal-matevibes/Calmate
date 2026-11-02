@@ -270,7 +270,7 @@ function Cart() {
                             )}
                         </main>
 
-                        <aside className="cart-summary-section">
+                        <aside className={`cart-summary-section ${currentStep !== 'cart' ? 'cart-summary-section--mobile-hidden' : ''}`}>
                             <CartSummary
                                 subtotal={total}
                                 envio={envio}

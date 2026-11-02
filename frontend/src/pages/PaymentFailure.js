@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { procesarResultadoPago, verificarEstadoPago } from '../services/pagoService';
+import { procesarResultadoPago } from '../services/pagoService';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import './styles/PaymentResult.css';
@@ -12,17 +12,24 @@ function PaymentFailure() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const processPaymentFailure = async () => {
+        const processPaymentFailure = () => {
             try {
-                // Obtener parámetros de MercadoPago
-                const status = searchParams.get('status') || 'rejected';
-                const payment_id = searchParams.get('payment_id');
-                const external_reference = searchParams.get('external_reference');
-                const payment_type = searchParams.get('payment_type');
-                const merchant_order_id = searchParams.get('merchant_order_id');
+                const getParam = (...names) => {
+                    for (const name of names) {
+                        const value = searchParams.get(name);
+                        if (value && value.toLowerCase() !== 'null' && value.toLowerCase() !== 'undefined') {
+                            return value;
+                        }
+                    }
+                    return null;
+                };
 
+                const status = getParam('status', 'collection_status') || 'rejected';
+                const payment_id = getParam('payment_id', 'collection_id');
+                const external_reference = getParam('external_reference');
+                const payment_type = getParam('payment_type');
+                const merchant_order_id = getParam('merchant_order_id');
 
-                // Procesar resultado localmente
                 const resultado = procesarResultadoPago({
                     status,
                     payment_id,
@@ -32,18 +39,6 @@ function PaymentFailure() {
                 });
 
                 setPaymentResult(resultado);
-
-                // Verificar estado en backend si tenemos referencia externa
-                if (external_reference) {
-                    try {
-                        const backendVerification = await verificarEstadoPago(external_reference, payment_id);
-                        if (backendVerification) {
-                        }
-                    } catch (error) {
-                        // No es crítico, continuamos con el resultado local
-                    }
-                }
-
             } catch (error) {
                 setPaymentResult({
                     estado: 'error',
@@ -71,68 +66,66 @@ function PaymentFailure() {
         );
     }
 
-    const { mensaje, detalles } = paymentResult;
+    const { estado, mensaje, detalles } = paymentResult;
+    const detalleMensaje = estado === 'rechazado'
+        ? 'Mercado Pago no pudo aprobar la operación. No vuelvas a ingresar los datos de tu tarjeta desde esta página; podés revisar el medio de pago o probar con otro.'
+        : estado === 'cancelado'
+            ? 'El proceso de pago se canceló antes de confirmarse. Si querés, podés volver al carrito y elegir otro medio.'
+            : 'No recibimos una confirmación del pago. Revisá el estado en Mercado Pago antes de volver a intentarlo.';
+    const paymentId = detalles?.paymentId;
+    const externalReference = detalles?.externalReference;
 
     return (
-        <div className="payment-result-page">
+        <div className="payment-result-page payment-failure-page">
             <Header />
-            <div className="payment-result-container">
-                <div className="payment-result failure">
-                    <div className="result-icon">❌</div>
-                    
-                    <h1 className="result-title">Pago No Completado</h1>
-                    
-                    <p className="result-message">{mensaje}</p>
-                    
-                    <div className="failure-reasons">
-                        <h3>Posibles causas:</h3>
-                        <ul>
-                            <li>Fondos insuficientes en tu cuenta</li>
-                            <li>Datos de tarjeta incorrectos</li>
-                            <li>Límite de compra excedido</li>
-                            <li>Problemas de conectividad</li>
-                        </ul>
-                    </div>
-                    
-                    {detalles && detalles.payment_id && (
-                        <div className="payment-details">
-                            <h3>Información del Intento</h3>
-                            <div className="details-grid">
-                                <div className="detail-item">
-                                    <span className="label">ID de Transacción:</span>
-                                    <span className="value">{detalles.payment_id}</span>
-                                </div>
-                                {detalles.external_reference && (
-                                    <div className="detail-item">
-                                        <span className="label">Referencia:</span>
-                                        <span className="value">{detalles.external_reference}</span>
-                                    </div>
-                                )}
-                            </div>
+            <main className="payment-result-container payment-failure-container">
+                <article className="payment-result failure payment-failure-card">
+                    <header className="payment-failure-heading">
+                        <div className="payment-failure-icon" aria-hidden="true">
+                            <i className="bi bi-exclamation-lg"></i>
                         </div>
+                        <p className="payment-failure-eyebrow">Estado de tu compra</p>
+                        <h1 className="result-title">No se pudo completar el pago</h1>
+                        <p className="result-message">{mensaje}</p>
+                    </header>
+
+                    <section className="payment-failure-next-step">
+                        <h2>¿Qué podés hacer?</h2>
+                        <p>{detalleMensaje}</p>
+                    </section>
+
+                    {(paymentId || externalReference) && (
+                        <dl className="payment-failure-reference">
+                            {paymentId && (
+                                <div>
+                                    <dt>Número de operación</dt>
+                                    <dd>{paymentId}</dd>
+                                </div>
+                            )}
+                            {externalReference && (
+                                <div>
+                                    <dt>Referencia del pedido</dt>
+                                    <dd>{externalReference}</dd>
+                                </div>
+                            )}
+                        </dl>
                     )}
-                    
-                    <div className="result-actions">
+
+                    <div className="payment-failure-actions">
                         <Link to="/cart" className="btn btn-primary">
-                            Intentar nuevamente
+                            Volver al carrito
+                            <i className="bi bi-arrow-right" aria-hidden="true"></i>
                         </Link>
                         <Link to="/" className="btn btn-secondary">
-                            Continuar navegando
+                            Seguir explorando
                         </Link>
                     </div>
 
-                    <div className="help-info">
-                        <p>
-                            <strong>¿Necesitas ayuda?</strong><br/>
-                            Si el problema persiste, puedes contactarnos por WhatsApp 
-                            o elegir otro método de pago.
-                        </p>
-                        <Link to="/contact" className="help-link">
-                            Contactar soporte
-                        </Link>
-                    </div>
-                </div>
-            </div>
+                    <p className="payment-failure-support">
+                        ¿Necesitás ayuda? <Link to="/contact">Contactá al equipo de Cal-Mate</Link>.
+                    </p>
+                </article>
+            </main>
             <Footer />
         </div>
     );

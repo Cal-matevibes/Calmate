@@ -369,3 +369,182 @@
         font-size: 0.8rem;
     }
 }
+
+/* Cal-Mate payment failure page */
+.payment-failure-page {
+    background: #f7f7f2;
+}
+
+.payment-failure-container {
+    align-items: flex-start;
+    padding: 3rem 1.5rem 4rem;
+}
+
+.payment-failure-card {
+    max-width: 720px;
+    padding: 3.5rem;
+    border: 1px solid #e6e8df;
+    border-radius: 10px;
+    box-shadow: 0 12px 36px rgba(44, 54, 29, 0.08);
+    text-align: left;
+}
+
+.payment-failure-heading {
+    text-align: center;
+}
+
+.payment-failure-icon {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    border: 1px solid #e7c7bf;
+    border-radius: 50%;
+    background: #fbf3f0;
+    color: #a34b38;
+    font-size: 1.5rem;
+}
+
+.payment-failure-eyebrow {
+    margin: 0 0 0.5rem;
+    color: #69734d;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.payment-failure-page .result-title {
+    margin-bottom: 0.75rem;
+    color: #343c2a;
+    font-size: clamp(1.7rem, 4vw, 2.2rem);
+    line-height: 1.2;
+}
+
+.payment-failure-page .result-message {
+    margin: 0;
+    color: #71766b;
+    font-size: 1rem;
+}
+
+.payment-failure-next-step {
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid #788849;
+    background: #f5f6ef;
+}
+
+.payment-failure-next-step h2 {
+    margin: 0 0 0.4rem;
+    color: #3d472f;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.payment-failure-next-step p {
+    margin: 0;
+    color: #62685b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.payment-failure-reference {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.5rem 0 0;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid #e8e9e3;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.payment-failure-reference div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.payment-failure-reference dt {
+    color: #777c70;
+    font-size: 0.85rem;
+}
+
+.payment-failure-reference dd {
+    max-width: 65%;
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: #42483a;
+    font-family: monospace;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+.payment-failure-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+}
+
+.payment-failure-page .payment-failure-actions .btn {
+    min-height: 48px;
+    gap: 0.5rem;
+    border-radius: 6px;
+}
+
+.payment-failure-page .payment-failure-actions .btn-primary {
+    background: #52691a;
+}
+
+.payment-failure-page .payment-failure-actions .btn-primary:hover {
+    background: #435615;
+}
+
+.payment-failure-page .payment-failure-actions .btn-secondary {
+    border: 1px solid #d5dac9;
+    color: #52691a;
+}
+
+.payment-failure-page .payment-failure-actions .btn-secondary:hover {
+    background: #f5f6ef;
+    color: #435615;
+}
+
+.payment-failure-support {
+    margin: 1.5rem 0 0;
+    color: #777c70;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.payment-failure-support a {
+    color: #52691a;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+    .payment-failure-container {
+        padding: 2rem 1rem 3rem;
+    }
+
+    .payment-failure-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .payment-failure-actions {
+        flex-direction: column;
+    }
+
+    .payment-failure-reference div {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .payment-failure-reference dd {
+        max-width: 100%;
+        text-align: left;
+    }
+}

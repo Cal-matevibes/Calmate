@@ -762,6 +762,10 @@
     color-scheme: light;
   }
 
+  .cart-summary-section--mobile-hidden {
+    display: none;
+  }
+
   .cart-step-panel {
     padding: 1.25rem;
   }

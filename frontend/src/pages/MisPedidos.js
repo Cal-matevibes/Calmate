@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
+import PedidoDetalle from '../components/PedidoDetalle';
 import './styles/MisPedidos.css';
 import Loading from '../components/shared/Loading';
 
@@ -97,41 +98,6 @@ function MisPedidos() {
     }
   };
 
-  const getEstadoColor = (estado) => {
-    switch (estado) {
-      case 'procesando': return '#ffc107';
-      case 'enviado': return '#007bff';
-      case 'entregado': return '#28a745';
-      case 'cancelado': return '#dc3545';
-      default: return '#6c757d';
-    }
-  };
-
-  const getEstadoIcon = (estado) => {
-    switch (estado) {
-      case 'procesando': return 'bi-clock-history';
-      case 'enviado': return 'bi-truck';
-      case 'entregado': return 'bi-check-circle';
-      case 'cancelado': return 'bi-x-circle';
-      default: return 'bi-question-circle';
-    }
-  };
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('es-AR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS'
-    }).format(price);
-  };
-
   const filteredPedidos = pedidos.filter(pedido =>
     pedido.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
     pedido.productos.some(producto => 
@@ -183,15 +149,6 @@ function MisPedidos() {
               </h1>
               <p>Seguí el estado y detalles de todos tus pedidos, {user?.nombre}</p>
             </div>
-            <button 
-              className="refresh-btn"
-              onClick={fetchMisPedidos}
-              disabled={loading}
-              title="Actualizar pedidos"
-            >
-              <i className="bi bi-arrow-clockwise"></i>
-              {loading ? 'Cargando...' : 'Actualizar'}
-            </button>
           </div>
         </div>
 
@@ -243,88 +200,11 @@ function MisPedidos() {
         ) : (
           <div className="pedidos-grid">
             {filteredPedidos.map(pedido => (
-              <div key={pedido.id} className="pedido-card">
-                <div className="pedido-header">
-                  <div className="pedido-info">
-                    <h3>#{pedido.numero}</h3>
-                    <span className="pedido-fecha">{formatDate(pedido.fecha)}</span>
-                  </div>
-                  <div 
-                    className="pedido-estado"
-                    style={{ color: getEstadoColor(pedido.estado) }}
-                  >
-                    <i className={`bi ${getEstadoIcon(pedido.estado)}`}></i>
-                    <span>{pedido.estado.charAt(0).toUpperCase() + pedido.estado.slice(1)}</span>
-                  </div>
-                </div>
-
-                <div className="pedido-productos">
-                  {pedido.productos.map(producto => (
-                    <div key={producto.id} className="producto-item">
-                      <div className="producto-imagen">
-                        <img 
-                          src={producto.imagen || '/placeholder.svg'} 
-                          alt={producto.nombre}
-                          onError={(e) => {
-                            e.target.src = '/placeholder.svg';
-                          }}
-                        />
-                      </div>
-                      <div className="producto-info">
-                        <h4>{producto.nombre}</h4>
-                        <span className="producto-cantidad">Cantidad: {producto.cantidad}</span>
-                        <span className="producto-precio">{formatPrice(producto.precio)}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pedido-resumen">
-                  <div className="resumen-item">
-                    <span>Subtotal:</span>
-                    <span>{formatPrice(pedido.total - pedido.envio)}</span>
-                  </div>
-                  {pedido.envio > 0 && (
-                    <div className="resumen-item">
-                      <span>Envío:</span>
-                      <span>{formatPrice(pedido.envio)}</span>
-                    </div>
-                  )}
-                  <div className="resumen-item total">
-                    <span>Total:</span>
-                    <span>{formatPrice(pedido.total)}</span>
-                  </div>
-                </div>
-
-                {pedido.tracking && (
-                  <div className="tracking-info">
-                    <i className="bi bi-geo-alt"></i>
-                    <span>Código de seguimiento: <strong>{pedido.tracking}</strong></span>
-                  </div>
-                )}
-
-                <div className="pedido-actions">
-                  <button 
-                    className="btn-secondary"
-                    onClick={() => navigate(`/detalles/pedido/${pedido.id}`)}
-                  >
-                    <i className="bi bi-eye"></i>
-                    Ver Detalles
-                  </button>
-                  
-                  {pedido.tracking && (
-                    <a 
-                      href={`https://www.correoargentino.com.ar/formularios/ondnc?codigo=${pedido.tracking}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary"
-                    >
-                      <i className="bi bi-truck"></i>
-                      Rastrear Envío
-                    </a>
-                  )}
-                </div>
-              </div>
+              <PedidoDetalle
+                key={pedido.id}
+                pedido={pedido}
+                onViewDetails={() => navigate(`/detalles/pedido/${pedido.id}`)}
+              />
             ))}
           </div>
         )}

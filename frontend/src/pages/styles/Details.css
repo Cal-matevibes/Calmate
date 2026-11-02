@@ -10,6 +10,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  padding-top: 100px;
   width: 100%;
 }
 
@@ -599,13 +600,15 @@
 }
 
 .order-details-content .details-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   gap: 1rem;
   margin-bottom: 1rem;
 }
 
 .order-details-content .detail-card {
   padding: 1.35rem 1.5rem;
-  border-color: #e6e8df;
+  border: 0;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(48, 57, 34, 0.05);
 }
@@ -613,7 +616,7 @@
 .order-details-content .detail-card h2 {
   margin-bottom: 1rem;
   padding-bottom: 0.8rem;
-  border-bottom: 1px solid #eceee7;
+  border-bottom: 0;
   color: #52691a;
   font-size: 1.05rem;
 }
@@ -623,8 +626,13 @@
 }
 
 .order-details-content .info-item {
-  gap: 1rem;
-  border-color: #f0f1ed;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  border-bottom: 0;
+}
+
+.order-details-content .info-list {
+  gap: 0.35rem;
 }
 
 .order-details-content .info-item > span:last-child {
@@ -699,19 +707,26 @@
 }
 
 .order-details-content .detail-card.totales-card {
-  max-width: 460px;
-  margin: 1rem 0 1.5rem auto;
-  border: 1px solid #e3e7d8;
+  width: 100%;
+  max-width: none;
+  margin: 1rem 0 1.5rem;
   background: #f8f9f4;
   color: #40463b;
 }
 
 .order-details-content .detail-card.totales-card h2 {
-  border-bottom-color: #e3e7d8;
   color: #52691a;
 }
 
+.order-details-content .totales-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
 .order-details-content .total-item {
+  align-items: flex-start;
+  flex-direction: column;
   padding: 0.55rem 0;
   color: #62685b;
 }
@@ -721,10 +736,13 @@
 }
 
 .order-details-content .total-item.total {
-  align-items: baseline;
-  margin-top: 0.35rem;
-  padding-top: 1rem;
-  border-top: 1px solid #dce1d2;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 0;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: #edf2e4;
   color: #39432c;
   font-size: 1rem;
 }
@@ -755,17 +773,31 @@
   }
 
   .order-details-content .details-header {
+    align-items: stretch;
+    gap: 1rem;
     margin-top: 0.75rem;
-    padding: 1.25rem;
+    padding: 1.1rem;
     text-align: left;
   }
 
   .order-details-content .title-section {
     align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .order-details-content .title-section > div {
+    min-width: 0;
+  }
+
+  .order-details-content .order-date {
+    align-items: flex-start;
+    overflow-wrap: anywhere;
   }
 
   .order-details-content .title-section h1 {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+    overflow-wrap: anywhere;
   }
 
   .order-details-content .details-header > .btn-back {
@@ -774,7 +806,27 @@
   }
 
   .order-details-content .detail-card {
+    min-width: 0;
     padding: 1.15rem;
+  }
+
+  .order-details-content .detail-card h2 {
+    font-size: 1rem;
+  }
+
+  .order-details-content .details-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .order-details-content .info-item {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .order-details-content .info-item > span:last-child {
+    max-width: none;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .order-details-content .table-header {
@@ -782,6 +834,7 @@
   }
 
   .order-details-content .table-row {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.8rem 1rem;
@@ -794,6 +847,8 @@
 
   .order-details-content .col-producto {
     grid-column: 1 / -1;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .order-details-content .col-cantidad,
@@ -826,10 +881,55 @@
     margin: 1rem 0;
   }
 
+  .order-details-content .totales-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .order-details-content .total-item.total {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .order-details-content .total-item.total strong:last-child {
+    font-size: clamp(1.35rem, 6vw, 1.65rem);
+    overflow-wrap: anywhere;
+  }
+
   .order-details-content .timeline-header {
     align-items: flex-start;
     flex-direction: column;
     gap: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .details-container--order {
+    padding-right: 0.65rem;
+    padding-left: 0.65rem;
+  }
+
+  .order-details-content .detail-card {
+    padding: 1rem;
+  }
+
+  .order-details-content .info-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+  }
+
+  .order-details-content .info-item > span:last-child {
+    text-align: left;
+  }
+
+  .order-details-content .table-row {
+    gap: 0.7rem;
+    padding: 0.85rem;
+  }
+
+  .order-details-content .totales-list {
+    gap: 0.5rem;
   }
 }
 

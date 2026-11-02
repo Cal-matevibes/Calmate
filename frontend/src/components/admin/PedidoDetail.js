@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import './styles/PedidoDetail.css';
 
+const estadoProgreso = [
+  { value: 'pendiente', label: 'Pendiente' },
+  { value: 'confirmado', label: 'Confirmado' },
+  { value: 'procesando', label: 'Procesando' },
+  { value: 'preparando', label: 'En preparación' },
+  { value: 'listo_para_envio', label: 'Listo para enviar' },
+  { value: 'enviado', label: 'Enviado' },
+  { value: 'entregado', label: 'Entregado' }
+];
+
 function PedidoDetail({ pedido, onStatusUpdate, onOpenTracking, onOpenShipping }) {
   const [statusError, setStatusError] = useState('');
+  const estadoActualIndex = estadoProgreso.findIndex(({ value }) => value === pedido.estado);
   const estadoLabels = {
     pendiente: 'Pendiente',
     confirmado: 'Confirmado',
@@ -102,6 +113,35 @@ function PedidoDetail({ pedido, onStatusUpdate, onOpenTracking, onOpenShipping }
           </div>
         )}
       </header>
+
+      {pedido.estado === 'cancelado' ? (
+        <div className="pedido-progress-cancelled" role="status">
+          <i className="bi bi-x-circle" aria-hidden="true"></i>
+          Pedido cancelado
+        </div>
+      ) : (
+        <section className="pedido-progress" aria-label="Progreso del pedido">
+          <h3>Progreso del pedido</h3>
+          <ol className="pedido-progress-steps">
+            {estadoProgreso.map((estado, index) => {
+              const isComplete = estadoActualIndex >= 0 && index <= estadoActualIndex;
+
+              return (
+                <li
+                  key={estado.value}
+                  className={`pedido-progress-step${isComplete ? ' is-complete' : ''}`}
+                  aria-current={index === estadoActualIndex ? 'step' : undefined}
+                >
+                  <span className="pedido-progress-marker" aria-hidden="true">
+                    {isComplete && <i className="bi bi-check"></i>}
+                  </span>
+                  <span className="pedido-progress-label">{estado.label}</span>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      )}
 
       <section className="detail-actions" aria-label="Acciones del pedido">
         <div className="actions-heading">

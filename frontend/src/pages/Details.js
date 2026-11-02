@@ -342,7 +342,7 @@ function Details() {
       )}
 
       {/* Notas */}
-      {(pedido.notas?.cliente || pedido.notas?.admin) && (
+      {/* {(pedido.notas?.cliente || pedido.notas?.admin) && (
         <div className="detail-card full-width">
           <h2>
             <i className="bi bi-chat-dots"></i>
@@ -361,7 +361,7 @@ function Details() {
             </div>
           )}
         </div>
-      )}
+      )} */}
     </div>
     );
   };

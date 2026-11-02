@@ -9,11 +9,6 @@ import MobileFilters from '../components/catalog/MobileFilters.js';
 import { CarritoContext } from '../context/CarritoContext.js';
 import productoService from '../services/productoService.js';
 
-// Datos de fallback para cuando el backend no esté disponible
-import matesData from '../data/catalogo-mates.json';
-import bombillasData from '../data/catalogo-bombillas.json';
-import combosData from '../data/catalogo-combos.json';
-
 import './styles/Catalog-page.css';
 import Loading from '../components/shared/Loading';
 
@@ -136,56 +131,7 @@ function Catalog() {
         
         setCatalogo(catalogoData);
       } catch (err) {
-        
-        try {
-          // Usar datos estáticos como fallback
-          let catalogoData;
-          
-          if (catalogoId) {
-            // Mapear catalogoId a datos estáticos
-            const catalogoMap = {
-              'mates': matesData,
-              'mate': matesData,
-              'bombillas': bombillasData,
-              'bombilla': bombillasData,
-              'combos': combosData,
-              'combo': combosData
-            };
-            
-            const fallbackData = catalogoMap[catalogoId.toLowerCase()];
-            
-            if (fallbackData) {
-              catalogoData = {
-                nombre: fallbackData.id,
-                titulo: fallbackData.id,
-                descripcion: fallbackData.descripcion,
-                items: fallbackData.items
-              };
-            } else {
-              setError(`Categoría "${catalogoId}" no encontrada`);
-              return;
-            }
-          } else {
-            // Combinar todos los catálogos para "ver todos"
-            const allItems = [
-              ...matesData.items,
-              ...bombillasData.items,
-              ...combosData.items
-            ];
-            
-            catalogoData = {
-              nombre: 'Todos',
-              titulo: 'Todos los Productos',
-              descripcion: 'Catálogo completo de productos disponibles',
-              items: allItems
-            };
-          }
-          
-          setCatalogo(catalogoData);
-          
-        } catch (fallbackError) {
-          setError('No se pudo cargar el catálogo. Por favor, intenta más tarde.');
-        }
+        setError(err.message || 'No se pudo cargar el catálogo. Por favor, intenta más tarde.');
       } finally {
         setLoading(false); // Desactiva el estado de "cargando"
       }

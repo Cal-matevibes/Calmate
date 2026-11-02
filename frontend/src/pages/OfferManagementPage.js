@@ -7,7 +7,7 @@ import '../components/styles/OfferManagementPage.css';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 
-function OfferManagementPage({ catalogos = [] }) {
+function OfferManagementPage() {
     const navigate = useNavigate();
     const { token, isAdmin } = useAuth();
     const [step, setStep] = useState(1); // 1: seleccionar tipo, 2: seleccionar items, 3: configurar descuento

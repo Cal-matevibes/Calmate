@@ -25,7 +25,6 @@ import PaymentPending from './pages/PaymentPending.js';
 import ResetPassword from './pages/ResetPassword.js';import LoadingTest from './pages/LoadingTest';import { CarritoProvider, useCarrito } from './context/CarritoContext.js';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/shared/ProtectedRoute';
-import catalogos from './data/tiendas.json';
 
 // Componente wrapper para manejar la integración entre Auth y Carrito
 const AppWithProviders = () => {
@@ -55,7 +54,7 @@ const AppWithProviders = () => {
           <Route path="/shop" element={<Tienda />} />
           <Route path="/catalog/:catalogoId" element={<Catalogs />} />
           <Route path="/catalogo/:catalogoId" element={<Catalogs />} />
-          <Route path="/item/:id" element={<ItemDetail catalogos={catalogos} />} />
+          <Route path="/item/:id" element={<ItemDetail />} />
           <Route path="/item/:catalogoId/:itemId" element={<ItemDetail />} />
           <Route path="/mate-care" element={<Cuidados />} />
           <Route path="/care" element={<Cuidados />} />
@@ -107,7 +106,7 @@ const AppWithProviders = () => {
             path="/stock" 
             element={
               <ProtectedRoute requireAdmin={true}>
-                <Stock catalogos={catalogos} onAddItem={handleAddItem} onUpdateItem={handleUpdateItem} onDeleteItem={handleDeleteItem} />
+                <Stock onAddItem={handleAddItem} onUpdateItem={handleUpdateItem} onDeleteItem={handleDeleteItem} />
               </ProtectedRoute>
             } 
           />
@@ -147,7 +146,7 @@ const AppWithProviders = () => {
             path="/manage-offers" 
             element={
               <ProtectedRoute requireAdmin={true}>
-                <OfferManagementPage catalogos={catalogos} />
+                <OfferManagementPage />
               </ProtectedRoute>
             } 
           />

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import catalogosData from '../../data/tiendas.json';
+import categoriaService from '../../services/categoriaService';
 import '../styles/MobileFilters.css';
+
+const EMPTY_CATEGORIES = [];
 
 function MobileFilters({ 
   isOpen, 
@@ -10,21 +12,14 @@ function MobileFilters({
   currentItems, 
   currentCategory, 
   onFilter, 
-  onSort 
+  onSort,
+  categorias = EMPTY_CATEGORIES
 }) {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('');
-
-  // Función para obtener el número de productos de cada catálogo
-  const getProductCount = (catalogName) => {
-    const counts = {
-      'Mates': 12,
-      'Bombillas': 8,
-      'Combos': 6
-    };
-    return counts[catalogName] || 0;
-  };
+  const [availableCategories, setAvailableCategories] = useState(categorias);
+  const [categoryError, setCategoryError] = useState('');
 
   // Manejar búsqueda
   const handleSearch = (term) => {
@@ -67,7 +62,7 @@ function MobileFilters({
 
   // Manejar cambio de categoría
   const handleCategoryChange = (catalogo) => {
-    navigate(catalogo.url);
+    navigate(`/catalogo/${catalogo.slug || catalogo.nombre.toLowerCase()}`);
     onClose();
   };
 
@@ -97,6 +92,31 @@ function MobileFilters({
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (categorias.length > 0) {
+      setAvailableCategories(categorias);
+      return;
+    }
+
+    let active = true;
+    categoriaService.obtenerCategorias()
+      .then((response) => {
+        if (active) {
+          setAvailableCategories(response.data || response.categorias || []);
+        }
+      })
+      .catch((error) => {
+        if (active) {
+          setAvailableCategories([]);
+          setCategoryError(error.message || 'No se pudieron cargar las categorías.');
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [categorias]);
 
   if (!isOpen) return null;
 
@@ -135,13 +155,13 @@ function MobileFilters({
           <div className="mobile-filter-section">
             <label className="mobile-filter-label">Cambiar categoría</label>
             <div className="mobile-categories">
-              {catalogosData.catalogos.map((catalogo, idx) => {
+              {availableCategories.map((catalogo) => {
                 const isActive = catalogo.nombre === currentCategory;
-                const productCount = getProductCount(catalogo.nombre);
+                const productCount = catalogo.estadisticas?.totalProductos || 0;
                 
                 return (
                   <button
-                    key={idx}
+                    key={catalogo._id || catalogo.slug || catalogo.nombre}
                     className={`mobile-category-btn ${isActive ? 'active' : ''}`}
                     onClick={() => handleCategoryChange(catalogo)}
                     disabled={isActive}
@@ -153,6 +173,11 @@ function MobileFilters({
                   </button>
                 );
               })}
+              {availableCategories.length === 0 && (
+                <p className="mobile-categories-empty">
+                  {categoryError || 'No hay categorías disponibles.'}
+                </p>
+              )}
             </div>
           </div>
 

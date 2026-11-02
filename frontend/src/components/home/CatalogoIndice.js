@@ -1,20 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import catalogosData from '../data/tiendas.json'; // Carga el JSON de la tienda con los catálogos
+import categoriaService from '../../services/categoriaService';
 import '../styles/CatalogoIndice.css';
 
 function CatalogoIndice() {
-  const { catalogoId } = useParams(); // Obtiene el ID del catálogo actual desde la URL
+  const { catalogoId } = useParams();
+  const [categorias, setCategorias] = useState([]);
+  const [loadError, setLoadError] = useState('');
 
-  // Función para obtener el número de productos de cada catálogo (simulado)
-  const getProductCount = (catalogName) => {
-    const counts = {
-      'Mates': 12,
-      'Bombillas': 8,
-      'Combos': 6
+  useEffect(() => {
+    let active = true;
+    categoriaService.obtenerCategorias()
+      .then((response) => {
+        if (active) {
+          setCategorias(response.data || response.categorias || []);
+        }
+      })
+      .catch((error) => {
+        if (active) {
+          setLoadError(error.message || 'No se pudieron cargar las categorías.');
+        }
+      });
+
+    return () => {
+      active = false;
     };
-    return counts[catalogName] || 0;
-  };
+  }, []);
 
   return (
     <div className="catalogo-indice">
@@ -22,16 +33,17 @@ function CatalogoIndice() {
         Explorar Categorías
       </h3>
       <ul className="catalogo-indice-list">
-        {catalogosData.catalogos.map((catalogo, idx) => {
-          const isActive = catalogoId === catalogo.url.split('/').pop();
-          const productCount = getProductCount(catalogo.nombre);
+        {categorias.map((catalogo) => {
+          const slug = catalogo.slug || catalogo.nombre.toLowerCase();
+          const isActive = catalogoId === slug;
+          const productCount = catalogo.estadisticas?.totalProductos || 0;
           
           return (
             <li
-              key={idx}
+              key={catalogo._id || slug}
               className={`catalogo-indice-item ${isActive ? 'active' : ''}`}
             >
-              <Link to={catalogo.url} className="catalogo-indice-link">
+              <Link to={`/catalogo/${slug}`} className="catalogo-indice-link">
                 <span className="catalogo-name">{catalogo.nombre}</span>
                 {productCount > 0 && (
                   <span className="catalogo-indice-count">{productCount}</span>
@@ -41,6 +53,7 @@ function CatalogoIndice() {
           );
         })}
       </ul>
+      {loadError && <p role="status">{loadError}</p>}
     </div>
   );
 }

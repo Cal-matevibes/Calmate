@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import categoriaService from '../../services/categoriaService';
 import productoService from '../../services/productoService';
-import fallbackData from '../../data/tiendas.json';
 import '../styles/CategorySelector.css';
 import Loading from '../shared/Loading';
 
@@ -12,7 +11,7 @@ function CategorySelector({ currentCategory }) {
   const [categorias, setCategorias] = useState([]);
   const [productCounts, setProductCounts] = useState({});
   const [loading, setLoading] = useState(true);
-  const [usingFallback, setUsingFallback] = useState(false);
+  const [loadError, setLoadError] = useState('');
 
   // Cargar categorías desde la base de datos
   useEffect(() => {
@@ -33,15 +32,15 @@ function CategorySelector({ currentCategory }) {
           return;
         }
 
-        setUsingFallback(false);
-
         // Contar productos por categoría de manera eficiente
         const counts = {};
 
         // Hacer todas las peticiones en paralelo para mejor rendimiento
         const conteoPromises = categoriasArray.map(async (categoria) => {
           try {
-            const productos = await productoService.obtenerProductosPorCategoria(categoria.slug);
+            const productos = await productoService.obtenerProductosPorCategoria(
+              categoria.slug || categoria.nombre.toLowerCase()
+            );
             return { nombre: categoria.nombre, count: productos.productos?.length || 0 };
           } catch (error) {
             return { nombre: categoria.nombre, count: 0 };
@@ -55,34 +54,9 @@ function CategorySelector({ currentCategory }) {
 
         setProductCounts(counts);
       } catch (error) {
-
-        try {
-          // Usar datos de respaldo si el backend no está disponible
-          const fallbackCategorias = fallbackData.catalogos.map(cat => ({
-            _id: cat.nombre.toLowerCase(),
-            nombre: cat.nombre,
-            slug: cat.nombre.toLowerCase(),
-            url: cat.url, // Incluir la URL estática para navegación de fallback
-            imagen: { url: cat.imagen },
-            descripcion: `Categoría ${cat.nombre}`
-          }));
-
-          setCategorias(fallbackCategorias);
-
-          // Establecer conteos estáticos para el fallback
-          const fallbackCounts = {
-            'Mates': 12,
-            'Bombillas': 8,
-            'Combos': 6
-          };
-          setProductCounts(fallbackCounts);
-
-          setUsingFallback(true);
-        } catch (fallbackError) {
-          setCategorias([]);
-          setProductCounts({});
-          setUsingFallback(false);
-        }
+        setCategorias([]);
+        setProductCounts({});
+        setLoadError(error.message || 'No se pudieron cargar las categorías.');
       } finally {
         setLoading(false);
       }
@@ -99,10 +73,7 @@ function CategorySelector({ currentCategory }) {
   const handleCategoryChange = (categoria) => {
     setIsOpen(false);
 
-    if (usingFallback && categoria.url) {
-      // Si estamos usando fallback, usar URLs estáticas directamente
-      navigate(categoria.url);
-    } else if (categoria.slug) {
+    if (categoria.slug) {
       // Navegar usando el slug de la categoría (dinámico)
       navigate(`/catalogo/${categoria.slug}`);
     } else if (categoria.nombre) {
@@ -169,7 +140,7 @@ function CategorySelector({ currentCategory }) {
               </li>
             ) : categorias.length === 0 ? (
               <li className="category-selector-empty">
-                <span>No hay categorías disponibles</span>
+                <span>{loadError || 'No hay categorías disponibles'}</span>
               </li>
             ) : (
               <>

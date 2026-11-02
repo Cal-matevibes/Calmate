@@ -71,23 +71,11 @@ function Details() {
     }).format(price || 0);
   };
 
-  const getEstadoColor = (estado) => {
-    switch (estado) {
-      case 'pendiente': return '#ffc107';
-      case 'confirmado': return '#17a2b8';
-      case 'preparando': return '#fd7e14';
-      case 'listo_para_envio': return '#20c997';
-      case 'enviado': return '#007bff';
-      case 'entregado': return '#28a745';
-      case 'cancelado': return '#dc3545';
-      default: return '#6c757d';
-    }
-  };
-
   const getEstadoIcon = (estado) => {
     switch (estado) {
       case 'pendiente': return 'bi-clock-history';
       case 'confirmado': return 'bi-check-circle';
+      case 'procesando': return 'bi-clock-history';
       case 'preparando': return 'bi-tools';
       case 'listo_para_envio': return 'bi-box-seam';
       case 'enviado': return 'bi-truck';
@@ -97,22 +85,32 @@ function Details() {
     }
   };
 
-  const renderPedidoDetails = (pedido) => (
-    <div className="details-content">
+  const renderPedidoDetails = (pedido) => {
+    const estado = pedido.estado || 'pendiente';
+    const estadoLabel = estado.charAt(0).toUpperCase() + estado.slice(1).replace(/_/g, ' ');
+    const costoEnvio = Number(pedido.costoEnvio ?? pedido.envio?.costo) || 0;
+    const subtotal = Number(pedido.subtotal) || 0;
+    const total = Number(pedido.total) || subtotal + costoEnvio;
+
+    return (
+    <div className="details-content order-details-content">
       {/* Encabezado del Pedido */}
       <div className="details-header">
         <div className="title-section">
-          <h1>Pedido #{pedido.numeroPedido || 'Sin número'}</h1>
-          <div 
-            className="estado-badge large"
-            style={{ backgroundColor: getEstadoColor(pedido.estado || 'pendiente') }}
-          >
-            <i className={`bi ${getEstadoIcon(pedido.estado || 'pendiente')}`}></i>
-            {pedido.estado ? 
-              pedido.estado.charAt(0).toUpperCase() + pedido.estado.slice(1).replace('_', ' ') :
-              'Pendiente'
-            }
+          <div>
+            <span className="order-eyebrow">Detalle de compra</span>
+            <h1>Pedido #{pedido.numeroPedido || 'Sin número'}</h1>
+            <p className="order-date">
+              <i className="bi bi-calendar3" aria-hidden="true"></i>
+              {pedido.fechaPedido || pedido.createdAt
+                ? formatDate(pedido.fechaPedido || pedido.createdAt)
+                : 'Fecha no especificada'}
+            </p>
           </div>
+          <span className={`estado-badge large estado-${estado}`}>
+            <i className={`bi ${getEstadoIcon(estado)}`} aria-hidden="true"></i>
+            {estadoLabel}
+          </span>
         </div>
         <button 
           className="btn-back"
@@ -132,10 +130,6 @@ function Details() {
             Información General
           </h2>
           <div className="info-list">
-            <div className="info-item">
-              <span className="label">Fecha del Pedido:</span>
-              <span>{pedido.createdAt ? formatDate(pedido.createdAt) : 'No especificada'}</span>
-            </div>
             <div className="info-item">
               <span className="label">Método de Pago:</span>
               <span>{pedido.metodoPago?.tipo ? 
@@ -226,7 +220,7 @@ function Details() {
             </div>
             <div className="info-item">
               <span className="label">Costo de Envío:</span>
-              <span>{pedido.costoEnvio > 0 ? formatPrice(pedido.costoEnvio) : 'Gratis'}</span>
+              <span>{costoEnvio > 0 ? formatPrice(costoEnvio) : 'Gratis'}</span>
             </div>
             {pedido.envio?.numeroSeguimiento && (
               <div className="info-item">
@@ -261,7 +255,7 @@ function Details() {
               </div>
               {pedido.items.map((item, index) => (
                 <div key={index} className="table-row">
-                  <div className="col-producto">
+                  <div className="col-producto" data-label="Producto">
                     <div className="producto-info">
                       <div className="producto-nombre">
                         {item.producto?.nombre || 'Producto no disponible'}
@@ -273,9 +267,11 @@ function Details() {
                       )}
                     </div>
                   </div>
-                  <div className="col-cantidad">{item.cantidad}</div>
-                  <div className="col-precio">{formatPrice(item.precioUnitario)}</div>
-                  <div className="col-subtotal">{formatPrice(item.subtotal)}</div>
+                  <div className="col-cantidad" data-label="Cantidad">{item.cantidad}</div>
+                  <div className="col-precio" data-label="Precio unitario">{formatPrice(item.precioUnitario)}</div>
+                  <div className="col-subtotal" data-label="Subtotal">
+                    {formatPrice(item.subtotal ?? Number(item.precioUnitario) * Number(item.cantidad))}
+                  </div>
                 </div>
               ))}
             </>
@@ -294,11 +290,11 @@ function Details() {
         <div className="totales-list">
           <div className="total-item">
             <span>Subtotal:</span>
-            <span>{formatPrice(pedido.subtotal || 0)}</span>
+            <span>{formatPrice(subtotal)}</span>
           </div>
           <div className="total-item">
-            <span>Costo de Envío:</span>
-            <span>{formatPrice(pedido.costoEnvio || 0)}</span>
+            <span>Envío:</span>
+            <span>{costoEnvio > 0 ? formatPrice(costoEnvio) : 'Gratis'}</span>
           </div>
           {pedido.descuentos > 0 && (
             <div className="total-item discount">
@@ -307,8 +303,8 @@ function Details() {
             </div>
           )}
           <div className="total-item total">
-            <span><strong>Total:</strong></span>
-            <span><strong>{formatPrice(pedido.total || 0)}</strong></span>
+            <span>Total del pedido</span>
+            <strong>{formatPrice(total)}</strong>
           </div>
         </div>
       </div>
@@ -367,7 +363,8 @@ function Details() {
         </div>
       )}
     </div>
-  );
+    );
+  };
 
   const renderProductoDetails = (producto) => (
     <div className="details-content">
@@ -422,7 +419,7 @@ function Details() {
     return (
       <div className="details-wrapper">
         <Header />
-        <div className="details-container">
+        <div className={`details-container ${type === 'pedido' ? 'details-container--order' : ''}`}>
           <Loading text="Cargando detalles..." />
         </div>
         <Footer />

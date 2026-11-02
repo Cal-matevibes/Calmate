@@ -679,7 +679,7 @@
 }
 
 /* Dark mode */
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) and (min-width: 769px) {
   .cart-item {
     background: #2d2d2d;
     border-color: #404040;

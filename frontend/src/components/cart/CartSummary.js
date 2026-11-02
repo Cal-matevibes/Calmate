@@ -37,15 +37,6 @@ function CartSummary({
 
     return (
         <div className="cart-summary">
-            {/* Vista móvil - Total simple (como en Cart línea 164) */}
-            <div className="mobile-summary">
-                <div className="cart-total-display">
-                    <span className="total-label">Total:</span>
-                    <span className="total-amount">{formatPrice(finalTotal)}</span>
-                </div>
-            </div>
-
-            {/* Vista desktop - oculta en móvil */}
             <div className="desktop-summary">
                 <h3 className="cart-summary-title">Resumen del Pedido</h3>
 

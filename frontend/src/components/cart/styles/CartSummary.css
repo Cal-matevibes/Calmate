@@ -716,7 +716,7 @@
 }
 
 /* Dark mode */
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) and (min-width: 769px) {
   .cart-summary {
     background: #2d2d2d;
     border-color: #404040;
@@ -1919,5 +1919,29 @@
 
   .desktop-summary {
     display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-summary {
+    padding: 1.25rem;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .desktop-summary {
+    display: block !important;
+  }
+
+  .mobile-summary {
+    display: none !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .cart-summary {
+    padding: 1rem;
   }
 }
